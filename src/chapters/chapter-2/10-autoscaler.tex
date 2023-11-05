@@ -1,6 +1,0 @@
-\subsection{\textit{Autoscaler}}
-\textit{Autoscaler} adalah fitur pada Kubernetes yang memberikan akses ke pengguna untuk secara otomatis menyesuaikan jumlah replika atau utilisasi sumber daya dari sebuah \textit{deployment} atau \textit{replication controller} berdasarkan beban kerja aplikasi atau suatu metrik tertentu, contohnya jumlah \textit{request} per satuan waktu. \textit{Autoscaler} dapat diatur untuk menambahkan atau mengurangi jumlah replika atau batasan utilisasi sumber daya secara dinamis, sehingga dapat mengoptimalkan penggunaan sumber daya dan meningkatkan skalabilitas aplikasi.
-
-\textit{Autoscaler} dapat disesuaikan dengan mengatur parameter tertentu, seperti target utilisasi CPU, beban kerja maksimum dan minimum, serta durasi pengecekan. Dengan pengaturan yang tepat, \textit{autoscaler} dapat membantu meningkatkan kinerja dan efisiensi aplikasi, serta memastikan aplikasi tetap berjalan normal bahkan ketika ada perubahan trafik atau gejolak jumlah \textit{request} ke suatu layanan.
-
-Kubernetes menyediakan dua jenis \textit{autoscaler}, yaitu \textit{Horizontal Autoscaler} (HA) dan \textit{Vertical Autoscaler} (VA). HA bekerja dengan menambah atau mengurangi jumlah replika pod, sedangkan VA bekerja dengan menyesuaikan alokasi sumber daya pada pod yang sudah ada.

@@ -1,0 +1,56 @@
+\subsection{Definisi}
+
+\textit{Service mesh} adalah sebuah infrastruktur yang memanage \textit{Service} komunikasi antar \textit{service}. \textit{Service mesh} dibuat dengan tujuan untuk memberikan layer tambahan untuk architecture yang dibuat tanpa harus membuat kode aplikasi pada setiap \textit{service} untuk berkomunikasi.\parencite{li2019} 
+
+Jika terdapat dua buah \textit{service}, kedua \textit{service} tersebut harus membuat sebuah interface ataupun cara menghubungkan masing masing \textit{service} untuk berkomunikasi karena perlu adanya beberapa penyesuaian, seperti penyesuaian bahasa pemrograman karena mungkin saja kedua \textit{service} tersebut menggunakan bahasa pemrograman yang berbeda. 
+
+Setiap \textit{service} juga perlu menyesuaikan cara dari setiap \textit{service} tersebut menerima dan mengirim request. Beberapa \textit{service} mungkin saja menggunakan gRPC untuk menerima dan mengirim request dan \textit{service} lain menggunakan REST ataupun graphQL. Bayangkan jika kita memiliki lebih dari 100 \textit{service} yang ingin ber orkestrasi dan berkomunikasi satu sama lain, kita harus membuat interface untuk setiap \textit{service} yang ada dan hal ini sangat memakan waktu.
+
+\textit{Service mesh} hadir untuk menyelesaikan masalah ini terutama masalah komunikasi internal antar \textit{service}. Selain itu, \textit{Service mesh} juga memberikan fitur seperti \textit{service discovery}, \textit{central authentication}, \textit{access control}, \textit{load balancing}, \textit{logging}, serta \textit{monitoring}. Selain memberikan fitur tersebut, \textit{\textit{service} mesh} juga harus memiliki \textit{reliability} serta \textit{fault tolerance}. \parencite{li2019} 
+
+\textit{Service mesh} pada umumnya memiliki dua plane, \textit{control plane} dan \textit{data plane}. \textit{control plane} merupakan sebuah tempat terpusat untuk mengontrol jaringan mulai dari \textit{service discovery}, \textit{logging dan monitoring}, ataupun menjaga \textit{service level agreement} (SLA) agar \textit{availability} dari \textit{service} yang ada memiliki nilai yang baik. \textit{data plane} sering disebut sebagai \textit{forwarding plane} karena bertujuan untuk meneruskan ataupun menerima request dari \textit{service} yang dituju sesuai arahan dari \textit{control plane}. Kedua \textit{plane} ini menjadi komponen paling penting dalam pembuatan \textit{\textit{service} mesh}.
+
+Sudah banyak produk ataupun aplikasi yang menawarkan solusi untuk menyelesaikan masalah \textit{\textit{service} Mesh}, diantaranya Istio, Linkerd, Airbnb Synapse, dan AWS App Mesh. Keempat aplikasi tersebut memiliki cara tersendiri agar \textit{\textit{service} mesh} dapat berjalan dengan baik. Berikut tabel perbandingan dari keempat produk tersebut
+
+
+\begin{longtable}{|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|p{1.5cm}|}
+  \caption{Perbandingan aplikasi \textit{service mesh}} \label{tab:perbandingan-service-mesh} \\
+  
+  \hline
+  \rowcolor{gray!30} \textbf{Aplikasi} & \textbf{\textit{Data plane}} & \textbf{\textit{Open source}} & \textbf{\textit{Activeness}} & \textbf{\textit{Major advantage}} & \textbf{\textit{Critical limitation}} & \textbf{\textit{Rating overall}} \\
+  \hline
+  \endfirsthead
+
+  \endhead
+  
+  % \textit{Intelligent Workload Factoring for a Hybrid Cloud Computing Model}, \parencite{zhang} & VM & \textit{Request Rate} & Reaktif & ARIMA \tabularnewline
+  Istio & Envoy & Yes & Good & Growing Community and Fast Iteration & Lack of support & Moderate \tabularnewline \hline
+
+  Linkerd2 & Linkerd-proxy & Yes & Good & Stability and CNCF Accepted & Potential vendor Lock-in & Good \tabularnewline \hline
+
+  AWS App Mesh & Envoy & No & Good & Native Compatibility with AWS & Closed Ecosystem & Preview \tabularnewline \hline
+
+  Airbnb Synapse & HAProxy / Nginx & Yes & Poor & N/A & Limited Features & Poor \tabularnewline \hline
+
+  % \textit{Autonomic Vertical Elasticity of Docker Containers with Elasticdocker}, \parencite{al2017autonomic} & \textit{Container} & Prosesor, Memori & Reaktif & \textit{Rule-based} \tabularnewline
+
+  % \textit{Horizontal Pod Autoscaler}, \parencite{hpa2} & \textit{Container} & Prosesor & Reaktif & \textit{Rule-based} \tabularnewline
+
+  % \textit{A Novel Resource Prediction and Provisioning Scheme in Cloud Data Center}, \parencite{rpps} & \textit{Container} & Prosesor & Proaktif & ARMA \tabularnewline
+
+  % \textit{Workload Prediction Using ARIMA Model and Its Impact on Cloud Applications QoS}, \parencite{workloadprediction} & VM & \textit{Request Rate} & Proaktif & ARIMA \tabularnewline
+
+  % \textit{Resource Elasticity Controller for Docker-based Web Applications}, \parencite{resourceelasticity} & \textit{Container} & \textit{Request Rate} & Proaktif & ARIMA \tabularnewline
+
+  % \textit{Combining Time Series Prediction Models using Genetic Algorithm to Autoscaling Web Applications Hosted in the Cloud Infrastructure}, \parencite{tspwithga} & - & \textit{Request Rate} & Proaktif & \textit{Genetic Algorithm} \tabularnewline
+
+  % \textit{Predicting Cloud Resource Provisioning using Machine Learning Techniques}, \parencite{predictcloudrsrc} & - & \textit{Task Length} & Proaktif & \textit{Artificial Neural Network} \tabularnewline
+
+  % \textit{Auto-scaling Microservices on IaaS under SLA with Cost-Effective Framework}, \parencite{asmicrocosteff} & VM & \textit{Request Rate} & Proaktif & \textit{Artificial Neural Network}, \textit{Recurrent Neural Network} \tabularnewline
+
+  % \textit{Machine Learning-based Auto-scaling for Containerized Applications}, \parencite{mlbasconapps} & \textit{Container} & \textit{Request Rate} & Proaktif & LSTM \tabularnewline
+
+  % \textit{Adaptive Horizontal Scaling of Microservices using Bi-LSTM}, \parencite{adaptivehsmicro} & \textit{Container} & Prosesor, Memori & Gabungan & Bi-LSTM \tabularnewline
+
+  \hline
+\end{longtable}
