@@ -1,0 +1,39 @@
+\section{Analisis Solusi}
+
+Untuk melakukan penelitian pengembangan metode \textit{autoscale} tersebut, dilakukan pemetaan tantangan, penanganan serta kebutuhan untuk melakukan penanganan tersebut.
+
+\subsection{Pemetaan Tantangan dan Penanganan}
+\label{sec:pemetaan-masalah}
+Tantangan yang ada akan dipetakan dengan penanganan yang akan dilakukan. Pemetaan tersebut dapat dilihat pada Tabel \ref{tab:pemetaan-masalah}.
+
+\begin{table}[h]
+    \caption{Tabel Pemetaan Tantangan dan Penanganan}
+    \vspace{0.25cm}
+    \begin{center}
+        \begin{tabular}{|c|p{2.5in}|p{2.5in}|}
+            \rowcolor{gray!30}
+            \hline
+            \textbf{Nomor} & \textbf{Tantangan} & \textbf{Penanganan} \tabularnewline
+            \hline
+            M1 & Terdapat keperluan pengelola untuk menambah dan mengurangi secara manual terhadap konfigurasi \textit{deployment autoscaler} yang beracuan pada \textit{throughput} yang sebenarnya bisa diotomasi dengan sistem melalui aturan yang dibuat oleh pengelola. &
+            Menambah variabel \textit{throughput} untuk operasi-operasi \textit{ElasticSearch} yang konfigurasinya dapat diatur otomatis oleh sistem kontrol fleksibel.
+            \tabularnewline
+
+            M2 &
+            Kubernetes tidak bisa melakukan \textit{autoscale} berdasarkan variabel spesifik pada suatu kontainer, melainkan hanya generalisasi proses pada umumnya. &
+            Mengembangkan \textit{autoscaler} pada ranah \textit{information retrieval} yang spesifik pada \textit{Elastic Search}. \tabularnewline
+
+            M3 &
+            \textit{Metrics} yang digunakan tidak melihat data waktu sebelumnya dan \textit{autoscaler} sederhana berpatokan dengan sebuah ambang batas sehingga tidak efisien terhadap kinerja sistem yang fluktuatif. &
+            Mengembangkan \textit{autoscaler} dengan model prediksi berbasis \textit{time series} sehingga dapat melihat pola dari data historis dan bisa secara preventif menghindari \textit{scaling} akibat fluktuasi data dengan hasil prediksi tersebut.\tabularnewline
+
+            M4 & \textit{Quality of service} dan toleransi kepada \textit{tradeoff} antara efisiensi dan \textit{cost} dapat berbeda antara pengguna. &
+            \textit{Autoscaler} harus fleksibel sehingga terdapat ruang untuk pengguna membuat aturan yang berjalan sesuai kondisi-kondisi yang disesuaikan dengan kebutuhan pemakai.\tabularnewline
+
+            % M5 & \textit{Rolling Update} yang terlalu sering mengharuskan kubernetes memiliki sumber daya minimal sejumlah dua kali lipat. &
+            % Menggunakan teknologi \textit{In-Place Update of Pod Resources} \tabularnewline
+            \hline
+        \end{tabular}
+    \end{center}
+    \label{tab:pemetaan-masalah}
+\end{table}

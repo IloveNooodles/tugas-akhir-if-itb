@@ -1,0 +1,65 @@
+\section{Metodologi}
+
+Terdapat metodologi yang digunakan untuk melaksanakan tugas akhir ini, berikut adalah tahapan pelaksanaan.
+\begin{enumerate}
+    \item \textbf{Identifikasi Permasalahan}
+    
+    Tahapan ini adalah tahapan untuk melakukan identifikasi permasalahan. Hasil dari tahapan ini dijadikan gagasan utama dan arah kerja dalam tugas akhir ini.
+
+    \item \textbf{Perancangan Solusi}
+    
+    Setelah mengidentifikasi permasalahan, dilakukan perancangan solusi yang bertujuan untuk mencari metode dan pendekatan yang dapat dikembangkan untuk menyelesaikan permasalahan yang ada. Analisis ini dimulai dari eksplorasi metode melalui studi literatur lalu ke penelitian yang pernah dilakukan.
+
+    \item \textbf{Implementasi}
+    
+    Setelah merancang solusi, gagasan tersebut akan dikembangkan dan diimplementasikan. Tahap ini akan terdiri dari beberapa bagian yaitu sebagai berikut.
+    \begin{enumerate}
+        \item \textbf{Persiapan}
+    
+        Mula-mula, dilakukan persiapan \textit{pods} pada Kubernetes yang sudah berisi \textit{Elastic Search}.
+
+        \item \textbf{Pembangunan Komponen Penyusun \textit{Flexible Control}}
+        
+        Bagian ini akan melakukan implementasi komponen penyusun dari \textit{Flexible Control}. Komponen akan dibangun satu per satu lalu akan digunakan pada komponen utama yaitu \textit{Flexible Control}.
+
+        % \item \textbf{Komponen \textit{Metrics Fetcher}}
+        
+        % Dilanjutkan dengan membuat komponen yang akan menarik data \textit{metrics} dari \textit{Elastic Search}.
+
+        % \item \textbf{Komponen \textit{Predictor}}
+        
+        % Komponen ini dibuat untuk mengolah data dengan model prediktif berbasis \textit{time-series}.
+
+        % \item \textbf{Komponen \textit{Rule Manager}}
+        
+        % Setelah itu, dibuat komponen untuk mengatur rule masukkan dari pengguna. Komponen ini bertugas melakukan \textit{parsing} dan menentukan keperluan data prediksi pada waktu tertentu untuk diprediksi oleh \textit{Predictor}.
+
+        % \item \textbf{Komponen \textit{Resource Controller}}
+        
+        % Setelah semua siap, implementasi dilanjutkan untuk mengontrol sumber daya yang dipakai oleh \textit{Elastic Search}.
+
+        % \item \textbf{Komponen \textit{Flexible Control}}
+        
+        % Bagian ini dimulai dengan menentukan variabel yang akan dipakai pada data yang diberikan oleh komponen \textit{Metrics Fetcher}. Setelah itu, implementasi dilanjutkan dengan pengembangan model untuk menentukan keputusan kontrol berdasarkan prediksi dengan data historis yang ada berbasis \textit{rule} yang ditetapkan pengguna. Secara keseluruhan, komponen yang disebutkan diatas merupakan bagian dari komponen ini.
+
+        \item \textbf{Simulasi dan Pengujian}
+        
+        Bagian ini bertujuan untuk melakukan validasi terhadap sistem kontrol fleksibel yang telah dikembangkan. Pada tahapan ini, akan dilakukan penyusunan skenario uji dan penyesuaian sistem untuk melakukan pengujian. Setelah itu, akan dilakukan pengujian sesuai skenario yang sudah dibuat.
+    
+        \item \textbf{Evaluasi Hasil Pengujian}
+        
+        Hasil pengujian pada tahapan sebelumnya akan dianalisis dan dievaluasi. Hasil pengujian akan dibagi menjadi dua bagian, pengujian komponen yang membuat komponen yang diimplementasikan harus sesuai dengan ekspektasi, dilanjutkan dengan pengujian sistem yang berguna untuk mengecek keberjalanan sistem secara keseluruhan.
+
+        \item \textbf{Perbandingan}
+        
+        Setelah melewati pengujian, sistem akan dibandingkan dengan \textit{autoscaler} yang dimiliki oleh kubernetes dan tanpa \textit{autoscaler}. Perbandingan ini berguna untuk melihat dan memahami seberapa signifikan sistem terhadap kinerja aplikasi \textit{Elastic Search}.
+    \end{enumerate}
+\end{enumerate}
+% \subsubsection{Komponen \textit{Metrics Collector}}
+% Komponen yang akan mencatat kinerja dari aplikasi terhadap variabel sumber daya yang dipakai.
+% \subsubsection{Komponen \textit{Memory Controller}}
+% Komponen yang akan memutuskan alokasi sumber daya berdasarkan catatan kinerja yang telah disimpan menggunakan pembelajaran mesin.
+% \subsection{Eksperimen Pengujian}
+% Hasil implementasi yang sudah dibuat pada tahapan sebelumnya akan diuji pada tahapan ini. Tahapan ini juga akan melakukan analisis dampak pengaplikasian \textit{adaptive control} terhadap efisiensi sumber daya.
+% \subsection{Evaluasi Hasil Eksperimen}
+% Hasil eksperimen pada tahapan sebelumnya akan dianalisis dan dievaluasi. Jika kurang memuaskan, hasil dari eksperimen ini bisa digunakan untuk meningkatkan dampak \textit{adaptive control} terhadap efisiensi sumber daya yang dimiliki. Namun, jika sudah sesuai yang diekspektasikan, maka hasil eksperimen ini akan cukup untuk membuktikan efisiensi yang tercipta dari implementasi \textit{adaptive control}.

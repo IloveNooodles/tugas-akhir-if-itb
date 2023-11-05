@@ -1,0 +1,17 @@
+\section{Perbandingan}
+
+Bagian ini akan menjelaskan pengujian dampak dari \textit{autoscaler} dengan kontrol fleksibel. Pengujian akan dilakukan dengan membandingkan \textit{autoscaler} yang dibuat dengan sistem kontrol fleksibel dengan \textit{autoscaler} sederhana yang memakai \textit{threshold} serta tanpa \textit{autoscaler}. 
+
+% \subsection{Perbandingan Kinerja}
+
+\subsection{Perbandingan Efisiensi}
+
+Bagian ini akan menjelaskan perbandingan \textit{autoscaler} antara metode yang diimplementasikan dengan metode yang disediakan kubernetes.
+
+\subsubsection{\textit{Horizontal Pod Autoscaler}}
+
+Metode ini melakukan replikasi terhadap \textit{pods} dengan menambah \textit{pods} baru apabila utilisasi sumber daya melewati suatu ambang batas. Sebagai informasi, agar \textit{Elastic Search} dapat berjalan dengan normal dibutuhkan memori minimal 4 GB. Sedangkan, dalam aplikasi skala yang kecil, akan kurang efisien apabila diperlukan minimal 4 GB untuk penambahan sumber daya dibawah 4 GB. Ditambah, proses tambahan untuk seluruh cluster dalam melakukan replikasi maupun \textit{sharding}. Sehingga, dalam kasus ini, implementasi kontrol fleksibel lebih bebas mengatur dibandingkan dengan \textit{Horizontal Pod Autoscaler}.
+
+\subsubsection{\textit{Vertical Pod Autoscaler}}
+
+Seperti yang sudah dijelaskan pada studi literatur, metode ini biasanya digunakan untuk memperbanyak alokasi sumber daya jika pemakaian sudah melewati ambang batas tertentu. Namun, ternyata setelah diteliti lebih lanjut, metode ini tidak bisa dilakukan oleh Kubernetes pada aplikasi yang berbasis JVM. \textit{Vertical Pod Autoscaling} belum siap digunakan dengan aplikasi berbasis JVM karena keterbatasan Kubernetes dalam melihat penggunaan memori yang sebenarnya, \parencite{googlevpajvm}. Hal ini tentu masuk akal karena JVM langsung mengambil memori sepenuhnya yang dialokasikan, untuk melihat pemakaian yang sesungguhnya, harus melihat dari dalam aplikasi tersebut. Oleh karena itu, secara tidak langsung, metode menarik metrik penggunaan memori dari dalam \textit{Elastic Search} yang diimplementasikan menjadi salah satu keunggulan sistem yang diimplementasikan.

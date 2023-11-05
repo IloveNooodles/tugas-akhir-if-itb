@@ -1,0 +1,28 @@
+\chapter{Penutup}
+
+Bab Kesimpulan dan Saran akan menjadi bagian akhir dan penutup dari penelitian tugas akhir ini. Bab ini akan membahas kesimpulan yang berisi ketercapaian tujuan penelitian tugas akhir dengan permasalahan yang diselesaikan dalam penelitian tugas akhir. Selain itu, bab ini akan membahas saran yang dapat dilakukan untuk pengembangan atau penelitian selanjutnya.
+
+\section{Kesimpulan}
+Penelitian tugas akhir ini mengimplementasikan metode baru untuk melakukan \textit{autoscaling} yang disebut sebagai sistem kontrol fleksibel. Setelah dilakukan analisis, implementasi, dan pengujian, dapat diambil kesimpulan sebagai berikut.
+\begin{enumerate}
+    \item Mengontrol alokasi sumber daya memori dan prosesor dapat dilakukan dengan model prediksi berbasis \textit{time series}, salah satu model yang digunakan adalah ARIMA dengan eror yang tidak terlalu signifikan dibanding Bi-LSTM namun memiliki keunggulan yaitu lebih sederhana.
+    \item Dampak \textit{autoscaler} dengan kontrol fleksibel berbasis model prediksi, sistem dapat lebih baik dalam melakukan \textit{scaling} dibandingkan dengan \textit{autoscaler} sederhana yang memakai \textit{threshold} karena:
+
+        \begin{enumerate}
+            \item Dapat menghindari keputusan \textit{scaling} untuk waktu yang sangat singkat akibat \textit{spike} yang terjadi pada data metrik. Berbeda dengan sistem \textit{threshold}, yang akan langsung terpengaruh karena hanya melihat nilai metrik pada saat itu saja.
+            \item Memiliki lebih banyak ruang untuk melakukan \textit{scaling} karena tidak terbatas oleh sebuah angka \textit{threshold} melainkan oleh kondisi-kondisi yang disesuaikan dengan kebutuhan pemakai.
+            \item Tidak terpatok untuk melakukan \textit{scaling} dengan kelipatan minimum \textit{requirement} dari sebuah aplikasi karena replikasi \textit{pods} memaksa pengelola untuk membuat replikasi \textit{pods} (\textit{Horizontal Autoscaling}) dengan kelipatan minimum spesifikasi untuk menjalankan aplikasi tersebut.
+            \item Bisa melakukan \textit{scaling} secara \textit{vertical} dengan menambah alokasi memori dan prosesor pada \textit{pods} dengan aplikasi berbasis JVM yang spesifiknya adalah \textit{Elastic Search}. \textit{Vertical Autoscaling} tidak dapat melakukan \textit{scaling} pada aplikasi berbasis JVM karena keterbatasan Kubernetes dalam melihat penggunaan memori yang sebenarnya.
+            \item Dapat melakukan keputusan \textit{scaling} berdasarkan variabel-variabel yang spesifik kepada \textit{Elastic Search} seperti \textit{throughput} variabel tertentu.
+        \end{enumerate}
+\end{enumerate}
+
+\section{Saran}
+Adapun banyak kekurangan dan kelemahan yang ditemukan dalam penelitian tugas akhir ini. Berikut adalah beberapa saran yang dapat dilakukan untuk pengembangan atau penelitian selanjutnya.
+\begin{enumerate}
+    \item Melakukan permodelan dengan Bi-LSTM atau RNN untuk mengurangi waktu \textit{training}. Model ARIMA sangat memakan waktu saat \textit{training}.
+    \item Melakukan pengembangan di bahasa lain yang lebih cepat dalam melakukan pemrosesan dibanding Python. Tentunya hal ini akan berpengaruh terhadap pembuatan kakas model statistik maupun \textit{machine learning} dikarenakan Python merupakan bahasa yang paling banyak digunakan untuk \textit{data science} dan \textit{machine learning}.
+    \item Memasukkan sistem \textit{autoscaler} ke dalam \textit{cluster} Kubernetes seperti \textit{sidecar pods} agar memudahkan melakukan \textit{scaling Elastic Search} itu sendiri.
+    \item Riset replikasi multi-node \textit{Elastic Search}. 
+    \item Melakukan percobaan di \textit{cluster} Kubernetes dan \textit{Elastic Search} yang lebih besar dan lebih kompleks.
+\end{enumerate}

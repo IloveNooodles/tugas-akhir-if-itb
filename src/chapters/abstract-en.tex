@@ -1,0 +1,29 @@
+\clearpage
+\chapter*{ABSTRACT}
+\addcontentsline{toc}{chapter}{Abstract}
+
+\begin{center}
+    \center
+    \begin{singlespace}
+      \large\bfseries\MakeUppercase{Automatic Scaling with Flexible Control Based on Time Series Predictive Model for Kubernetes Resource Efficiency on Elastic Search Pods}
+  
+      \normalfont\normalsize
+      By:
+  
+      \bfseries \theauthor
+    \end{singlespace}
+\end{center} 
+
+
+\begin{singlespace}
+    \small
+    With the advancement of the digital world, applications greatly influence human life, from search engines and social media to e-commerce. These applications have transformed the way we interact and access information. Naturally, the development of such applications heavily relies on information retrieval systems. One of the most popular information retrieval systems nowadays is Elastic Search. In its application, Elastic Search is widely used to provide sophisticated search capabilities, enabling quick product discovery in e-commerce and relevant, personalized search results in social media platforms. However, a drawback of Elastic Search is that, by default, it will consume all available memory for processing. If allocated too little memory, the processor will struggle to perform search operations without memory assistance. On the other hand, resource overprovisioning doesn't always lead to poor performance for Elastic Search, as it depends on the context of stored data and user needs.
+
+    Therefore, a flexible autoscaling technique is needed to ensure Elastic Search runs optimally and aligns with the tradeoff tolerance between cost and performance. This autoscaler will be built on Kubernetes for container orchestration and use ARIMA as the prediction model. The system will retrieve metrics from Elastic Search and predict throughput and processor and memory utilization. These predictions will be used to meet user-defined requirements for scaling. Users can define conditions that the system will use as references to make scaling decisions. Testing has been conducted for each component and a full system to ensure that specifications and functionality meet the requirements. Comparisons with Vertical and Horizontal Autoscalers have been made, and in essence, this method can replace the options of Vertical and Horizontal Autoscalers in the context of Elastic Search pods.
+
+    Ultimately, the autoscaler with a prediction model performs better in scaling compared to a simple autoscaler that uses thresholds. A suitable prediction model is a time series-based prediction model like ARIMA.
+    \textbf{\textit{Keywords: Autoscaler, Kubernetes, Flexible Control, ARIMA, Elastic Search, Predictive Autoscaler}}
+\end{singlespace}
+\clearpage
+
+\clearpage

@@ -1,0 +1,58 @@
+\section{Prediksi Statistik}
+Prediksi statistik adalah proses memprediksi nilai di masa depan dari suatu variabel berdasarkan data historis yang tersedia. Pendekatan statistik digunakan untuk memodelkan hubungan antara variabel-variabel yang berbeda dan untuk mengidentifikasi pola dan tren dalam data historis. Metode statistik yang umum digunakan untuk prediksi meliputi regresi dan analisis \textit{time series}.
+
+Dalam prediksi statistik, model matematis dikembangkan untuk menggambarkan hubungan antara variabel input dan variabel output yang ingin diprediksi. Model ini akan digunakan untuk memperkirakan nilai variabel output berdasarkan nilai variabel input yang diberikan. Tujuannya adalah untuk menghasilkan prediksi yang akurat dengan menggunakan model yang dapat diuji dan diperbaiki berdasarkan data historis yang tersedia.
+
+\section{Pemodelan Prediksi dan Teknik Pengembangannya}
+
+\textit{Predictive Modelling} atau Pemodelan Prediksi adalah proses mengembangkan alat matematis atau model yang dapat menghasilkan prediksi yang akurat, \parencite{appliedpredictivemodel}. Pemodelan prediksi adalah teknik matematika yang digunakan untuk memprediksi suatu hal di masa depan berdasarkan data historis yang tersedia. 
+Adapun teknik model prediksi yang sudah ada, seperti regresi linear, \textit{time series} (contohnya ARIMA), \textit{random forest}, \textit{decision tree}, \textit{neural network} dan sebagainya. Teknik-teknik ini sudah umum digunakan dalam berbagai aplikasi.
+
+Pengembangan model prediktif merupakan suatu proses yang kompleks dan membutuhkan berbagai tahapan. Umumnya dalam melakukan pengembangan, pengembang memilih teknik yang ingin digunakan. Salah satu opsi teknik pengembangan model prediktif yang umum digunakan adalah melihat dari data yang diolah, yaitu teknik \textit{streaming model} dan \textit{batch model}. Pemilihan teknik ini tergantung dari karakteristik data yang ada dan tujuan prediksi yang ingin dicapai. Berikut adalah beberapa jenis teknik pengembangan model prediktif.
+
+\begin{enumerate}
+    \item \textbf{\textit{Streaming Model}}
+    
+    \textit{Streaming model} adalah teknik pemodelan prediktif yang digunakan untuk memprediksi data secara \textit{real time} dengan cara memasukkan data ke dalam aliran kontinu sehingga model diperbarui secara terus-menerus. Teknik ini biasanya digunakan pada data deret waktu karena setiap observasi data memiliki ketergantungan pada waktu sebelumnya. \textit{Streaming model} memanfaatkan algoritma \textit{machine learning} seperti regresi linear, ARIMA, dan LSTM, serta teknik-teknik pengolahan data lain yang dapat melakukan prediksi dengan cepat dan akurat. Keuntungan dari teknik ini adalah hasil prediksi yang relevan dengan data \textit{real time}, sehingga memungkinkan pengambilan keputusan yang relevan dengan kondisi atau \textit{state} saat itu.
+
+    \item \textbf{\textit{Batch Model}}
+    
+    \textit{Batch model} adalah teknik pemodelan prediktif yang mengacu pada pemrosesan data dalam \textit{batch} atau kelompok besar yang dilakukan dengan cara mengumpulkan data dan diproses secara terpisah. Dalam teknik ini, model dibuat berdasarkan data yang tersedia dan terpisah dari data \textit{real time}, kemudian model tersebut digunakan untuk memprediksi data yang akan datang. \textit{Batch model} memanfaatkan teknik-teknik \textit{machine learning} seperti regresi, \textit{decision tree}, \textit{clustering} dan \textit{neural network}. Keuntungan teknik ini adalah kemampuan proses dan analisis data dalam volume besar dalam satu waktu, sehingga pengambilan keputusan berdasarkan analisis yang mendalam. Namun, teknik ini kurang cocok untuk memproses data \textit{real time} karena memerlukan waktu untuk mengumpulkan, memproses, dan menganalisis data secara keseluruhan. Tak hanya itu, tipe model ini tidak dapat melakukan analisis secara \textit{time series}.
+\end{enumerate}
+
+\section{Model Prediktif berbasis \textit{Time Series}}
+Menurut \parencite{timeseriesanalysis}, \textit{Time Series Predictive Model} adalah suatu metode untuk memprediksi nilai masa depan suatu variabel berdasarkan data historis dari variabel tersebut. Model ini memanfaatkan pola atau tren dalam data yang teramati untuk memperkirakan nilai masa depan. Model \textit{time series} berfokus pada karakteristik data dalam rentang waktu, seperti trend, musiman, dan faktor acak. Model ini sangat berguna dalam melakukan prediksi, identifikasi tren, dan memperkirakan fluktuasi dalam data yang dianalisis. Model ini memeriksa perilaku data dalam beberapa waktu terakhir untuk menentukan pola dan tren yang mungkin berulang di masa depan. Selain itu, model ini dapat digunakan untuk mengidentifikasi faktor-faktor yang mempengaruhi variabel yang diamati dan mengukur dampaknya di masa depan.
+
+\begin{enumerate}
+    \item \textbf{\textit{Autoregressive Integrated Moving Average} (ARIMA)}
+    
+    \textit{Autoregressive Integrated Moving Average} (ARIMA) adalah sebuah metode model time series yang digunakan untuk melakukan analisis dan prediksi pada data deret waktu. Metode ini memperhitungkan nilai-nilai sebelumnya dalam deret waktu dan menyusun model berdasarkan hubungan antara variabel historis dengan variabel yang ingin diprediksi. Model ARIMA terdiri dari tiga komponen yaitu \textit{autoregression} (AR), \textit{differencing} (I), dan \textit{moving average} (MA). Komponen AR memperhitungkan ketergantungan antara nilai historis. Komponen I digunakan untuk melihat siklus atau tren. Sedangkan, komponen MA memperhitungkan ketergantungan antara nilai residual dengan data historis.
+
+    Komponen AR (\textit{Autoregressive}) adalah representasi linear dari nilai-nilai sebelumnya dalam deret waktu. Komponen ini akan memastikan bahwa nilai pada waktu sekarang dipengaruhi oleh nilai-nilai sebelumnya dalam deret waktu. Model AR dinyatakan dengan persamaan \ref{eq:ar}. Dengan $Y_t$ adalah nilai komponen AR pada waktu $t$, $c$ adalah konstanta, $\phi_1$ hingga $\phi_p$ adalah \textit{parameter autoregressive}, dan $\varepsilon_t$ adalah eror pada waktu $t$.
+
+    \begin{equation}
+        \label{eq:ar}
+        Y_t = c + \phi_1 * Y_{t-1} + \phi_2 * Y_{t-2} + ... + \phi_p * Y_{t-p} + \varepsilon_t
+    \end{equation}
+
+    Komponen I (\textit{Integrated}) adalah proses \textit{differencing} yang digunakan untuk membuat deret waktu menjadi stasioner. \textit{Differencing} dilakukan dengan mengurangi nilai pada waktu sekarang dengan nilai pada waktu sebelumnya. \textit{Differencing} dapat dilakukan secara berulang jika diperlukan untuk mencapai kondisi stasioner.
+
+    Komponen MA (\textit{Moving Average}) adalah representasi linier dari error pada deret waktu. Model MA memastikan bahwa nilai pada waktu sekarang dipengaruhi oleh nilai-nilai error pada waktu sebelumnya. Model MA dinyatakan dengan persamaan \ref{eq:ma}. Dengan $Y_t$ adalah nilai komponen MA pada waktu $t$, $\mu$ adalah rata-rata dari deret waktu, $\varepsilon_t$ adalah eror pada waktu $t$, dan $\theta_1$ hingga $\theta_q$ adalah \textit{parameter moving average}.
+
+    \begin{equation}
+        \label{eq:ma}
+        Y_t = \mu + \varepsilon_t + \theta_1 * \varepsilon_{t-1} + \theta_2 * \varepsilon_{t-2} + ... + \theta_q * \varepsilon_{t-q}
+    \end{equation}
+
+    Dengan menggabungkan ketiga komponen ini, model ARIMA dapat dinyatakan sebagai persamaan \ref{eq:arima}.
+
+    \begin{equation}
+        \label{eq:arima}
+        Y_t = c + \phi_1 * Y_{t-1} + \phi_2 * Y_{t-2} + ... + \phi_p * Y_{t-p} + \varepsilon_t + \theta_1 * \varepsilon_{t-1} + \theta_2 * \varepsilon_{t-2} + ... + \theta_q * \varepsilon_{t-q}
+    \end{equation}
+
+    \item \textbf{\textit{Long Short Term Memory} (LSTM)}
+    
+    \textit{Long Short Term Memory} (LSTM) adalah salah satu jenis model jaringan saraf tiruan atau \textit{neural network} yang dirancang untuk mengatasi masalah \textit{vanishing gradient} dalam pemodelan jangka panjang. Pada dasarnya, LSTM adalah \textit{recurrent neural network} yang memiliki unit memori, sehingga dapat mengingat informasi dari waktu ke waktu. LSTM mengatasi masalah yang umum terjadi pada model RNN tradisional, yaitu hilangnya informasi seiring berjalannya waktu. LSTM terdiri dari beberapa lapisan seperti \textit{input}, \textit{forget gate}, \textit{output}, dan \textit{memory cell}. Setiap lapisan ini berfungsi untuk memproses masukkan, mengontrol aliran informasi, dan menyimpan informasi dalam unit memori. Dalam pelatihan, LSTM menggunakan teknik backpropagation melalui waktu untuk menyesuaikan bobot dan mengoptimalkan kinerja model. 
+
+\end{enumerate}

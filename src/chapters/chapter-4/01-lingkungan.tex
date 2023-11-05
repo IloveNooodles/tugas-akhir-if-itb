@@ -1,0 +1,34 @@
+\section{Lingkungan}
+
+\textit{Autoscaler} berbasis kontrol fleksibel akan diimplementasikan di lingkungan komputer lokal. Berikut adalah lingkungan perangkat keras dan perangkat lunak secara terperinci.
+
+Implementasi sistem tugas akhir dilakukan dengan mengimplementasikan dengan bantuan beberapa kakas pada bahasa \textit{python}. Sistem akan hidup di luar \textit{kubernetes cluster} dan mengakses Kubernetes beserta \textit{pods}-nya melalui \textit{Kubernetes Client Library} dan \textit{service Elastic search} melalui \textit{web service} yang dapat diakses dari luar \textit{cluster}.
+
+\textit{Autoscaler} berbasis kontrol fleksibel akan berjalan di \textit{cluster} Kubernetes lokal. Adapun spesifikasi dari komputer yang dipakai untuk pengembangan adalah sebagai berikut.
+\begin{enumerate}
+    \item \textbf{Perangkat Keras}
+    
+        \begin{enumerate}
+            \item CPU: \textit{Apple M1 Chip}
+            \item RAM: 16 GB
+        \end{enumerate}
+    
+    \item \textbf{Perangkat Lunak}
+        
+        \begin{enumerate}
+            \item Platform dan Sistem Operasi: Darwin AMD64, MacOS Monterey 12.6
+            \item \textit{Containerization}: Docker
+            \item \textit{Kubernetes Cluster}:
+                \begin{enumerate}
+                    \item Kubernetes Client v1.27.1-eks-2f008fe
+                    \item Kubernetes Docker Desktop: Kubernetes v1.25.9
+                \end{enumerate}
+            \item Bahasa: Python 3.9.12
+            \item Dependensi Lain:
+                \begin{enumerate}
+                    \item \textit{Kubernetes Client Library}
+                    \item \textit{Pandas, numpy, statsmodels dan pmdarima}
+                    \item \textit{Pickle}
+                \end{enumerate}
+        \end{enumerate}
+\end{enumerate}

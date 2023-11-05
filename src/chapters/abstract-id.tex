@@ -1,0 +1,25 @@
+\clearpage
+\chapter*{ABSTRAK}
+\addcontentsline{toc}{chapter}{Abstrak}
+\begin{center}
+    \center
+    \begin{singlespace}
+      \large\bfseries\MakeUppercase{\thetitle}
+  
+      \normalfont\normalsize
+      Oleh:
+  
+      \bfseries \theauthor
+    \end{singlespace}
+\end{center} 
+
+\begin{singlespace}
+    \small
+    Dengan berkembangnya dunia digital, aplikasi sehari-hari sangat mempengaruhi kehidupan manusia, dari \textit{search engine}, media sosial hingga \textit{e-commerce}. Aplikasi-aplikasi ini telah mengubah cara kita berinteraksi dan mengakses informasi. Tentu dalam pembuatan aplikasi-aplikasi tersebut akan sangat dependen ke sistem temu balik informasi. Salah satu sistem temu balik informasi yang paling populer saat ini adalah \textit{Elastic Search}. Dalam aplikasinya, \textit{Elastic Search} digunakan secara luas untuk menyediakan kemampuan pencarian yang canggih seperti menemukan produk dengan cepat, hingga platform media sosial yang memberikan hasil pencarian yang relevan dan personalisasi. Namun, kekurangan \textit{Elastic Search} adalah, secara bawaan, sistem ini akan mengambil memori yang tersedia untuk melakukan pemrosesan, apabila dialokasi terlalu sedikit, prosesor akan menjadi kewalahan karena harus melakukan operasi pencarian tanpa bantuan memori. Di sisi lain, perampatan sumber daya tidak selalu menimbulkan kinerja yang buruk untuk \textit{Elastic Search} karena ketergantungannya terhadap konteks data yang disimpan dan kebutuhan pengguna.
+    
+    Oleh karena itu, diperlukan teknik \textit{autoscaling} yang fleksibel agar \textit{Elastic Search} dapat berjalan secara optimal dan sesuai dengan toleransi \textit{tradeoff} antara biaya dan kinerja. \textit{Autoscaler} ini akan dibangun diatas \textit{Kubernetes} sebagai \textit{container orchestration} dan \textit{ARIMA} sebagai model prediksi. Sistem ini akan mengambil \textit{metrics} dari \textit{Elastic Search} dan melakukan prediksi \textit{throughput} dan utilisasi prosesor serta memori. Hasil prediksi tersebut akan digunakan untuk memenuhi persyaratan yang ditentukan oleh pengguna untuk melakukan \textit{scaling}. Persyaratan dapat disusun oleh pengguna sebagai kumpulan kondisi yang akan dipakai oleh sistem sebagai acuan untuk melakukan keputusan \textit{scaling}. Pengujian sudah dilakukan untuk setiap komponen dan satu sistem penuh untuk memastikan spesifikasi dan fungsional berjalan sesuai kebutuhan. Perbandingan dengan \textit{Vertical} dan \textit{Horizontal Autoscaler}-pun sudah dilakukan, secara garis besar, metode ini dapat menggantikan opsi \textit{Vertical} dan \textit{Horizontal Autoscaler} pada konteks \textit{pods Elastic Search}.
+
+    Pada akhirnya, sistem \textit{autoscaler} dengan model prediksi dapat lebih baik dalam melakukan \textit{scaling} dibandingkan dengan \textit{autoscaler} sederhana yang memakai \textit{threshold}. Dan model prediksi yang bisa digunakan adalah model prediksi berbasis \textit{time series} seperti ARIMA.
+    \textbf{\textit{Kata kunci: Autoscaler, Kubernetes, Flexible Control, ARIMA, Elastic Search, Predictive Autoscaler}}
+\end{singlespace}
+\clearpage

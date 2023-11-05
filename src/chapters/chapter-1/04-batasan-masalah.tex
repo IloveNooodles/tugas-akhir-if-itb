@@ -1,0 +1,22 @@
+\section{Batasan Masalah}
+\label{sec:batasan-masalah}
+
+Terdapat batasan yang diambil dalam pelaksanaan tugas akhir ini, yaitu sebagai berikut.
+
+\begin{enumerate}
+    \item Implementasi \textit{Autoscale} dengan kontrol fleksibel akan fokus pada level \textit{pods} Kubernetes atau \textit{node} pada \textit{Elastic Search}.
+    \item Pengguna dapat menetapkan sejumlah \textit{rule} yang akan digunakan untuk mengontrol alokasi sumber daya \textit{pods} \textit{Elastic Search}.
+    \item Tidak melakukan riset perbandingan model prediksi satu dengan yang lainnya.
+    \item Penentuan \textit{rule} untuk mengubah alokasi sumber daya tidak akan ditentukan secara otomatis melainkan ditentukan oleh pengguna. Hal ini disebabkan oleh kebutuhan serta karakteristik penggunaan \textit{Elastic Search} yang dapat berbeda antara pengguna.
+    \item Tidak melakukan optimasi model prediksi terutama saat data sudah sangat besar.
+    \item \textit{ElasticSearch} yang dipakai dalam pengembangan dan pengujian dibuat didalam \textit{cluster} Kubernetes lokal dengan batasan konfigurasi:
+        \begin{enumerate}
+            \item \textit{Node} Kubernetes hanya terdiri dari satu \textit{pod Elastic Search}.
+            \item \textit{Elastic Search} dibuat dari kosong menggunakan \textit{image} yang disediakan oleh docker.
+            \item Versi \textit{Elastic Search} yang digunakan adalah versi 8.8.1.
+            \item \textit{Elastic Search} hanya memiliki satu \textit{shard} dan satu \textit{replica}.
+            \item \textit{Elastic Search Cluster} berada di pod yang sama.
+            \item Data \textit{Elastic Search} diletakkan dalam sebuah \textit{Persistent Volume Claim}.
+        \end{enumerate}
+ \end{enumerate}
+
