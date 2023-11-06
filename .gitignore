@@ -21,3 +21,4 @@ build/*
 *.pdf
 __pycache__
 **/data
+.DS_Store
