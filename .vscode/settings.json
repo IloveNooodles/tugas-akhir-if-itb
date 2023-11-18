@@ -19,7 +19,7 @@
         "-bibtex",
         "-outdir=../build",
         "-cd",
-        "src/thesis.tex"
+        "./thesis.tex"
       ],
       "env": {}
     },
