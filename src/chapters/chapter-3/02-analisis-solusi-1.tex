@@ -1,39 +1,17 @@
 \section{Analisis Solusi}
 
-Untuk melakukan penelitian pengembangan metode \textit{autoscale} tersebut, dilakukan pemetaan tantangan, penanganan serta kebutuhan untuk melakukan penanganan tersebut.
+Untuk melakukan penelitian pengembangan arsitektur integrasi \textit{Servce Mesh} dengan \textit{IoT} khususnya pada \textit{smart home system}, perlu dibuat sebuah solusi yang dapat memenuhi \textit{requirements} yang sebelumnya telah dijelaskan pada \ref{sec:analisis-persoalan}. Berikut merupakan analisis solusi yang akan diimplementasikan untuk setiap persoalan
 
-\subsection{Pemetaan Tantangan dan Penanganan}
-\label{sec:pemetaan-masalah}
-Tantangan yang ada akan dipetakan dengan penanganan yang akan dilakukan. Pemetaan tersebut dapat dilihat pada Tabel \ref{tab:pemetaan-masalah}.
+\subsection{Arsitektur standar untuk \textit{deployment} pada KubeEdge}
+Untuk membuat arsitektur pada KubeEdge perlu memerlukan beberapa konsiderasi terutama pada bagian \textit{EdgeCore}. Secara konsep arsitektur pada KubeEdge tidak jauh berbeda dari kubernetes pada umumnya, namun terdapat perbedaan cara berkomunkasi dari bagian \textit{cloud} dengan \textit{edge} serta komunikasi antar perangkat \textit{IoT} pada \textit{Edge} yang menggunakan MQTT. Dengan melakukan percobaan \textit{deploy} dengan KubeEdge dan melihat referensi pada \ref{sec:riset-terkait} proses standardiasi arsitektur akan mudah untuk dilakukan
 
-\begin{table}[h]
-    \caption{Tabel Pemetaan Tantangan dan Penanganan}
-    \vspace{0.25cm}
-    \begin{center}
-        \begin{tabular}{|c|p{2.5in}|p{2.5in}|}
-            \rowcolor{gray!30}
-            \hline
-            \textbf{Nomor} & \textbf{Tantangan} & \textbf{Penanganan} \tabularnewline
-            \hline
-            M1 & Terdapat keperluan pengelola untuk menambah dan mengurangi secara manual terhadap konfigurasi \textit{deployment autoscaler} yang beracuan pada \textit{throughput} yang sebenarnya bisa diotomasi dengan sistem melalui aturan yang dibuat oleh pengelola. &
-            Menambah variabel \textit{throughput} untuk operasi-operasi \textit{ElasticSearch} yang konfigurasinya dapat diatur otomatis oleh sistem kontrol fleksibel.
-            \tabularnewline
+\subsection{Meningkatkan \textit{Service discovery} pada layanan}
+Dengan melakukan integrasi dengan \textit{Service Mesh} proses \textit{service discovery} menjadi lebih mudah untuk dilakukan karena untuk setiap aplikasi yang di\textit{deploy} menggunakan KubeEdge, akan ditambah sebuah \textit{sidecar proxy} untuk proses penerimaan maupun pengiriman \textit{request}. Dengan adanya \textit{sidecar proxy} proses \textit{service discovery} menjadi lebih mudah untuk dilakukan.
 
-            M2 &
-            Kubernetes tidak bisa melakukan \textit{autoscale} berdasarkan variabel spesifik pada suatu kontainer, melainkan hanya generalisasi proses pada umumnya. &
-            Mengembangkan \textit{autoscaler} pada ranah \textit{information retrieval} yang spesifik pada \textit{Elastic Search}. \tabularnewline
+\subsection{Menurunkan \textit{low latency} pada layanan}
+Tantangan utama pada aplikasi yang terintegrasi dengan \textit{service mesh} adalah \textit{latency} akan dijamin bertambah karena adanya \textit{extra hop} yang digunakan saat pengiriman maupun penerimaan request. Untuk mengatasi masalah ini dapat digunakan metode lain untuk implementasi \textit{service mesh} seperti \textit{zero-trust tunnel} ataupun menggunakan \textit{eBPF}
+\subsection{Membuat sistem dengan skalabilitas yang baik}
+Dengan menggunakan kubernetes, khususnya \textit{KubeEdge} dapat dibuat sebuah konfigurasi file \textit{deployment} yang telah memenuhi semua \textit{requirements}. File ini akan menjadi acuan untuk proses \textit{deployment} kedepannya.
 
-            M3 &
-            \textit{Metrics} yang digunakan tidak melihat data waktu sebelumnya dan \textit{autoscaler} sederhana berpatokan dengan sebuah ambang batas sehingga tidak efisien terhadap kinerja sistem yang fluktuatif. &
-            Mengembangkan \textit{autoscaler} dengan model prediksi berbasis \textit{time series} sehingga dapat melihat pola dari data historis dan bisa secara preventif menghindari \textit{scaling} akibat fluktuasi data dengan hasil prediksi tersebut.\tabularnewline
-
-            M4 & \textit{Quality of service} dan toleransi kepada \textit{tradeoff} antara efisiensi dan \textit{cost} dapat berbeda antara pengguna. &
-            \textit{Autoscaler} harus fleksibel sehingga terdapat ruang untuk pengguna membuat aturan yang berjalan sesuai kondisi-kondisi yang disesuaikan dengan kebutuhan pemakai.\tabularnewline
-
-            % M5 & \textit{Rolling Update} yang terlalu sering mengharuskan kubernetes memiliki sumber daya minimal sejumlah dua kali lipat. &
-            % Menggunakan teknologi \textit{In-Place Update of Pod Resources} \tabularnewline
-            \hline
-        \end{tabular}
-    \end{center}
-    \label{tab:pemetaan-masalah}
-\end{table}
+\subsection{Membuat sistem dengan \textit{high availability} dan \textit{fault tolerant}}
+Dengan memanfaatkan keunggulan \textit{rollout} dan \textit{rollback} serta \textit{scaling} untuk \textit{deployment} pada kubernetes. Masalah ini menjadi mudah untuk diatasi karena secara umum kubernetes akan memastikan proses \textit{upgrade} ataupun \textit{downgrade} berjalan terlebih dahulu sebelum mematikan layanan yang lama. Karena pada \textit{IoT} memiliki \textit{spec} perangkat yang rendah, proses \textit{scaling} yang digunakan harus menjadi bagian yang di konsiderasi
