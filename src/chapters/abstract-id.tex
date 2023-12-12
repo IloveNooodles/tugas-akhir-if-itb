@@ -2,25 +2,26 @@
 \chapter*{ABSTRAK}
 \addcontentsline{toc}{chapter}{Abstrak}
 \begin{center}
-    \center
-    \begin{singlespace}
-      \large\bfseries\MakeUppercase{\thetitle}
-  
-      \normalfont\normalsize
-      Oleh:
-  
-      \bfseries \theauthor
-    \end{singlespace}
-\end{center} 
+  \center
+  \begin{singlespace}
+    \large\bfseries\MakeUppercase{\thetitle}
+    
+    \normalfont\normalsize
+    Oleh:
+    
+    \bfseries \theauthor
+  \end{singlespace}
+\end{center}
 
 \begin{singlespace}
-    \small
-    Contoh teks abstrak
-    % Dengan berkembangnya dunia digital, aplikasi sehari-hari sangat mempengaruhi kehidupan manusia, dari \textit{search engine}, media sosial hingga \textit{e-commerce}. Aplikasi-aplikasi ini telah mengubah cara kita berinteraksi dan mengakses informasi. Tentu dalam pembuatan aplikasi-aplikasi tersebut akan sangat dependen ke sistem temu balik informasi. Salah satu sistem temu balik informasi yang paling populer saat ini adalah \textit{Elastic Search}. Dalam aplikasinya, \textit{Elastic Search} digunakan secara luas untuk menyediakan kemampuan pencarian yang canggih seperti menemukan produk dengan cepat, hingga platform media sosial yang memberikan hasil pencarian yang relevan dan personalisasi. Namun, kekurangan \textit{Elastic Search} adalah, secara bawaan, sistem ini akan mengambil memori yang tersedia untuk melakukan pemrosesan, apabila dialokasi terlalu sedikit, prosesor akan menjadi kewalahan karena harus melakukan operasi pencarian tanpa bantuan memori. Di sisi lain, perampatan sumber daya tidak selalu menimbulkan kinerja yang buruk untuk \textit{Elastic Search} karena ketergantungannya terhadap konteks data yang disimpan dan kebutuhan pengguna.
-    
-    % Oleh karena itu, diperlukan teknik \textit{autoscaling} yang fleksibel agar \textit{Elastic Search} dapat berjalan secara optimal dan sesuai dengan toleransi \textit{tradeoff} antara biaya dan kinerja. \textit{Autoscaler} ini akan dibangun diatas \textit{Kubernetes} sebagai \textit{container orchestration} dan \textit{ARIMA} sebagai model prediksi. Sistem ini akan mengambil \textit{metrics} dari \textit{Elastic Search} dan melakukan prediksi \textit{throughput} dan utilisasi prosesor serta memori. Hasil prediksi tersebut akan digunakan untuk memenuhi persyaratan yang ditentukan oleh pengguna untuk melakukan \textit{scaling}. Persyaratan dapat disusun oleh pengguna sebagai kumpulan kondisi yang akan dipakai oleh sistem sebagai acuan untuk melakukan keputusan \textit{scaling}. Pengujian sudah dilakukan untuk setiap komponen dan satu sistem penuh untuk memastikan spesifikasi dan fungsional berjalan sesuai kebutuhan. Perbandingan dengan \textit{Vertical} dan \textit{Horizontal Autoscaler}-pun sudah dilakukan, secara garis besar, metode ini dapat menggantikan opsi \textit{Vertical} dan \textit{Horizontal Autoscaler} pada konteks \textit{pods Elastic Search}.
+  \small
+  Dalam revolusi teknologi informasi yang terus berkembang, konsep "\textit{Smart Home}" telah menjadi pusat perhatian sebagai cara yang inovatif dan efisien untuk mengelola berbagai aspek pada rumah. Namun, dalam upaya untuk mencapai \textit{smart home} yang sepenuhnya terintegrasi, terdapat beberapa permasalahan. Salah satu permasalahan yang umum adalah interoperabilitas antara perangkat dari berbagai layanan yang sering kali menggunakan protokol dan antarmuka yang berbeda. Hal ini dapat menghambat integrasi yang mulus antara perangkat dan mempersulit manajemen smart home. Masalah lainnya adalah \textit{device discovery}. \textit{Device discovery} merupakan salah satu cara bagiamana untuk menemukan atau \textit{discover} perangkat \textit{IoT} yang terhubung dengan sistem \textit{smart home}. Masalah lainnya yang cukup penting yaitu masalah yang berkaitan dengan \textit{remote deployment}. \textit{Remote deployment} adalah bagaimana cara untuk membuat layanan IoT dapat dijalankan melalui satu \textit{entry point} saja tanpa harus melakukan konfigurasi dari setiap perangkat \textit{IoT}. 
+  
+  Oleh karena itu, diperlukan sebuah solusi yang dapat mengatasi ketiga masalah tersebut. Salah satu solusi yang dapat dibuat yaitu pembuatan \textit{Smart home system} berbasis \textit{service mesh}. Dengan menggunakan \textit{service mesh} proses \textit{device discovery} dapat dilakukan dengan mudah karena adanya komponen \textit{service mesh} yang tergabung dengan komponen \textit{IoT} sehingga membuat perangkat dapat ditemukan dengan mudah. Dengan adanya kubernetes, proses \textit{remote deployment} menjadi \textit{feasible} untuk dilakukan sehingga proses konfigurasi dari setiap perangkat dapat dipersingkat.
+  
+  Pada akhirnya, dengan adanya pembuatan \textit{smart home system} berbasis \textit{service mesh} dengan \textit{kubernetes} dapat membantu dalam meningkatkan layanan dan performa pada \textit{smart home system}.
 
-    % Pada akhirnya, sistem \textit{autoscaler} dengan model prediksi dapat lebih baik dalam melakukan \textit{scaling} dibandingkan dengan \textit{autoscaler} sederhana yang memakai \textit{threshold}. Dan model prediksi yang bisa digunakan adalah model prediksi berbasis \textit{time series} seperti ARIMA.
-    % \textbf{\textit{Kata kunci: Autoscaler, Kubernetes, Flexible Control, ARIMA, Elastic Search, Predictive Autoscaler}}
+  \textbf{\textit{Kata kunci: Smart Home System, Kubernetes, KubeEdge IoT, Service Mesh}}
+  
 \end{singlespace}
 \clearpage
