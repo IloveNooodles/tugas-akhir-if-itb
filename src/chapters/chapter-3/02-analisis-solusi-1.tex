@@ -6,16 +6,15 @@ Mengembangkan sebuah sistem yang memiliki \textit{reliability} dan \textit{obser
 \subsection{Perangkat IoT dibekali dengan Internet yang baik}
 Salah satu cara untuk mengatasi masalah ini yaitu dengan menaruh internet yang baik disekitar perangkat \textit{IoT}. Dengan adanya hal ini, proses \textit{reliability} akan tercapai serta sistem juga akan memiliki latensi yang rendah. Namun, cara ini tidak optimal dan membutuhkan biaya yang cukup mahal.
 
-Perlu ditempatkan internet yang baik di sekitar perangkat \textit{IoT} memerlukan biaya yang cukup banyak dan cara ini sepenuhnya bergantung pada kualitas \textit{internet service provider} yang digunakan. Apabila \textit{ISP} sedang mengalami penurunan kualitas dan membuat jaringan menjadi buruk maka cara ini sistem akan langsung \textit{unreliable}.
+Perlu ditempatkan internet yang baik di sekitar perangkat \textit{IoT} memerlukan biaya yang cukup banyak dan cara ini sepenuhnya bergantung pada kualitas \textit{internet service provider} yang digunakan. Apabila \textit{ISP} sedang mengalami penurunan kualitas dan membuat jaringan menjadi buruk maka cara ini sistem akan langsung \textit{unreliable}. Cara ini juga tidak menyelesaikan permasalahan \textit{device discovery} ataupun \textit{remote deployment} sehingga cara ini tidak \textit{feasible} untuk dilakukan.
 
 \subsection{Membuat sistem menggunakan protokol MQTT untuk melakukan pertukaran data}
-Akan dibuat suatu sistem yang dapat berkomunkasi menggunakan protokol \textit{MQTT}. Sistem ini terdiri dua komponen, \textit{client} dan \textit{broker}. MQTT \textit{client} berfungsi untuk melkukan \textit{subscribe} ataupun \textit{publish} data ke MQTT \textit{broker}. MQTT \textit{broker} sendiri akan menyimpan data yang dikirim oleh sensor ataupun perangkat \textit{IoT} lainnya (publish) dan memiliki reliability yang sangat tinggi sehingga seberapa burukpun jaringannya akan tetap dapat diterima dengan baik \parencite{mqtt}.
+Akan dibuat suatu sistem yang dapat berkomunkasi menggunakan protokol \textit{MQTT}. Sistem ini terdiri dua komponen, \textit{client} dan \textit{broker}. MQTT \textit{client} berfungsi untuk melkukan \textit{subscribe} ataupun \textit{publish} data ke MQTT \textit{broker}. MQTT \textit{broker} sendiri akan menyimpan data yang dikirim oleh sensor ataupun perangkat \textit{IoT} lainnya (publish) dan memiliki reliability yang sangat tinggi sehingga seberapa burukpun jaringannya akan tetap dapat diterima dengan baik \parencite{mqtt}. Gambaran dari protokol MQTT sendiri dapat dilihat pada lampiran \ref{fig:mqtt-architecture-image}.
+
+implementasi cara ini akan membuat sistem \textit{reliable} namun belum dapat menyelesaikan permasalahan skalabilitas. Jika ingin menambah sebuah perangkat \textit{IoT}, maka perlu dilakukan secara satu persatu dan hal ini tentunya akan sangat memakan waktu.
 
 \subsection{Membuat \textit{Smart Home System} berbasis Service Mesh dengan kubernetes}
-Untuk membuat suatu sistem yang memenuhi dan menjawab permasalahan yang telah diangkat sebelumnya, dapat dibuat suatu sistem menggunakan kubernetes berbasis service mesh
-
-
-
+Sistem ini akan diimplementasikan menggunakan service mesh dengan kubernetes. Client akan memiliki sebuah akses point berupa \textit{dashboard} ataupun \textit{command line interface} untuk mengoperasikan perangkat perangkat yang terhubung dengan \textit{gateway}. Dengan adanya \textit{service mesh}, \textit{observability} dari setiap perangkat dapat ditingkatkan dan proses \textit{device discovery} dapat dilakukan dengan mudah. Cara ini juga menggunakan MQTT untuk protokol komunikasinya. MQTT sangatlah penting untuk memastikan data yang terkirim tidak hilang ketika jaringan buruk. Dalam hal ini, \textit{IoT gateway} akan berfungsi sebagai \textit{broker} dan perangkat \textit{IoT} lainnya akan berfungsi sebagai \textit{client} untuk mem-\textit{publish} data kepda broker. Setiap data pun dapat diakses oleh \textit{client} melalui dashboard yang telah \textit{subscribe} ke setiap \textit{IoT gateway}.
 
 
 % \subsection{Arsitektur standar untuk \textit{deployment} pada KubeEdge}
