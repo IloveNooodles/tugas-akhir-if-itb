@@ -1,17 +1,33 @@
 \section{Analisis Solusi}
 
-Untuk melakukan penelitian pengembangan arsitektur integrasi \textit{Servce Mesh} dengan \textit{IoT} khususnya pada \textit{smart home system}, perlu dibuat sebuah solusi yang dapat memenuhi \textit{requirements} yang sebelumnya telah dijelaskan pada \ref{sec:analisis-persoalan}. Berikut merupakan analisis solusi yang akan diimplementasikan untuk setiap persoalan
+Berdasarkan analisis permasalahan pada \ref{sec:analisis-permasalahan} serta studi literatur, Terdapat tiga alternatif solusi untuk mengatasi permasalahan tesrebut.
+Mengembangkan sebuah sistem yang memiliki \textit{reliability} dan \textit{observability} yang baik dengan skalabilitas yang tinggi dengan menggunakan kubernetes dengan \textit{service mesh}. Membuat sistem dengan \textit{reliability} yang baik  menggunakan protokol \textit{MQTT}, serta peningkatan layanan internet pada setiap lingkungan disekitar perangkat \textit{IoT}.
 
-\subsection{Arsitektur standar untuk \textit{deployment} pada KubeEdge}
-Untuk membuat arsitektur pada KubeEdge perlu memerlukan beberapa konsiderasi terutama pada bagian \textit{EdgeCore}. Secara konsep arsitektur pada KubeEdge tidak jauh berbeda dari kubernetes pada umumnya, namun terdapat perbedaan cara berkomunkasi dari bagian \textit{cloud} dengan \textit{edge} serta komunikasi antar perangkat \textit{IoT} pada \textit{Edge} yang menggunakan MQTT. Dengan melakukan percobaan \textit{deploy} dengan KubeEdge dan melihat referensi pada \ref{sec:riset-terkait} proses standardiasi arsitektur akan mudah untuk dilakukan
+\subsection{Perangkat IoT dibekali dengan Internet yang baik}
+Salah satu cara untuk mengatasi masalah ini yaitu dengan menaruh internet yang baik disekitar perangkat \textit{IoT}. Dengan adanya hal ini, proses \textit{reliability} akan tercapai serta sistem juga akan memiliki latensi yang rendah. Namun, cara ini tidak optimal dan membutuhkan biaya yang cukup mahal.
 
-\subsection{Meningkatkan \textit{Service discovery} pada layanan}
-Dengan melakukan integrasi dengan \textit{Service Mesh} proses \textit{service discovery} menjadi lebih mudah untuk dilakukan karena untuk setiap aplikasi yang di\textit{deploy} menggunakan KubeEdge, akan ditambah sebuah \textit{sidecar proxy} untuk proses penerimaan maupun pengiriman \textit{request}. Dengan adanya \textit{sidecar proxy} proses \textit{service discovery} menjadi lebih mudah untuk dilakukan.
+Perlu ditempatkan internet yang baik di sekitar perangkat \textit{IoT} memerlukan biaya yang cukup banyak dan cara ini sepenuhnya bergantung pada kualitas \textit{internet service provider} yang digunakan. Apabila \textit{ISP} sedang mengalami penurunan kualitas dan membuat jaringan menjadi buruk maka cara ini sistem akan langsung \textit{unreliable}.
 
-\subsection{Menurunkan \textit{low latency} pada layanan}
-Tantangan utama pada aplikasi yang terintegrasi dengan \textit{service mesh} adalah \textit{latency} akan dijamin bertambah karena adanya \textit{extra hop} yang digunakan saat pengiriman maupun penerimaan request. Untuk mengatasi masalah ini dapat digunakan metode lain untuk implementasi \textit{service mesh} seperti \textit{zero-trust tunnel} ataupun menggunakan \textit{eBPF}
-\subsection{Membuat sistem dengan skalabilitas yang baik}
-Dengan menggunakan kubernetes, khususnya \textit{KubeEdge} dapat dibuat sebuah konfigurasi file \textit{deployment} yang telah memenuhi semua \textit{requirements}. File ini akan menjadi acuan untuk proses \textit{deployment} kedepannya.
+\subsection{Membuat sistem menggunakan protokol MQTT untuk melakukan pertukaran data}
+Akan dibuat suatu sistem yang dapat berkomunkasi menggunakan protokol \textit{MQTT}. Sistem ini terdiri dua komponen, \textit{client} dan \textit{broker}. MQTT \textit{client} berfungsi untuk melkukan \textit{subscribe} ataupun \textit{publish} data ke MQTT \textit{broker}. MQTT \textit{broker} sendiri akan menyimpan data yang dikirim oleh sensor ataupun perangkat \textit{IoT} lainnya (publish) dan memiliki reliability yang sangat tinggi sehingga seberapa burukpun jaringannya akan tetap dapat diterima dengan baik \parencite{mqtt}.
 
-\subsection{Membuat sistem dengan \textit{high availability} dan \textit{fault tolerant}}
-Dengan memanfaatkan keunggulan \textit{rollout} dan \textit{rollback} serta \textit{scaling} untuk \textit{deployment} pada kubernetes. Masalah ini menjadi mudah untuk diatasi karena secara umum kubernetes akan memastikan proses \textit{upgrade} ataupun \textit{downgrade} berjalan terlebih dahulu sebelum mematikan layanan yang lama. Karena pada \textit{IoT} memiliki \textit{spec} perangkat yang rendah, proses \textit{scaling} yang digunakan harus menjadi bagian yang di konsiderasi
+\subsection{Membuat \textit{Smart Home System} berbasis Service Mesh dengan kubernetes}
+Untuk membuat suatu sistem yang memenuhi dan menjawab permasalahan yang telah diangkat sebelumnya, dapat dibuat suatu sistem menggunakan kubernetes berbasis service mesh
+
+
+
+
+
+% \subsection{Arsitektur standar untuk \textit{deployment} pada KubeEdge}
+% Untuk membuat arsitektur pada KubeEdge perlu memerlukan beberapa konsiderasi terutama pada bagian \textit{EdgeCore}. Secara konsep arsitektur pada KubeEdge tidak jauh berbeda dari kubernetes pada umumnya, namun terdapat perbedaan cara berkomunkasi dari bagian \textit{cloud} dengan \textit{edge} serta komunikasi antar perangkat \textit{IoT} pada \textit{Edge} yang menggunakan MQTT. Dengan melakukan percobaan \textit{deploy} dengan KubeEdge dan melihat referensi pada \ref{sec:riset-terkait} proses standardiasi arsitektur akan mudah untuk dilakukan
+
+% \subsection{Meningkatkan \textit{device discovery} pada layanan}
+% Dengan melakukan integrasi dengan \textit{Service Mesh} proses \textit{device discovery} menjadi lebih mudah untuk dilakukan karena untuk setiap aplikasi yang di\textit{deploy} menggunakan KubeEdge, akan ditambah sebuah \textit{sidecar proxy} untuk proses penerimaan maupun pengiriman \textit{request}. Dengan adanya \textit{sidecar proxy} proses \textit{device discovery} menjadi lebih mudah untuk dilakukan.
+
+% \subsection{Menurunkan \textit{low latency} pada layanan}
+% Tantangan utama pada aplikasi yang terintegrasi dengan \textit{service mesh} adalah \textit{latency} akan dijamin bertambah karena adanya \textit{extra hop} yang digunakan saat pengiriman maupun penerimaan request. Untuk mengatasi masalah ini dapat digunakan metode lain untuk implementasi \textit{service mesh} seperti \textit{zero-trust tunnel} ataupun menggunakan \textit{eBPF}
+% \subsection{Membuat sistem dengan skalabilitas yang baik}
+% Dengan menggunakan kubernetes, khususnya \textit{KubeEdge} dapat dibuat sebuah konfigurasi file \textit{deployment} yang telah memenuhi semua \textit{requirements}. File ini akan menjadi acuan untuk proses \textit{deployment} kedepannya.
+
+% \subsection{Membuat sistem dengan \textit{high availability} dan \textit{fault tolerant}}
+% Dengan memanfaatkan keunggulan \textit{rollout} dan \textit{rollback} serta \textit{scaling} untuk \textit{deployment} pada kubernetes. Masalah ini menjadi mudah untuk diatasi karena secara umum kubernetes akan memastikan proses \textit{upgrade} ataupun \textit{downgrade} berjalan terlebih dahulu sebelum mematikan layanan yang lama. Karena pada \textit{IoT} memiliki \textit{spec} perangkat yang rendah, proses \textit{scaling} yang digunakan harus menjadi bagian yang dipertimbangkan

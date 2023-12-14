@@ -1,16 +1,12 @@
-\section{Analisis Persoalan}
-\label{sec:analisis-persoalan}
+\section{Analisis Permasalahan}
+\label{sec:analisis-permasalahan}
 
-Untuk meningkatkan kualitas layanan \textit{IoT} khususnya pada \textit{Smart Home System} perlu dibuat suatu cara agar layanan yang dibuat memiliki latensi yang rendah serta memiliki kemudahan untuk melakukan \textit{scaling} ataupun melakukan \textit{deployment} dalam skala besar. Terdapat beberapa \textit{requirements} yang dibutuhkan agar peningkatan layanan kualitas \textit{IoT} pada \textit{Smart Home System} dapat dilakukan
+Untuk meningkatkan kualitas layanan \textit{IoT} khususnya pada \textit{Smart Home System} perlu dibuat suatu cara agar layanan yang dibuat memiliki performa yang baik dengan cara memastikan data yang dikirim sampai pada tujuan serta memiliki latensi yang rendah. Selain itu layanan yang baik harus dapat melakukan \textit{scaling} ataupun melakukan \textit{deployment} dalam skala besar dengan mudah. Masalah ini tentunya dapat dengan mudah diatasi dengan kubernetes namun, terdapat beberapa rintangan yang perlu dilewati untuk mengimpelementasi sistem tersebut.
 
 \begin{enumerate}
-  \item Kondisi saat ini belum banyak sistem \textit{IoT} yang dibuat dan di\textit{deploy} menggunakan KubeEdge, sehingga perlu dibuat suatu cara standard untuk melakukan proses \textit{deployment} pada \textit{IoT}
-  \item Proses \textit{service discovery} pada \textit{IoT} harus dapat dengan mudah dilakukan
-  \item Sistem harus memiliki \textit{low latency} untuk mempercepat komunikasi antar layanan
-  \item Sistem harus memiliki skalabilitas yang baik agar proses \textit{scaling} dapat dilakukan dengan mudah
-  \item Walaupun sistem bersifat \textit{distributed}, sistem yang dibuat haruslah memiliki sifat \textit{fault tolerant} serta \textit{high availability} untuk mencegah adanya \textit{downtime}
+  \item Kondisi saat ini belum banyak sistem \textit{IoT} yang dibuat dan di-\textit{deploy} menggunakan kubernetes
+  \item Proses \textit{device discovery} pada \textit{IoT} harus dapat dengan mudah dilakukan untuk mempercepat proses pengembangan
+  \item Sistem harus memiliki latensi yang rendah untuk mempercepat komunikasi antar layanan sehingga mendapatkan respon yang instan. latensi rendah merupakan hal yang sulit untuk dicapai karena harus memiliki koneksi internet yang cukup stabil dan memeiliki bandwith yang besar. Keadaan umumnya pada perangkat \textit{IoT}, memiliki jaringan yang \textit{intermittent} (tidak stabil) sehingga membuat proses pengiriman data gagal.
+  \item Untuk membuat sistem yang \textit{reliable}, sistem perlu mengatasi banyak kasus ataupun kondisi yang perlu untuk mencegah adanya pesan yang hilang bahkan. Untuk dapat memiliki sistem yang \textit{reliable} tentunya memerlukan cara yang baik sehingga dapat mengatasi hal ini bahkan dalam jaringan yang buruk.
+  \item Untuk dapat membuat sistem yang memiliki skalabilitas yang baik, perlu dibuat suatu cara untuk melakukan konfigurasi perangkat \textit{IoT} dari \textit{cloud}. Namun belum banyak alat yang dapat mengatasi masalah ini.
 \end{enumerate}
-
-
-menjawab beberapa permasalahan mulai dari tinggi nya \textit{latency} dan sulitnya melakukan \textit{service discovery} ataupun \textit{device discovery}
-Untuk membuat sebuah \textit{Smart Home System} yang terintegrasi dengan \textit{Service Mesh} ada beberapa hal yang perlu di konsiderasi
