@@ -10,6 +10,18 @@ Setiap \textit{service} juga perlu menyesuaikan cara dari setiap \textit{service
 
 \textit{Service mesh} pada umumnya memiliki dua plane, \textit{control plane} dan \textit{data plane}. \textit{control plane} merupakan sebuah tempat terpusat untuk mengontrol jaringan mulai dari \textit{device discovery}, \textit{logging dan monitoring}, ataupun menjaga \textit{service level agreement} (SLA) agar \textit{availability} dari \textit{service} yang ada memiliki nilai yang baik. \textit{data plane} sering disebut sebagai \textit{forwarding plane} karena bertujuan untuk meneruskan ataupun menerima request dari \textit{service} yang dituju sesuai arahan dari \textit{control plane}. Kedua \textit{plane} ini menjadi komponen paling penting dalam pembuatan \textit{\textit{service} mesh}.
 
+\textit{Service mesh} dapat melakukan beberapa jenis interaksi terhadap komponen kubernetes, interaksi ini merupakan keunggulan \textit{service mesh} untuk mendukung berbagai macam fungsionalitas dan desain arsitektur. Berikut merupakan tujuh jenis interaksi yang dapat dilakukan oleh \textit{service mesh} \parencite{ganguli2021}
+
+\begin{enumerate}
+  \item Komunikasi antar \textit{pod}
+  \item Komunikasi \textit{pod} dengan \textit{service}
+  \item Komunikasi \textit{ingress controller} dengan \textit{pod} dan sebaliknya
+  \item Komunikasi \textit{load balancer} dengan \textit{pod} dan sebaliknya
+  \item Komunikasi \textit{pod} dengan \textit{egress controller}
+  \item \textit{API gateway to service and vice-versa}
+  \item \textit{TLS termination}
+\end{enumerate}.
+
 Sudah banyak produk ataupun aplikasi yang menawarkan solusi untuk menyelesaikan masalah \textit{\textit{service} Mesh}, diantaranya Istio, Linkerd, Airbnb Synapse, dan AWS App Mesh. Keempat aplikasi tersebut memiliki cara tersendiri agar \textit{\textit{service} mesh} dapat berjalan dengan baik. Berikut tabel perbandingan dari keempat produk tersebut
 
 
