@@ -46,15 +46,3 @@ Solusi yang dibuat penelitian ini mengandlakan keamanan serta \textit{failsafe} 
 Dapat dilihat dari gambar tersebut bahwa terdapat berbagai solusi untuk berbagai tipe \textit{remote deployment}. Pada kasus ini dapat dibuat suatu cara yang mengadopsi update type serta koneksi dari keempat tipe tersebut. Perangkat akan melakukan \textit{polling} kepada \textit{server} untuk mengecek apakah terdapat versi terbaru atau tidak. Selain itu dari sisi \textit{Server} juga dapat membuat suatu notifikasi yang dapat diterima oleh perangkat jika terdapat \textit{update} baru yang siap digunakan.
 
 
-\subsection{Device discovery strategies for the IoT}
-Paper ini membahas tantangan \textit{device discovery} dalam jaringan Internet of Things (IoT). Fokus utama penelitian ini yaitu pada topologi jaringan dan bagaimana topologi jaringan mempengaruhi proses \textit{device discovery}. Tiga topologi jaringan yang dievaluasi adalah terpusat, terdesentralisasi, dan hirarkis, dengan kriteria evaluasi mencakup storage yang dibutuhkan, waktu \textit{discovery}, \textit{traffic} jaringan, persentasi sukses dan \textit{reliability}
-
-\textit{Device discovery} adalah proses penting untuk mengidentifikasi dan memanfaatkan perangkat sesuai kebutuhan. Strategi yang diusulkan dalam penelitian ini berfokus pada peningkatan efisiensi dalam menemukan perangkat melalui topologi jaringan yang berbeda. Simulasi multi-agen digunakan untuk menganalisis dampak perubahan topologi dalam proses penemuan. Hasil simulasi menunjukkan bahwa topologi terpusat cenderung lebih efisien dalam hal komunikasi karena menggunakan satu pesan untuk proses \textit{device discovery}, sedangkan topologi terdesentralisasi dan hirarkis memerlukan penyebaran pesan yang lebih luas. Namun, topologi terpusat kurang efisien dalam hal penyimpanan karena semua data terpusat pada node pusat sehingga memerlukan \textit{storage} yang lebih besar \parencite{DeviceDiscovery}.
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=1\textwidth]{resources/chapter-2/penelitian-terkait-device-discovery-strategy.jpg}
-  \caption{Hasil penelitian topologi jaringan pada proses \textit{device discovery} \parencite{DeviceDiscovery}}
-  \label{fig:stragey-for-device-discovery}
-\end{figure}
-
