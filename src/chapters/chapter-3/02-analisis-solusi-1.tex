@@ -1,12 +1,14 @@
 \section{Analisis Solusi}
 
-Berdasarkan analisis permasalahan pada \ref{sec:analisis-permasalahan} serta studi literatur, Terdapat tiga alternatif solusi untuk mengatasi permasalahan tesrebut.
-Mengembangkan sebuah sistem yang memiliki \textit{reliability} dan \textit{observability} yang baik dengan skalabilitas yang tinggi dengan menggunakan kubernetes dengan \textit{service mesh}. Membuat sistem dengan \textit{reliability} yang baik  menggunakan protokol \textit{MQTT}, serta peningkatan layanan internet pada setiap lingkungan disekitar perangkat \textit{IoT}.
+Berdasarkan analisis permasalahan pada \ref{sec:analisis-permasalahan} serta studi literatur, Terdapat dua alternatif solusi untuk mengatasi permasalahan tesrebut.
+Mengembangkan sebuah sistem yang memiliki \textit{reliability} dan \textit{observability} yang baik dengan skalabilitas yang tinggi dengan menggunakan kubernetes dengan \textit{service mesh}. Membuat sistem dengan \textit{reliability} yang baik menggunakan protokol \textit{MQTT}.
 
-\subsection{Perangkat IoT dibekali dengan Internet yang baik}
-Salah satu cara untuk mengatasi masalah ini yaitu dengan menaruh internet yang baik disekitar perangkat \textit{IoT}. Dengan adanya hal ini, proses \textit{reliability} akan tercapai serta sistem juga akan memiliki latensi yang rendah. Namun, cara ini tidak optimal dan membutuhkan biaya yang cukup mahal.
+% ,serta peningkatan layanan internet pada setiap lingkungan disekitar perangkat \textit{IoT}.
 
-Perlu ditempatkan internet yang baik di sekitar perangkat \textit{IoT} memerlukan biaya yang cukup banyak dan cara ini sepenuhnya bergantung pada kualitas \textit{internet service provider} yang digunakan. Apabila \textit{ISP} sedang mengalami penurunan kualitas dan membuat jaringan menjadi buruk maka cara ini sistem akan langsung \textit{unreliable}. Cara ini juga tidak menyelesaikan permasalahan \textit{device discovery} ataupun \textit{remote deployment} sehingga cara ini tidak \textit{feasible} untuk dilakukan.
+% \subsection{Perangkat IoT dibekali dengan Internet yang baik}
+% Salah satu cara untuk mengatasi masalah ini yaitu dengan menaruh internet yang baik disekitar perangkat \textit{IoT}. Dengan adanya hal ini, proses \textit{reliability} akan tercapai serta sistem juga akan memiliki latensi yang rendah. Namun, cara ini tidak optimal dan membutuhkan biaya yang cukup mahal.
+
+% Perlu ditempatkan internet yang baik di sekitar perangkat \textit{IoT} memerlukan biaya yang cukup banyak dan cara ini sepenuhnya bergantung pada kualitas \textit{internet service provider} yang digunakan. Apabila \textit{ISP} sedang mengalami penurunan kualitas dan membuat jaringan menjadi buruk maka cara ini sistem akan langsung \textit{unreliable}. Cara ini juga tidak menyelesaikan permasalahan \textit{device discovery} ataupun \textit{remote deployment} sehingga cara ini tidak \textit{feasible} untuk dilakukan.
 
 \subsection{Membuat sistem menggunakan protokol MQTT untuk melakukan pertukaran data}
 Akan dibuat suatu sistem yang dapat berkomunkasi menggunakan protokol \textit{MQTT}. Sistem ini terdiri dua komponen, \textit{client} dan \textit{broker}. MQTT \textit{client} berfungsi untuk melkukan \textit{subscribe} ataupun \textit{publish} data ke MQTT \textit{broker}. MQTT \textit{broker} sendiri akan menyimpan data yang dikirim oleh sensor ataupun perangkat \textit{IoT} lainnya (publish) dan memiliki reliability yang sangat tinggi sehingga seberapa burukpun jaringannya akan tetap dapat diterima dengan baik \parencite{mqtt}. Gambaran dari protokol MQTT sendiri dapat dilihat pada lampiran \ref{fig:mqtt-architecture-image}.

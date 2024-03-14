@@ -6,9 +6,9 @@ KubeEdge merupakan solusi \textit{edge architecture} \textit{open source} yang m
 
 Untuk menghubungkan \textit{cloud core} dengan \textit{edge core}, KubeEdge menggunakan sebuah \textit{controller} yang dapat melakukan \textit{device discovery} terhadap \textit{edge core}. Setelah \textit{edge core} ditemukan, \textit{controller} akan meneruskan \textit{request} ke komponen berikutnya yaitu Sync Service. KubeEdge menggunakan KubeBus untuk melakukan komunikasi antar \textit{cloud} dan \textit{edge}, KubeBus menggunakan protokol HTTP untuk meneruskan \textit{request} dari \textit{cloud core} menuju \textit{edge core}. Setelah \textit{request} diterima oleh \textit{edge core}, akan digunakan protokol MQTT untuk menerima ataupun mengirim data dari perangkat \textit{IoT} ke \textit{edge core} begitu pula sebaliknya.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=1\textwidth]{resources/chapter-2/arsitektur-kube-edge.jpg}
+  \includegraphics[width=0.5\textwidth]{resources/chapter-2/arsitektur-kube-edge.jpg}
   \caption{Arsitektur KubeEdge \parencite{kubeedge}}
   \label{fig:arsitektur-kube-edge}
 \end{figure}
@@ -28,9 +28,9 @@ Dengan mengurangi penggunaan sumber daya yang dibutuhkan untuk menjalankan Kuber
 \subsection{K3s}
 K3s adalah sebuah platform \textit{open-source} yang memfasilitasi penggunaan Kubernetes dengan ukuran yang lebih ringan dan mudah diimplementasikan. K3s dikembangkan untuk memudahkan distirbusi dan manajemen Kubernetes dalam lingkungan yang lebih sederhana dan bersifat minimalis. K3s dibuat untuk mendukung pengembangan pada ranah \textit{IoT} karena K3s memiliki support sepenuhnya untuk arsitektur ARM serta cocok untuk digunakan pada lingkungan edge dan \textit{IoT} \parencite{k3s}.
 
-K3s memiliki dua komponen utama yaitu \textit{server, agent}. \textit{Server} dapat dikatakan sebagai sebuah \textit{control plane} atau \textit{master node} yang digunakan pada K3s berfungsi untuk mengatur seluruh permintaan ataupun request dari \textit{agent}. \textit{Server} memiliki tanggung jawab penuh terhadap masing masing \textit{agent} yang terhubung mulai dari menyimpan data dari masing masing \textit{agent}, \textit{controller}, serta \textit{scheduler} \parencite{k3s}. \textit{Agent} di sisi lain berfungsi sebagai \textit{slave node} yang akan mengeksekusi semua perintah dari \textit{server} atau \textit{master node}. 
+K3s memiliki dua komponen utama yaitu \textit{server, agent}. \textit{Server} dapat dikatakan sebagai sebuah \textit{control plane} atau \textit{master node} yang digunakan pada K3s berfungsi untuk mengatur seluruh permintaan ataupun request dari \textit{agent}. \textit{Server} memiliki tanggung jawab penuh terhadap masing masing \textit{agent} yang terhubung mulai dari menyimpan data dari masing masing \textit{agent}, \textit{controller}, serta \textit{scheduler} \parencite{k3s}. \textit{Agent} di sisi lain berfungsi sebagai \textit{slave node} yang akan mengeksekusi semua perintah dari \textit{server} atau \textit{master node}.
 
-\begin{figure}[hb]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-2/arsitektur-k3s.jpg}
   \caption{Arsitektur k3s \parencite{k3s}}
