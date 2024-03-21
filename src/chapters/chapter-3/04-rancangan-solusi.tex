@@ -1,4 +1,12 @@
 \section{Analisis Rancangan Solusi}
-\label{sec:rancangan-solusi}
+\label{sec:analisis-rancangan-solusi}
 
-Dengan segala kebutuhan yang sudah dianalisis, maka akan dibuat beberapa komponen penyusun sistem. Rencananya, \textit{smart home system} akan dibuat menggunakan kubernetes. Pada implementasinya akan terdapat dua buah \textit{IoT Gateway} yang akan berfungsi sebagai \textit{entrypoint} dari kubernetes dan juga sebagai tempat kolektif untuk menerima sensor dari perangkat \textit{IoT} yang terhubung dengan \textit{gateway} tersebut. Untuk setiap \textit{IoT Gateway} akan terdapat empat buah perangkat \textit{IoT} yang berfungsi sebagai sensor untuk mengumpulkan data. Arsiektur yang akan dibuat dapat dilihat pada lampiran \ref{fig:appendix-gambaran-umum-solusi}
+Berdasarkan beberapa pendekatan yang telah dijelaskan pada \ref{sec:analisis-solusi}, Membuat sistem \textit{remote deployment}, yang dirancang untuk provisioning skala besar dari aplikasi pada perangkat \textit{IoT} yang terbatas sumber daya, menggunakan Kubernetes menjadi solusi yang akan digunakan karena beberapa keuntungan yang tidak dimiliki oleh pendekatan lain. Kubernetes, sebagai sistem orkestrasi kontainer yang matang dan luas digunakan, menawarkan fitur dan kemampuan yang cocok untuk mengatasi tantangan yang dihadapi dalam lingkungan \textit{IoT} yang heterogen dan terdistribusi terutama dalam masalah skalabilitas, \textit{ready to use}, serta memakan waktu yang minimal sehingga solusi ini merupakan solusi paling feasible yang dapat diimplementasikan
+
+
+\subsection{Analisis kebutuhan sistem}
+\subsubsection{Kebutuhan fungsional}
+\subsubsection{Kebutuhan non-fungsional}
+
+\subsection{Rancangan Sistem}
+insert diagram secara umum, lalu jelaskan masing masing komponen
