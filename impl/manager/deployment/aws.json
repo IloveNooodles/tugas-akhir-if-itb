@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "steps": [
+    {
+      "action": {
+        "name": "Start-Application",
+        "type": "runHandler",
+        "input": {
+          "handler": "start-services.sh",
+          "args": ["${aws:iot:parameter:services}"],
+          "path": "${aws:iot:parameter:pathToHandler}"
+        },
+        "runAsUser": "${aws:iot:parameter:runAsUser}"
+      }
+    }
+  ]
+}

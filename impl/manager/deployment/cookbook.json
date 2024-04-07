@@ -1,0 +1,24 @@
+{
+  "context": ["http://big-iot.eu/ctx", { "schema": "http://schema.org" }],
+  "providerId": "Barcelona_City -provider",
+  "name": "Get parking spots",
+  "category": "schema:parking",
+  "inputData": [
+    { "name": "userLocation", "rdf:type": "schema:from" },
+    { "name": "radius", "rdfType": "schema:geoRadius", "type": "double" }
+  ],
+  "outputData": [
+    { "name": "parkingCoordinates", "rdfType": "schema:GeoCoordinates" },
+    { "name": "status", "rdfType": "schema:parkingStatus", "type": "boolean" }
+  ],
+  "endpoints": {
+    "uri": "http://bigiot/access/parkinginfo",
+    "type": "HTTP_GET"
+  },
+  "licenseType": "OPEN_DATA_LICENSE",
+  "region": "Barcelona",
+  "price": {
+    "money": { "amount": "0.002000", "currency": "EUR" },
+    "accountingModel": "PER_ACCESS"
+  }
+}
