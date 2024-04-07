@@ -19,12 +19,25 @@ func New() *cobra.Command {
 	})
 
 	cli.AddCommand(&cobra.Command{
-		Use:   "migrate",
+		Use:   "migrate-up",
 		Short: "Migrate database up",
 		Long:  `Starting server`,
 		Run: func(c *cobra.Command, _ []string) {
 			m := app.NewMigrateCmd(dep)
 			err := m.Up()
+			if err != nil {
+				l.Errorf("error when migrating err: %s", err)
+			}
+		},
+	})
+
+	cli.AddCommand(&cobra.Command{
+		Use:   "migrate-down",
+		Short: "Migrate database down",
+		Long:  `Starting server`,
+		Run: func(c *cobra.Command, _ []string) {
+			m := app.NewMigrateCmd(dep)
+			err := m.Down()
 			if err != nil {
 				l.Errorf("error when migrating err: %s", err)
 			}

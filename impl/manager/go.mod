@@ -3,8 +3,8 @@ module github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager
 go 1.21.3
 
 require (
-	github.com/golang-migrate/migrate v3.5.4+incompatible
 	github.com/golang-migrate/migrate/v4 v4.17.0
+	github.com/google/uuid v1.4.0
 	github.com/jmoiron/sqlx v1.3.5
 	github.com/lib/pq v1.10.9
 	github.com/sirupsen/logrus v1.9.2

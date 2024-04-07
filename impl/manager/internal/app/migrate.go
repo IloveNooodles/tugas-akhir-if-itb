@@ -51,3 +51,12 @@ func (m *MigrateCmd) Up() error {
 
 	return nil
 }
+
+func (m *MigrateCmd) Down() error {
+	err := m.Migrate.Down()
+	if err != nil && !errors.Is(err, migrate.ErrNoChange) {
+		return fmt.Errorf("error when migrate down: %w", err)
+	}
+
+	return nil
+}

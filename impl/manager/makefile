@@ -1,7 +1,8 @@
 migrate-new:
-	# supply with name=x
-	migrate create -ext sql -dir migrations "${name}";
+	migrate create -seq -ext sql -dir migrations "${name}";
 
-migrate:
+migrate-up:
 	go run main.go migrate-up
-	
+
+migrate-down:
+	go run main.go migrate-down
