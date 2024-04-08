@@ -15,6 +15,8 @@ func New() *cobra.Command {
 		Short: "Starting server",
 		Long:  `Starting server`,
 		Run: func(c *cobra.Command, _ []string) {
+			startCmd := app.NewStartCmd(dep)
+			startCmd.Start()
 		},
 	})
 
