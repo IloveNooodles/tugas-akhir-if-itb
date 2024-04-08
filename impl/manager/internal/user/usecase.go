@@ -12,8 +12,8 @@ type Usecase struct {
 	Repo   *Repository
 }
 
-func NewUsecase(l *logrus.Logger, r *Repository) *Usecase {
-	return &Usecase{
+func NewUsecase(l *logrus.Logger, r *Repository) Usecase {
+	return Usecase{
 		Logger: l,
 		Repo:   r,
 	}

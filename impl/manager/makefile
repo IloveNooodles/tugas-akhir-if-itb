@@ -6,3 +6,6 @@ migrate-up:
 
 migrate-down:
 	go run main.go migrate-down
+
+manager:
+	go run main.go start
