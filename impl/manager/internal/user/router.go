@@ -10,5 +10,6 @@ func RegisterRoute(h Handler, e *echo.Echo) {
 	usersRoute.Use(middleware.ValidateAPIKey)
 
 	usersRoute.POST("", h.V1Create)
+	usersRoute.POST("/login", h.V1Login)
 	usersRoute.GET("/:id", h.V1GetByID, middleware.ValidateJWT)
 }
