@@ -11,3 +11,4 @@ func RegisterRoute(h Handler, e *echo.Echo) {
 	devicesRoute.POST("", h.V1Create)
 	devicesRoute.GET("/:id", h.V1GetByID, middleware.ValidateJWT)
 }
+

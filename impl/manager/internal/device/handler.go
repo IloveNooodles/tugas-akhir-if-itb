@@ -1,6 +1,8 @@
 package device
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -56,13 +58,13 @@ func (h *Handler) V1Create(c echo.Context) error {
 		CompanyID:  req.CompanyID,
 	}
 
-	user, err := h.Usecase.Create(ctx, deviceReq)
+	device, err := h.Usecase.Create(ctx, deviceReq)
 	if err != nil {
-		h.Logger.Errorf("error when creating users err: %s", err)
+		h.Logger.Errorf("error when creating devices err: %s", err)
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: user})
+	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: device})
 }
 
 func (h *Handler) V1GetByID(c echo.Context) error {
@@ -75,11 +77,16 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
 	}
 
-	user, err := h.Usecase.GetByID(ctx, id)
+	device, err := h.Usecase.GetByID(ctx, id)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
+		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+	}
+
 	if err != nil {
-		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
+		h.Logger.Errorf("error when getting device with id: %s, err: %s", id, err)
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: user})
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: device})
 }

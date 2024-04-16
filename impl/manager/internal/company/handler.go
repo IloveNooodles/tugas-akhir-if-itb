@@ -1,6 +1,8 @@
 package company
 
 import (
+	"database/sql"
+	"errors"
 	"fmt"
 	"net/http"
 
@@ -65,6 +67,11 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 	}
 
 	user, err := h.Usecase.GetByID(ctx, id)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
+		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+	}
+  
 	if err != nil {
 		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})

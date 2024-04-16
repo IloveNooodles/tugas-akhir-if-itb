@@ -2,6 +2,9 @@ package app
 
 import (
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/device"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/groupdevice"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/groups"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/server"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/user"
 	"github.com/sirupsen/logrus"
@@ -25,6 +28,21 @@ func NewStartCmd(dep *Dep) *StartCmd {
 	userUsecase := user.NewUsecase(dep.Logger, userRepo)
 	userHandler := user.NewHandler(dep.Logger, userUsecase, companyUsecase)
 	user.RegisterRoute(userHandler, app)
+
+	deviceRepo := device.NewRepository(dep.DB, dep.Logger)
+	deviceUsecase := device.NewUsecase(dep.Logger, deviceRepo)
+	deviceHandler := device.NewHandler(dep.Logger, deviceUsecase, companyUsecase)
+	device.RegisterRoute(deviceHandler, app)
+
+	groupRepo := groups.NewRepository(dep.DB, dep.Logger)
+	groupUsecase := groups.NewUsecase(dep.Logger, groupRepo)
+	groupHandler := groups.NewHandler(dep.Logger, groupUsecase, companyUsecase)
+	groups.RegisterRoute(groupHandler, app)
+
+	groupDeviceRepo := groupdevice.NewRepository(dep.DB, dep.Logger)
+	groupDeviceUsecase := groupdevice.NewUsecase(dep.Logger, groupDeviceRepo)
+	groupDeviceHandler := groupdevice.NewHandler(dep.Logger, groupDeviceUsecase, companyUsecase)
+	groupdevice.RegisterRoute(groupDeviceHandler, app)
 
 	return &StartCmd{
 		Server: svr,

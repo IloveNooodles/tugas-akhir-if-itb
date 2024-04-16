@@ -1,4 +1,4 @@
-package groups
+package groupdevice
 
 import (
 	"context"
@@ -19,10 +19,10 @@ func NewUsecase(l *logrus.Logger, r *Repository) Usecase {
 	}
 }
 
-func (u *Usecase) Create(ctx context.Context, d Group) (Group, error) {
+func (u *Usecase) Create(ctx context.Context, d GroupDevice) (GroupDevice, error) {
 	return u.Repo.Create(ctx, d)
 }
 
-func (u *Usecase) GetByID(ctx context.Context, id uuid.UUID) (Group, error) {
+func (u *Usecase) GetByID(ctx context.Context, id uuid.UUID) (GroupDevice, error) {
 	return u.Repo.GetByID(ctx, id)
 }
