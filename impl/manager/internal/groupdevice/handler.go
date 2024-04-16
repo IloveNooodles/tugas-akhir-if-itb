@@ -101,3 +101,19 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: user})
 }
+
+func (h *Handler) V1AdminGetAll(c echo.Context) error {
+	ctx := c.Request().Context()
+	groupDevices, err := h.Usecase.GetAll(ctx)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found err: %s", err)
+		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+	}
+
+	if err != nil {
+		h.Logger.Errorf("error when getting groupDevices with err: %s", err)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: groupDevices})
+}

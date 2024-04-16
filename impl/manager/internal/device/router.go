@@ -11,6 +11,7 @@ func RegisterRoute(h Handler, e *echo.Echo) {
 
 	devicesRoute.POST("", h.V1Create)
 	devicesRoute.GET("/:id", h.V1GetByID, middleware.ValidateJWT)
+	devicesRoute.GET("/:id/groups", h.V1GetByGroupID, middleware.ValidateJWT)
 
 	adminDevicesRoute.GET("", h.V1AdminGetAll, middleware.ValidateAdminAPIKey, middleware.ValidateJWT)
 }

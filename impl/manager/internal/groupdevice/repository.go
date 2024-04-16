@@ -45,3 +45,16 @@ func (r *Repository) GetByID(ctx context.Context, id uuid.UUID) (GroupDevice, er
 
 	return groupDevice, nil
 }
+
+func (r *Repository) GetAll(ctx context.Context) ([]GroupDevice, error) {
+	groupDevices := make([]GroupDevice, 0)
+	q := `SELECT * FROM groupdevices`
+	err := r.DB.SelectContext(ctx, &groupDevices, q)
+
+	if err != nil {
+		r.Logger.Errorf("error when getting all group devices err: %s", err)
+		return groupDevices, err
+	}
+
+	return groupDevices, nil
+}

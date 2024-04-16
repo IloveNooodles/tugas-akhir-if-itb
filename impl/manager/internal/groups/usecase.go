@@ -30,3 +30,7 @@ func (u *Usecase) GetByID(ctx context.Context, id uuid.UUID) (Group, error) {
 func (u *Usecase) GetAll(ctx context.Context) ([]Group, error) {
 	return u.Repo.GetAll(ctx)
 }
+
+func (u *Usecase) GetByGroupID(ctx context.Context, companyID, deviceID uuid.UUID) ([]Group, error) {
+	return u.Repo.GetByDeviceID(ctx, companyID, deviceID)
+}

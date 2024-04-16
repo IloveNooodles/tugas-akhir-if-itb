@@ -58,3 +58,19 @@ func (r *Repository) GetAll(ctx context.Context) ([]Group, error) {
 
 	return groups, nil
 }
+
+func (r *Repository) GetByDeviceID(ctx context.Context, companyID, deviceID uuid.UUID) ([]Group, error) {
+	groups := make([]Group, 0)
+	q := `SELECT * FROM groups g JOIN
+  groupdevices gd
+    ON g.id = gd.group_id
+  WHERE gd.device_id = $1 AND gd.company_id = $2`
+	err := r.DB.SelectContext(ctx, &groups, q, deviceID, companyID)
+
+	if err != nil {
+		r.Logger.Errorf("error when getting list of groups err: %s", err)
+		return groups, err
+	}
+
+	return groups, nil
+}
