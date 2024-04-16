@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/config"
+	m "github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/middleware"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
@@ -28,6 +29,7 @@ func New(l *logrus.Logger, cfg config.Config) Server {
 
 	e.Use(middleware.CORS())
 	e.Use(middleware.Recover())
+	e.Use(m.ValidateAPIKey)
 
 	return &server{
 		config: cfg,

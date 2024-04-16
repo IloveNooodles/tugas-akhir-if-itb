@@ -1,4 +1,4 @@
-package company
+package device
 
 import (
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/middleware"
@@ -6,8 +6,8 @@ import (
 )
 
 func RegisterRoute(h Handler, e *echo.Echo) {
-	companiesRoute := e.Group("/api/v1/companies")
+	devicesRoute := e.Group("/api/v1/device")
 
-	companiesRoute.POST("", h.V1Create)
-	companiesRoute.GET("/:id", h.V1GetByID, middleware.ValidateJWT)
+	devicesRoute.POST("", h.V1Create)
+	devicesRoute.GET("/:id", h.V1GetByID, middleware.ValidateJWT)
 }

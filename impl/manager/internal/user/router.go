@@ -7,7 +7,6 @@ import (
 
 func RegisterRoute(h Handler, e *echo.Echo) {
 	usersRoute := e.Group("/api/v1/users")
-	usersRoute.Use(middleware.ValidateAPIKey)
 
 	usersRoute.POST("", h.V1Create)
 	usersRoute.POST("/login", h.V1Login)
