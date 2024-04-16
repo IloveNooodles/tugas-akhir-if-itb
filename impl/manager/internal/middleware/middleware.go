@@ -26,6 +26,17 @@ func ValidateAPIKey(next echo.HandlerFunc) echo.HandlerFunc {
 	}
 }
 
+func ValidateAdminAPIKey(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		apiKey := c.Request().Header.Get("X-Admin-Api-Key")
+		if apiKey != cfg.AdminAPIKey {
+			return c.JSON(http.StatusUnauthorized, dto.ErrorResponse{Message: "invalid API Key"})
+		}
+
+		return next(c)
+	}
+}
+
 func ValidateJWT(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		authToken := c.Request().Header.Get("Authorization")
@@ -42,6 +53,7 @@ func ValidateJWT(next echo.HandlerFunc) echo.HandlerFunc {
 		c.Set("userID", claims.UserID)
 		c.Set("name", claims.Name)
 		c.Set("email", claims.Email)
+		c.Set("companyID", claims.CompanyID)
 		return next(c)
 	}
 }

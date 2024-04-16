@@ -71,11 +71,27 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
 		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
 	}
-  
+
 	if err != nil {
 		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
 	}
 
 	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: user})
+}
+
+func (h *Handler) V1AdminGetAll(c echo.Context) error {
+	ctx := c.Request().Context()
+	companies, err := h.Usecase.GetAll(ctx)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no result err: %s", err)
+		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+	}
+
+	if err != nil {
+		h.Logger.Errorf("error when getting user with err: %s", err)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: companies})
 }

@@ -31,6 +31,18 @@ func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase) Handler {
 func (h *Handler) V1Create(c echo.Context) error {
 	req := CreateRequest{}
 	ctx := c.Request().Context()
+	ctxCompanyID, ok := c.Get("companyID").(string)
+
+	if !ok {
+		h.Logger.Errorf("error when converting company id to string")
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
+	}
+
+	companyID, err := uuid.Parse(ctxCompanyID)
+	if err != nil {
+		h.Logger.Errorf("error when parse company id to string")
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "invalid company id"})
+	}
 
 	if err := c.Bind(&req); err != nil {
 		err := fmt.Errorf("error when receiving request err: %s", err)
@@ -45,8 +57,8 @@ func (h *Handler) V1Create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
 	}
 
-	if _, err := h.CompanyUsecase.GetByID(ctx, req.CompanyID); err != nil {
-		err := fmt.Errorf("invalid companyID %s, err: %s", req.CompanyID, err)
+	if _, err := h.CompanyUsecase.GetByID(ctx, companyID); err != nil {
+		err := fmt.Errorf("invalid companyID %s, err: %s", companyID, err)
 		h.Logger.Error(err)
 		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
 	}
@@ -54,7 +66,7 @@ func (h *Handler) V1Create(c echo.Context) error {
 	groupDevices := GroupDevice{
 		GroupID:   req.GroupID,
 		DeviceID:  req.DeviceID,
-		CompanyID: req.CompanyID,
+		CompanyID: companyID,
 	}
 
 	user, err := h.Usecase.Create(ctx, groupDevices)

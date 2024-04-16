@@ -6,9 +6,8 @@ import (
 )
 
 func RegisterRoute(h Handler, e *echo.Echo) {
-	devicesRoute := e.Group("/api/v1/device")
+	devicesRoute := e.Group("/api/v1/devices")
 
 	devicesRoute.POST("", h.V1Create)
 	devicesRoute.GET("/:id", h.V1GetByID, middleware.ValidateJWT)
 }
-

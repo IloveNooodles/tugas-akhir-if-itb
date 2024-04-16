@@ -20,9 +20,10 @@ const (
 )
 
 type MyClaims struct {
-	UserID uuid.UUID `json:"id"`
-	Email  string    `json:"email"`
-	Name   string    `json:"name"`
+	UserID    uuid.UUID `json:"id"`
+	CompanyID uuid.UUID `json:"company_id"`
+	Email     string    `json:"email"`
+	Name      string    `json:"name"`
 }
 
 type JwtClaims struct {
@@ -48,6 +49,7 @@ func createClaims(mc MyClaims, subject string) JwtClaims {
 	j.UserID = mc.UserID
 	j.Email = mc.Email
 	j.Name = mc.Name
+	j.CompanyID = mc.CompanyID
 
 	return j
 }

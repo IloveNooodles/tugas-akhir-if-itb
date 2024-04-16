@@ -45,3 +45,16 @@ func (r *Repository) GetByID(ctx context.Context, id uuid.UUID) (Company, error)
 
 	return company, nil
 }
+
+func (r *Repository) GetAll(ctx context.Context) ([]Company, error) {
+	companies := make([]Company, 0)
+	q := `SELECT * FROM companies`
+	err := r.DB.SelectContext(ctx, &companies, q)
+
+	if err != nil {
+		r.Logger.Errorf("error when getting companies list err: %s", err)
+		return companies, err
+	}
+
+	return companies, err
+}

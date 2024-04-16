@@ -14,6 +14,7 @@ type Config struct {
 	PostgresPort     int
 	PostgresSSLMode  string
 	ApiKey           string
+	AdminAPIKey      string
 	Port             int
 	JWTKey           string
 }
@@ -43,6 +44,7 @@ func New() Config {
 		ApiKey:           v.GetString("APP_API_KEY"),
 		Port:             v.GetInt("APP_PORT"),
 		JWTKey:           v.GetString("APP_JWT_KEY"),
+		AdminAPIKey:      v.GetString("APP_ADMIN_API_KEY"),
 	}
 
 	return cfg

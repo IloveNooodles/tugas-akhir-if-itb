@@ -116,9 +116,10 @@ func (h *Handler) V1Login(c echo.Context) error {
 	}
 
 	myClaims := auth.MyClaims{
-		UserID: user.ID,
-		Email:  user.Email,
-		Name:   user.Name,
+		UserID:    user.ID,
+		Email:     user.Email,
+		Name:      user.Name,
+		CompanyID: user.CompanyID,
 	}
 
 	token, err := auth.CreateAndSignToken(myClaims, auth.Authentication)
