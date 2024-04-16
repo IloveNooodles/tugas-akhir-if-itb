@@ -49,3 +49,7 @@ func (u *Usecase) Login(ctx context.Context, email, password string) (User, erro
 
 	return user, err
 }
+
+func (u *Usecase) GetAll(ctx context.Context) ([]User, error) {
+	return u.Repo.GetAll(ctx)
+}

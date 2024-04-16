@@ -58,3 +58,16 @@ func (r *Repository) GetByEmail(ctx context.Context, email string) (User, error)
 
 	return user, nil
 }
+
+func (r *Repository) GetAll(ctx context.Context) ([]User, error) {
+	users := make([]User, 0)
+	q := `SELECT * FROM users`
+	err := r.DB.SelectContext(ctx, &users, q)
+
+	if err != nil {
+		r.Logger.Errorf("error when get users err: %s", err)
+		return users, err
+	}
+
+	return users, nil
+}

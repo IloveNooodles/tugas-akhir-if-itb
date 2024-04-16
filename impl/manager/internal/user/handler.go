@@ -130,3 +130,19 @@ func (h *Handler) V1Login(c echo.Context) error {
 
 	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: token})
 }
+
+func (h *Handler) V1AdminGetAll(c echo.Context) error {
+	ctx := c.Request().Context()
+	user, err := h.Usecase.GetAll(ctx)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found err: %s", err)
+		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+	}
+
+	if err != nil {
+		h.Logger.Errorf("error when getting users with err: %s", err)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: user})
+}
