@@ -45,3 +45,16 @@ func (r *Repository) GetByID(ctx context.Context, id uuid.UUID) (Group, error) {
 
 	return group, nil
 }
+
+func (r *Repository) GetAll(ctx context.Context) ([]Group, error) {
+	groups := make([]Group, 0)
+	q := `SELECT * FROM groups`
+	err := r.DB.SelectContext(ctx, &groups, q)
+
+	if err != nil {
+		r.Logger.Errorf("error when getting list of groups err: %s", err)
+		return groups, err
+	}
+
+	return groups, nil
+}

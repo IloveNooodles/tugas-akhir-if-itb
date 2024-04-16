@@ -7,7 +7,10 @@ import (
 
 func RegisterRoute(h Handler, e *echo.Echo) {
 	devicesRoute := e.Group("/api/v1/devices")
+	adminDevicesRoute := e.Group("/admin-api/v1/devices")
 
 	devicesRoute.POST("", h.V1Create)
 	devicesRoute.GET("/:id", h.V1GetByID, middleware.ValidateJWT)
+
+	adminDevicesRoute.GET("", h.V1AdminGetAll, middleware.ValidateAdminAPIKey, middleware.ValidateJWT)
 }

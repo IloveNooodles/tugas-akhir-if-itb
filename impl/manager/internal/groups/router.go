@@ -7,7 +7,10 @@ import (
 
 func RegisterRoute(h Handler, e *echo.Echo) {
 	groupsRoute := e.Group("/api/v1/groups")
+	adminGroupsRoute := e.Group("/admin-api/v1/groups")
 
 	groupsRoute.POST("", h.V1Create)
 	groupsRoute.GET("/:id", h.V1GetByID, middleware.ValidateJWT)
+
+	adminGroupsRoute.GET("", h.V1AdminGetAll)
 }

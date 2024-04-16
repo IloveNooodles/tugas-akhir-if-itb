@@ -87,16 +87,32 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
 	}
 
-	user, err := h.Usecase.GetByID(ctx, id)
+	group, err := h.Usecase.GetByID(ctx, id)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
 		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
+		h.Logger.Errorf("error when getting groups with id: %s, err: %s", id, err)
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: user})
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: group})
+}
+
+func (h *Handler) V1AdminGetAll(c echo.Context) error {
+	ctx := c.Request().Context()
+	groups, err := h.Usecase.GetAll(ctx)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found err: %s", err)
+		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+	}
+
+	if err != nil {
+		h.Logger.Errorf("error when getting groups with err: %s", err)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: groups})
 }

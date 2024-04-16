@@ -26,3 +26,7 @@ func (u *Usecase) Create(ctx context.Context, d Group) (Group, error) {
 func (u *Usecase) GetByID(ctx context.Context, id uuid.UUID) (Group, error) {
 	return u.Repo.GetByID(ctx, id)
 }
+
+func (u *Usecase) GetAll(ctx context.Context) ([]Group, error) {
+	return u.Repo.GetAll(ctx)
+}
