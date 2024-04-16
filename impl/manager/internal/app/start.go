@@ -1,6 +1,7 @@
 package app
 
 import (
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/server"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/user"
 	"github.com/sirupsen/logrus"
@@ -15,9 +16,14 @@ func NewStartCmd(dep *Dep) *StartCmd {
 	svr := server.New(dep.Logger, dep.Config)
 	app := svr.App()
 
+	companyRepo := company.NewRepository(dep.DB, dep.Logger)
+	companyUsecase := company.NewUsecase(dep.Logger, companyRepo)
+	companyHandler := company.NewHandler(dep.Logger, companyUsecase)
+	company.RegisterRoute(companyHandler, app)
+
 	userRepo := user.NewRepository(dep.DB, dep.Logger)
 	userUsecase := user.NewUsecase(dep.Logger, userRepo)
-	userHandler := user.NewHandler(dep.Logger, userUsecase)
+	userHandler := user.NewHandler(dep.Logger, userUsecase, companyUsecase)
 	user.RegisterRoute(userHandler, app)
 
 	return &StartCmd{

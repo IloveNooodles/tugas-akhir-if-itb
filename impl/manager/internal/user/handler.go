@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/auth"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/dto"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
@@ -13,14 +14,16 @@ import (
 )
 
 type Handler struct {
-	Logger  *logrus.Logger
-	Usecase Usecase
+	Logger         *logrus.Logger
+	Usecase        Usecase
+	CompanyUsecase company.Usecase
 }
 
-func NewHandler(l *logrus.Logger, u Usecase) Handler {
+func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase) Handler {
 	return Handler{
-		Logger:  l,
-		Usecase: u,
+		Logger:         l,
+		Usecase:        u,
+		CompanyUsecase: cu,
 	}
 }
 
@@ -41,10 +44,17 @@ func (h *Handler) V1Create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
 	}
 
+	if _, err := h.CompanyUsecase.GetByID(ctx, req.CopmanyID); err != nil {
+		err := fmt.Errorf("invalid companyID %s, err: %s", req.CopmanyID, err)
+		h.Logger.Error(err)
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+	}
+
 	userReq := User{
-		Name:     req.Name,
-		Email:    req.Email,
-		Password: req.Password,
+		Name:      req.Name,
+		Email:     req.Email,
+		Password:  req.Password,
+		CompanyID: req.CopmanyID,
 	}
 
 	user, err := h.Usecase.Create(ctx, userReq)

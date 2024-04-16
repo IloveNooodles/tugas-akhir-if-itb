@@ -22,8 +22,8 @@ func NewRepository(db *sqlx.DB, logger *logrus.Logger) *Repository {
 
 func (r *Repository) Create(ctx context.Context, u User) (User, error) {
 	user := User{}
-	q := `INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *`
-	err := r.DB.GetContext(ctx, &user, q, u.Name, u.Email, u.Password)
+	q := `INSERT INTO users (name, email, password, company_id) VALUES ($1, $2, $3, $4) RETURNING *`
+	err := r.DB.GetContext(ctx, &user, q, u.Name, u.Email, u.Password, u.CompanyID)
 
 	if err != nil {
 		r.Logger.Errorf("error when creating users %v, err: %s", user, err)
