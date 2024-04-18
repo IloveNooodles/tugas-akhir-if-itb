@@ -30,7 +30,7 @@ func ValidateAdminAPIKey(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		apiKey := c.Request().Header.Get("X-Admin-Api-Key")
 		if apiKey != cfg.AdminAPIKey {
-			return c.JSON(http.StatusUnauthorized, dto.ErrorResponse{Message: "invalid API Key"})
+			return c.JSON(http.StatusForbidden, dto.ErrorResponse{Message: "Forbidden"})
 		}
 
 		return next(c)
@@ -49,7 +49,6 @@ func ValidateJWT(next echo.HandlerFunc) echo.HandlerFunc {
 		if !ok {
 			return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "server error"})
 		}
-
 		c.Set("userID", claims.UserID)
 		c.Set("name", claims.Name)
 		c.Set("email", claims.Email)

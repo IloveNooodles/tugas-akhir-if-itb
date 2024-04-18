@@ -31,17 +31,11 @@ func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase) Handler {
 func (h *Handler) V1Create(c echo.Context) error {
 	req := CreateRequest{}
 	ctx := c.Request().Context()
-	ctxCompanyID, ok := c.Get("companyID").(string)
+	companyID, ok := c.Get("companyID").(uuid.UUID)
 
 	if !ok {
 		h.Logger.Errorf("error when converting company id to string")
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
-	}
-
-	companyID, err := uuid.Parse(ctxCompanyID)
-	if err != nil {
-		h.Logger.Errorf("error when parse company id to string")
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "invalid company id"})
 	}
 
 	if err := c.Bind(&req); err != nil {

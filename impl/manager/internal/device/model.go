@@ -15,3 +15,8 @@ type Device struct {
 	CreatedAt  time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt  time.Time `json:"updated_at" db:"updated_at"`
 }
+
+type GroupDetail struct {
+	GroupID   uuid.UUID `json:"group_id" db:"group_id"`
+	GroupName string    `json:"group_name" db:"group_name"`
+}

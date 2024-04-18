@@ -31,17 +31,12 @@ func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase) Handler {
 func (h *Handler) V1Create(c echo.Context) error {
 	req := CreateRequest{}
 	ctx := c.Request().Context()
-	ctxCompanyID, ok := c.Get("companyID").(string)
+	companyID, ok := c.Get("companyID").(uuid.UUID)
+	fmt.Println(c.Get("companyID"))
 
 	if !ok {
 		h.Logger.Errorf("error when converting company id to string")
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
-	}
-
-	companyID, err := uuid.Parse(ctxCompanyID)
-	if err != nil {
-		h.Logger.Errorf("error when parse company id to string")
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "invalid company id"})
 	}
 
 	if err := c.Bind(&req); err != nil {
@@ -119,7 +114,7 @@ func (h *Handler) V1AdminGetAll(c echo.Context) error {
 
 func (h *Handler) V1GetByDeviceID(c echo.Context) error {
 	ctx := c.Request().Context()
-	ctxCompanyID, ok := c.Get("companyID").(string)
+	companyID, ok := c.Get("companyID").(uuid.UUID)
 	idParam := c.Param("id")
 
 	id, err := uuid.Parse(idParam)
@@ -133,22 +128,16 @@ func (h *Handler) V1GetByDeviceID(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
 	}
 
-	companyID, err := uuid.Parse(ctxCompanyID)
-	if err != nil {
-		h.Logger.Errorf("error when parse company id to string")
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "invalid company id"})
-	}
-
-	groups, err := h.Usecase.GetByGroupID(ctx, companyID, id)
+	devices, err := h.Usecase.GetDevices(ctx, companyID, id)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
 		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting groups with err: %s", err)
+		h.Logger.Errorf("error when getting devices with err: %s", err)
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: groups})
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: devices})
 }

@@ -9,9 +9,11 @@ func RegisterRoute(h Handler, e *echo.Echo) {
 	devicesRoute := e.Group("/api/v1/devices")
 	adminDevicesRoute := e.Group("/admin-api/v1/devices")
 
+	devicesRoute.Use(middleware.ValidateJWT)
 	devicesRoute.POST("", h.V1Create)
-	devicesRoute.GET("/:id", h.V1GetByID, middleware.ValidateJWT)
-	devicesRoute.GET("/:id/groups", h.V1GetByGroupID, middleware.ValidateJWT)
+	devicesRoute.GET("/:id", h.V1GetByID)
+	devicesRoute.GET("/:id/groups", h.V1GetGroupByDeviceID)
 
-	adminDevicesRoute.GET("", h.V1AdminGetAll, middleware.ValidateAdminAPIKey, middleware.ValidateJWT)
+	adminDevicesRoute.Use(middleware.ValidateAdminAPIKey)
+	adminDevicesRoute.GET("", h.V1AdminGetAll)
 }

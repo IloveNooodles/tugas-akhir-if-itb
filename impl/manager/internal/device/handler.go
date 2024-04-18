@@ -31,17 +31,11 @@ func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase) Handler {
 func (h *Handler) V1Create(c echo.Context) error {
 	req := CreateRequest{}
 	ctx := c.Request().Context()
-	ctxCompanyID, ok := c.Get("companyID").(string)
+	companyID, ok := c.Get("companyID").(uuid.UUID)
 
 	if !ok {
 		h.Logger.Errorf("error when converting company id to string")
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
-	}
-
-	companyID, err := uuid.Parse(ctxCompanyID)
-	if err != nil {
-		h.Logger.Errorf("error when parse company id to string")
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "invalid company id"})
 	}
 
 	if err := c.Bind(&req); err != nil {
@@ -120,29 +114,23 @@ func (h *Handler) V1AdminGetAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: devices})
 }
 
-func (h *Handler) V1GetByGroupID(c echo.Context) error {
+func (h *Handler) V1GetGroupByDeviceID(c echo.Context) error {
 	ctx := c.Request().Context()
-	ctxCompanyID, ok := c.Get("companyID").(string)
+	ctxCompanyID, ok := c.Get("companyID").(uuid.UUID)
 	idParam := c.Param("id")
 
-	id, err := uuid.Parse(idParam)
+	deviceID, err := uuid.Parse(idParam)
 	if err != nil {
 		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
 		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
 	}
 
 	if !ok {
-		h.Logger.Errorf("error when converting company id to string")
+		h.Logger.Errorf("error when converting company id to uuid")
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
 	}
 
-	companyID, err := uuid.Parse(ctxCompanyID)
-	if err != nil {
-		h.Logger.Errorf("error when parse company id to string")
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "invalid company id"})
-	}
-
-	devices, err := h.Usecase.GetByGroupID(ctx, companyID, id)
+	devices, err := h.Usecase.GetGroups(ctx, ctxCompanyID, deviceID)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
 		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})

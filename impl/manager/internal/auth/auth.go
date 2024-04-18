@@ -50,7 +50,6 @@ func createClaims(mc MyClaims, subject string) JwtClaims {
 	j.Email = mc.Email
 	j.Name = mc.Name
 	j.CompanyID = mc.CompanyID
-
 	return j
 }
 
