@@ -21,6 +21,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     const response = await login(body);
     $toast.success('Success Login, redirecting');
     set(response.data);
+    await navigateTo('/');
   } catch (err: any) {
     if (err instanceof FetchError) {
       $toast.error(err.data.message);
