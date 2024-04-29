@@ -1,16 +1,6 @@
-const isAuthenticated = () => {
-  const token = useAuthStore().get();
-  const cfg = useRuntimeConfig();
-  const apiToken = cfg.public.apiToken;
-
-  if (!token) return false;
-  if (token != apiToken) return false;
-
-  return true;
-};
-
 export default defineNuxtRouteMiddleware((to, from) => {
   const nuxtApp = useNuxtApp();
+  const token = useAuthStore().get();
 
   if (
     import.meta.client &&
@@ -18,7 +8,7 @@ export default defineNuxtRouteMiddleware((to, from) => {
     nuxtApp.payload.serverRendered
   )
     return;
-  if (!isAuthenticated()) {
+  if (!token) {
     return navigateTo('/login');
   }
 });
