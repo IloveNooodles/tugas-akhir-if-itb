@@ -62,3 +62,5 @@ func validateContext(config *clientcmdapi.Config, context string) error {
 
 	return fmt.Errorf("no context exists with the name: %q", context)
 }
+
+func int32Ptr(i int32) *int32 { return &i }

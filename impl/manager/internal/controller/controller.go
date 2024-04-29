@@ -6,13 +6,17 @@ import (
 	"fmt"
 
 	"github.com/sirupsen/logrus"
-	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+	apiappsv1 "k8s.io/api/apps/v1"
+	apiv1 "k8s.io/api/core/v1"
+	kubeerror "k8s.io/apimachinery/pkg/api/errors"
+	apimetav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/types"
 	"k8s.io/client-go/kubernetes"
 	v1 "k8s.io/client-go/kubernetes/typed/core/v1"
 	"k8s.io/client-go/rest"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/tools/clientcmd/api"
+	"k8s.io/client-go/util/retry"
 )
 
 type KubernetesController struct {
@@ -163,7 +167,7 @@ func (k *KubernetesController) LabelNodes(ctx context.Context, nodeName, key, va
 		return err
 	}
 
-	res, err := k.ClientSet.CoreV1().Nodes().Patch(ctx, nodeName, types.JSONPatchType, patchAsByte, metav1.PatchOptions{})
+	res, err := k.ClientSet.CoreV1().Nodes().Patch(ctx, nodeName, types.JSONPatchType, patchAsByte, apimetav1.PatchOptions{})
 	if err != nil {
 		err := fmt.Errorf("error when labeling nodes: %s", err)
 		k.Logger.Error(err)
@@ -172,4 +176,108 @@ func (k *KubernetesController) LabelNodes(ctx context.Context, nodeName, key, va
 
 	k.Logger.Infof("success labeling node %s with %s=%s", res.Name, key, val)
 	return nil
+}
+
+// Deploying to image to the nodes
+func (k *KubernetesController) Deploy(ctx context.Context, params DeployParams) (*apiappsv1.Deployment, error) {
+	deployClient := k.ClientSet.AppsV1().Deployments(apiv1.NamespaceDefault)
+
+	deployment := &apiappsv1.Deployment{
+		ObjectMeta: apimetav1.ObjectMeta{
+			Name: params.Name,
+		},
+		Spec: apiappsv1.DeploymentSpec{
+			Replicas: int32Ptr(params.Replica),
+			Selector: &apimetav1.LabelSelector{
+				MatchLabels: params.Labels,
+			},
+			Template: apiv1.PodTemplateSpec{
+				ObjectMeta: apimetav1.ObjectMeta{
+					Labels: params.Labels,
+				},
+				Spec: apiv1.PodSpec{
+					Containers: []apiv1.Container{
+						{
+							Name:  params.Name + "-container",
+							Image: params.Image,
+							Ports: []apiv1.ContainerPort{
+								{
+									Name:          "http",
+									Protocol:      apiv1.ProtocolTCP,
+									ContainerPort: 80,
+								},
+							},
+						},
+					},
+					NodeSelector: params.Targets,
+				},
+			},
+		},
+	}
+
+	res, err := deployClient.Create(ctx, deployment, apimetav1.CreateOptions{})
+
+	// TODO Handle error
+	if kubeerror.IsNotFound(err) {
+		fmt.Println("INI ERR GAKETEMU YA ADIK")
+	}
+
+	if err != nil {
+		return res, err
+	}
+
+	return res, nil
+}
+
+// List all deployments
+func (k *KubernetesController) Get(ctx context.Context, params DeployParams) (*apiappsv1.Deployment, error) {
+	deploymentsClient := k.ClientSet.AppsV1().Deployments(apiv1.NamespaceDefault)
+
+	result, err := deploymentsClient.Get(ctx, params.Name, apimetav1.GetOptions{})
+	if err != nil {
+		return result, err
+	}
+
+	return result, nil
+}
+
+// Update current deployments
+func (k *KubernetesController) Patch(ctx context.Context, params DeployParams) {
+	deploymentsClient := k.ClientSet.AppsV1().Deployments(apiv1.NamespaceDefault)
+
+	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
+		result, getErr := deploymentsClient.Get(ctx, "demo-deployment", apimetav1.GetOptions{})
+		if getErr != nil {
+			panic(fmt.Errorf("Failed to get latest version of Deployment: %v", getErr))
+		}
+
+		// TODO Logic update
+
+		result.Spec.Replicas = int32Ptr(1)
+		result.Spec.Template.Spec.Containers[0].Image = "nginx:1.13"
+		_, updateErr := deploymentsClient.Update(ctx, result, apimetav1.UpdateOptions{})
+		return updateErr
+	})
+
+	if retryErr != nil {
+		panic(fmt.Errorf("Update failed: %v", retryErr))
+	}
+}
+
+// Delete deployments
+func (k *KubernetesController) Delete(ctx context.Context, params DeployParams) error {
+	deploymentsClient := k.ClientSet.AppsV1().Deployments(apiv1.NamespaceDefault)
+
+	deletePolicy := apimetav1.DeletePropagationForeground
+	err := deploymentsClient.Delete(ctx, params.Name, apimetav1.DeleteOptions{
+		PropagationPolicy: &deletePolicy,
+	})
+
+	// TODO Handle Error
+
+	if kubeerror.IsNotFound(err) {
+		fmt.Println("INI ERROR NOT FOUND")
+	}
+
+	return err
 }

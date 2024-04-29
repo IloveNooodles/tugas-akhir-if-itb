@@ -2,9 +2,12 @@ package app
 
 import (
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/controller"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/deployments"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/device"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/groupdevice"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/groups"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/history"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/repositories"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/server"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/user"
@@ -19,6 +22,11 @@ type StartCmd struct {
 func NewStartCmd(dep *Dep) *StartCmd {
 	svr := server.New(dep.Logger, dep.Config)
 	app := svr.App()
+
+	kc, err := controller.New(dep.Logger)
+	if err != nil {
+		panic(err)
+	}
 
 	companyRepo := company.NewRepository(dep.DB, dep.Logger)
 	companyUsecase := company.NewUsecase(dep.Logger, companyRepo)
@@ -50,7 +58,15 @@ func NewStartCmd(dep *Dep) *StartCmd {
 	repositoriesHandler := repositories.NewHandler(dep.Logger, repositoriesUsecase, companyUsecase)
 	repositories.RegisterRoute(repositoriesHandler, app)
 
-  
+	deploymentRepo := deployments.NewRepository(dep.DB, dep.Logger)
+	deploymentUsecase := deployments.NewUsecase(dep.Logger, deploymentRepo, kc)
+	deploymentHandler := deployments.NewHandler(dep.Logger, deploymentUsecase, companyUsecase)
+	deployments.RegisterRoute(deploymentHandler, app)
+
+	historyRepo := history.NewRepository(dep.DB, dep.Logger)
+	historyUsecase := history.NewUsecase(dep.Logger, historyRepo)
+	historyHandler := history.NewHandler(dep.Logger, historyUsecase, companyUsecase)
+	history.RegisterRoute(historyHandler, app)
 
 	return &StartCmd{
 		Server: svr,
