@@ -57,12 +57,20 @@ func (h *Handler) V1Create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
 	}
 
+	var nodeName = req.Name
+	if req.NodeName != "" {
+		nodeName = req.NodeName
+	}
+
 	deviceReq := Device{
 		Name:       req.Name,
 		Type:       req.Type,
 		Attributes: req.Attributes,
 		CompanyID:  companyID,
+		NodeName:   nodeName,
 	}
+
+	// TODO: VALIDATE IF NODE NAME EXISTS
 
 	device, err := h.Usecase.Create(ctx, deviceReq)
 	if err != nil {

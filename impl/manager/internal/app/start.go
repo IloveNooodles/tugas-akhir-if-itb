@@ -5,6 +5,7 @@ import (
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/device"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/groupdevice"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/groups"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/repositories"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/server"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/user"
 	"github.com/sirupsen/logrus"
@@ -43,6 +44,13 @@ func NewStartCmd(dep *Dep) *StartCmd {
 	groupDeviceUsecase := groupdevice.NewUsecase(dep.Logger, groupDeviceRepo)
 	groupDeviceHandler := groupdevice.NewHandler(dep.Logger, groupDeviceUsecase, companyUsecase)
 	groupdevice.RegisterRoute(groupDeviceHandler, app)
+
+	repositoriesRepo := repositories.NewRepository(dep.DB, dep.Logger)
+	repositoriesUsecase := repositories.NewUsecase(dep.Logger, repositoriesRepo)
+	repositoriesHandler := repositories.NewHandler(dep.Logger, repositoriesUsecase, companyUsecase)
+	repositories.RegisterRoute(repositoriesHandler, app)
+
+  
 
 	return &StartCmd{
 		Server: svr,

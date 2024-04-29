@@ -12,6 +12,7 @@ type Device struct {
 	Type       string    `json:"type" db:"type"`
 	CompanyID  uuid.UUID `json:"company_id" db:"company_id"`
 	Attributes string    `json:"attributes" db:"attributes"`
+	NodeName   string    `json:"node_name" db:"node_name"`
 	CreatedAt  time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt  time.Time `json:"updated_at" db:"updated_at"`
 }

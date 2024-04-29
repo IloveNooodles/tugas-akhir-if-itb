@@ -1,1 +1,1 @@
-DROP TABLE IF EXISTS groupdevices;
+DROP TABLE IF EXISTS groupdevices CASCADE;

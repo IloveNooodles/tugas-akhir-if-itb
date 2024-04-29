@@ -1,4 +1,4 @@
-package groups
+package repositories
 
 import (
 	"database/sql"
@@ -57,9 +57,10 @@ func (h *Handler) V1Create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
 	}
 
-	groupRequest := Group{
-		Name:      req.Name,
-		CompanyID: companyID,
+	groupRequest := Repositories{
+		Name:        req.Name,
+		Description: req.Description,
+		Image:       req.Image,
 	}
 
 	user, err := h.Usecase.Create(ctx, groupRequest)
@@ -109,34 +110,4 @@ func (h *Handler) V1AdminGetAll(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: groups})
-}
-
-func (h *Handler) V1GetByDeviceID(c echo.Context) error {
-	ctx := c.Request().Context()
-	companyID, ok := c.Get("companyID").(uuid.UUID)
-	idParam := c.Param("id")
-
-	id, err := uuid.Parse(idParam)
-	if err != nil {
-		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
-	}
-
-	if !ok {
-		h.Logger.Errorf("error when converting company id to string")
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
-	}
-
-	devices, err := h.Usecase.GetDevices(ctx, companyID, id)
-	if errors.Is(err, sql.ErrNoRows) {
-		h.Logger.Errorf("no rows found err: %s", err)
-		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
-	}
-
-	if err != nil {
-		h.Logger.Errorf("error when getting devices with err: %s", err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
-	}
-
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: devices})
 }

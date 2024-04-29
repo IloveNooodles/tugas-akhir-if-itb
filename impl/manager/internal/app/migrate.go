@@ -53,7 +53,20 @@ func (m *MigrateCmd) Up() error {
 }
 
 func (m *MigrateCmd) Down() error {
-	err := m.Migrate.Down()
+	var err error
+	v, d, err := m.Migrate.Version()
+	if err != nil {
+		return fmt.Errorf("error when getting version")
+	}
+
+	if d {
+		err = m.Migrate.Force(int(v))
+		if err != nil {
+			return fmt.Errorf("error when forcing migration to version: %v", v)
+		}
+	}
+
+	err = m.Migrate.Down()
 	if err != nil && !errors.Is(err, migrate.ErrNoChange) {
 		return fmt.Errorf("error when migrate down: %w", err)
 	}

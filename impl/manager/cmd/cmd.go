@@ -30,6 +30,7 @@ func New() *cobra.Command {
 			if err != nil {
 				l.Errorf("error when migrating err: %s", err)
 			}
+			l.Info("success migrate up")
 		},
 	})
 
@@ -43,6 +44,7 @@ func New() *cobra.Command {
 			if err != nil {
 				l.Errorf("error when migrating err: %s", err)
 			}
+			l.Info("success migrate down")
 		},
 	})
 

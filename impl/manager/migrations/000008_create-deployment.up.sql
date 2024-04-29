@@ -5,5 +5,5 @@ CREATE TABLE IF NOT EXISTS deployments (
   version VARCHAR(255) NOT NULL,
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  FOREIGN KEY (repository_id) REFERENCES deployment_repositories(id)
+  FOREIGN KEY (repository_id) REFERENCES deployment_repositories(id) ON DELETE CASCADE
 );

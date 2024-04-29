@@ -3,9 +3,10 @@ CREATE TABLE IF NOT EXISTS deployment_histories (
   device_id UUID NOT NULL,
   image_id UUID NOT NULL,
   deployment_id UUID NOT NULL,
-  status VARCHAR(255) NOT NULL DEFAULT "PREPARING",
+  status VARCHAR(255) NOT NULL DEFAULT 'PREPARING',
   created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
   updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  FOREIGN KEY (device_id) REFERENCES devices(id),
-  FOREIGN KEY (image_id) REFERENCES deployment_repositories(id)
+  FOREIGN KEY (device_id) REFERENCES devices(id) ON DELETE CASCADE,
+  FOREIGN KEY (image_id) REFERENCES deployment_repositories(id) ON DELETE CASCADE,
+  FOREIGN KEY (deployment_id) REFERENCES deployments(id) ON DELETE CASCADE
 );
