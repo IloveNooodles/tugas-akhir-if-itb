@@ -1,3 +1,4 @@
+
 package deployments
 
 import (
@@ -14,6 +15,19 @@ type Deployment struct {
 	Target       string    `json:"target" db:"target"`
 	CreatedAt    time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt    time.Time `json:"updated_at" db:"updated_at"`
+}
+
+type DeploymentWithRepository struct {
+	ID                    uuid.UUID `json:"id" db:"id"`
+	RepositoryID          uuid.UUID `json:"repository_id" db:"repository_id"`
+	Name                  string    `json:"name" db:"name"`
+	Version               string    `json:"version" db:"version"`
+	Target                string    `json:"target" db:"target"`
+	RepositoryName        string    `json:"repository_name" db:"repository_name"`
+	RepositoryDescription string    `json:"repository_description" db:"repository_description"`
+	RepositoryImage       string    `json:"repository_image" db:"repository_image"`
+	CreatedAt             time.Time `json:"created_at" db:"created_at"`
+	UpdatedAt             time.Time `json:"updated_at" db:"updated_at"`
 }
 
 type V0Deployment struct {

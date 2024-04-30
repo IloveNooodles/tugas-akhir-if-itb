@@ -58,3 +58,29 @@ func (r *Repository) GetAll(ctx context.Context) ([]Deployment, error) {
 
 	return listDeployment, nil
 }
+
+func (r *Repository) GetDeploymentWithRepository(ctx context.Context, id uuid.UUID) (DeploymentWithRepository, error) {
+	dr := DeploymentWithRepository{}
+	q := `select 
+    d.id, d."name", 
+    d."version", 
+    d.created_at, 
+    d.updated_at, 
+    d.target,  
+    dr."name" repository_name,
+    dr.description repository_description,
+    dr.image repository_image
+  from deployments d 
+  join deployment_repositories dr 
+  on d.repository_id = dr.id
+  WHERE d.id = $1`
+	err := r.DB.GetContext(ctx, &dr, q, id)
+
+	if err != nil {
+		r.Logger.Errorf("error when getting list of groups err: %s", err)
+		return dr, err
+	}
+
+	return dr, nil
+
+}

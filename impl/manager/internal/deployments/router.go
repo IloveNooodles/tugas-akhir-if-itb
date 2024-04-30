@@ -12,6 +12,7 @@ func RegisterRoute(h Handler, e *echo.Echo) {
 	deploymentsRoute.Use(middleware.ValidateJWT)
 	deploymentsRoute.POST("", h.V1Create)
 	deploymentsRoute.GET("/:id", h.V1GetByID)
+	deploymentsRoute.POST("/deploy", h.V1Deploy)
 
 	admindeploymentsRoute.Use(middleware.ValidateAdminAPIKey)
 	admindeploymentsRoute.GET("", h.V1AdminGetAll)

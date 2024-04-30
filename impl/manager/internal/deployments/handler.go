@@ -112,3 +112,45 @@ func (h *Handler) V1AdminGetAll(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: groups})
 }
+
+func (h *Handler) V1Deploy(c echo.Context) error {
+	req := DeploymentRequest{}
+	ctx := c.Request().Context()
+	companyID, ok := c.Get("companyID").(uuid.UUID)
+
+	if !ok {
+		h.Logger.Errorf("error when converting company id to string")
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
+	}
+
+	if err := c.Bind(&req); err != nil {
+		err := fmt.Errorf("error when receiving request err: %s", err)
+		h.Logger.Error(err)
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	v := validator.New()
+	if err := v.StructCtx(ctx, &req); err != nil {
+		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
+		h.Logger.Error(err)
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	if _, err := h.CompanyUsecase.GetByID(ctx, companyID); err != nil {
+		err := fmt.Errorf("invalid companyID %s, err: %s", companyID, err)
+		h.Logger.Error(err)
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	listDeployment, errs := h.Usecase.Deploy(ctx, req.DeploymentIDs)
+	if len(errs) != 0 {
+		errStr := ""
+		for _, e := range errs {
+			errStr += e.Error() + ","
+		}
+		h.Logger.Errorf("error when deploying deployment err: %s", errStr)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: errStr})
+	}
+
+	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: listDeployment})
+}
