@@ -76,3 +76,42 @@ func (u *Usecase) Deploy(ctx context.Context, deploymentIds uuid.UUIDs) ([]*v1.D
 
 	return listRes, listError
 }
+
+func (u *Usecase) DeleteDeploy(ctx context.Context, deploymentIds uuid.UUIDs) []error {
+	var listError = make([]error, 0)
+
+	for _, deploymentId := range deploymentIds {
+		deployment, err := u.Repo.GetDeploymentWithRepository(ctx, deploymentId)
+		if err != nil {
+			err := fmt.Errorf("error when doing deployment with id: %s, err: %s", deploymentId, err)
+			u.Logger.Error(err)
+			listError = append(listError, err)
+			continue
+		}
+
+		// TODO label selector
+		// TODO function to convert database to label / match
+		// TODO Validate string by , separated
+		// TODO Add replica
+
+		labels := convertTargetToMap(deployment.Target)
+
+		p := controller.DeployParams{
+			Replica: 1,
+			Name:    deployment.Name,
+			Image:   deployment.RepositoryImage,
+			Labels:  labels,
+			Targets: labels,
+		}
+
+		err = u.kc.Delete(ctx, p)
+		if err != nil {
+			err := fmt.Errorf("error when deploying deployments with id: %s, err: %s", deploymentId, err)
+			u.Logger.Error(err)
+			listError = append(listError, err)
+		}
+
+	}
+
+	return listError
+}

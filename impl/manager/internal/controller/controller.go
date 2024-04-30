@@ -178,6 +178,10 @@ func (k *KubernetesController) LabelNodes(ctx context.Context, nodeName, key, va
 	return nil
 }
 
+// TODO IMAGE DUMMY BUAT IOT
+// smart campus raspi di beberapa titik sensornya beberapa
+//
+
 // Deploying to image to the nodes
 func (k *KubernetesController) Deploy(ctx context.Context, params DeployParams) (*apiappsv1.Deployment, error) {
 	deployClient := k.ClientSet.AppsV1().Deployments(apiv1.NamespaceDefault)

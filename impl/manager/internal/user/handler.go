@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/auth"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
@@ -122,13 +123,63 @@ func (h *Handler) V1Login(c echo.Context) error {
 		CompanyID: user.CompanyID,
 	}
 
-	token, err := auth.CreateAndSignToken(myClaims, auth.Authentication)
+	accessToken, refreshToken, err := auth.CreateAndSignToken(myClaims, auth.Authentication)
 	if err != nil {
 		h.Logger.Errorf("error when creating token err: %s", err)
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "server error"})
 	}
 
-	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: token})
+	expiredAt := time.Now().Add(auth.LoginExpiration)
+
+	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: LoginResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		ExpiredAt:    expiredAt,
+	}})
+}
+
+func (h *Handler) V1Refresh(c echo.Context) error {
+	req := RefreshRequest{}
+	ctx := c.Request().Context()
+
+	if err := c.Bind(&req); err != nil {
+		err := fmt.Errorf("error when receiving request err: %s", err)
+		h.Logger.Error(err)
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	v := validator.New()
+	if err := v.StructCtx(ctx, &req); err != nil {
+		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
+		h.Logger.Error(err)
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	rt, err := auth.ValidateToken(req.RefreshToken)
+	if err != nil {
+		h.Logger.Errorf("error when validating refresh token: %v, err: %s", rt, err)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "Invalid token"})
+	}
+
+	claims, ok := rt.Claims.(*auth.JwtClaims)
+	if !ok {
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "server error"})
+
+	}
+
+	accessToken, refreshToken, err := auth.GeneratePairToken(*claims)
+	if err != nil {
+		h.Logger.Errorf("error when creating token err: %s", err)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "server error"})
+	}
+
+	expiredAt := time.Now().Add(auth.LoginExpiration)
+
+	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: LoginResponse{
+		AccessToken:  accessToken,
+		RefreshToken: refreshToken,
+		ExpiredAt:    expiredAt,
+	}})
 }
 
 func (h *Handler) V1AdminGetAll(c echo.Context) error {
