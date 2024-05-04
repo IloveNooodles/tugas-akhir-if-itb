@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { FormSubmitEvent } from '#ui/types';
-import { login } from '@/api/user/auth';
 import {
   type UserLoginSchema as Schema,
   userLoginSchema as schema,
 } from '@/types/user';
 import { FetchError } from 'ofetch';
+import { login } from '~/api/auth';
 
-const { set } = useAuthStore();
+// const { set } = useAuthStore();
 const { $toast } = useNuxtApp();
 
 const state = ref({
@@ -20,14 +20,20 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   try {
     const response = await login(body);
     $toast.success('Success Login, redirecting');
-    set(response.data);
+    // const { access_token, refresh_token } = response.data;
+
     await navigateTo('/');
   } catch (err: any) {
     if (err instanceof FetchError) {
       $toast.error(err.data.message);
+      return;
     }
   }
 }
+
+definePageMeta({
+  layout: false,
+});
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <template>
   <UContainer>
-    <h1>deployment</h1>
+    <h1>Devices</h1>
   </UContainer>
 </template>

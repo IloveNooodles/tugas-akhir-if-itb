@@ -1,24 +1,38 @@
+<script setup lang="ts">
+const links = [
+  {
+    label: 'Dashboard',
+    icon: 'i-heroicons-home',
+    to: '/',
+  },
+  {
+    label: 'Account',
+    icon: 'i-heroicons-user-group',
+    to: '/account',
+  },
+  {
+    label: 'Devices',
+    icon: 'i-heroicons-device-phone-mobile',
+    to: '/devices',
+  },
+  {
+    label: 'Groups',
+    icon: 'i-heroicons-archive-box',
+    to: '/groups',
+  },
+  {
+    label: 'Deployments',
+    icon: 'i-heroicons-command-line',
+    to: '/deployments',
+  },
+];
+</script>
+
 <template>
-  <nav class="flex flex-col justify-between">
-    <ul>
-      <div>
-        <li>
-          <NuxtLink to="/account">account</NuxtLink>
-        </li>
-        <li><NuxtLink to="/devices">devices</NuxtLink></li>
-        <li><NuxtLink to="/groups">groups</NuxtLink></li>
-        <li>
-          <NuxtLink to="/deployments">deployments</NuxtLink>
-        </li>
-        <li>
-          <NuxtLink to="/recipes">Recipes</NuxtLink>
-        </li>
-      </div>
-      <li>
-        <NuxtLink to="logout">logout</NuxtLink>
-      </li>
-    </ul>
-  </nav>
+  <section class="flex flex-col justify-between min-h-[100vh] p-4 bg-[#0e172a]">
+    <UVerticalNavigation :links="links" />
+    <Logout />
+  </section>
 </template>
 
 <style></style>

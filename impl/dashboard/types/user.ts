@@ -1,13 +1,12 @@
 import { z } from 'zod';
 
 export interface User {
-  ID: string;
-  Name: string;
-  Email: string;
-  Password: string;
-  CompanyID: string;
-  CreatedAt: string;
-  UpdatedAt: string;
+  id: string;
+  name: string;
+  email: string;
+  company_id: string;
+  created_at: string;
+  updated_at: string;
 }
 
 export const userLoginSchema = z.object({
@@ -17,5 +16,16 @@ export const userLoginSchema = z.object({
 
 export type UserLoginSchema = z.infer<typeof userLoginSchema>;
 export interface UserLoginResponse {
-  data: string;
+  data: {
+    access_token: string;
+    refresh_token: string;
+  };
+}
+
+export interface GetUserResponse {
+  data: User;
+}
+
+export interface GetAllUsersResponse {
+  data: Array<User>;
 }

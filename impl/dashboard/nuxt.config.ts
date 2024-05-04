@@ -1,6 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  devtools: { enabled: true },
+  devtools: {
+    enabled: true,
+    timeline: {
+      enabled: true,
+    },
+  },
   modules: ['@nuxt/ui', '@pinia/nuxt'],
   runtimeConfig: {
     public: {
@@ -9,4 +14,23 @@ export default defineNuxtConfig({
       adminApiKey: 'inicontohadminapikey',
     },
   },
+  app: {
+    head: {
+      title: 'Remote Deployment',
+      charset: 'utf-8',
+      viewport: 'width=device-width, initial-scale=1',
+      meta: [
+        {
+          name: 'description',
+          content: 'Remote deployment description',
+        },
+      ],
+    },
+    pageTransition: { name: 'page', mode: 'out-in' },
+  },
+  typescript: {
+    typeCheck: true,
+    strict: false,
+  },
+  css: ['~/assets/css/tailwind.css', '~/assets/css/index.css'],
 });

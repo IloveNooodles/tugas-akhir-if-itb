@@ -1,10 +1,10 @@
 export interface Device {
-  ID: string;
-  Name: string;
-  Type: string;
-  CompanyID: string;
-  Attributes: string;
-  NodeName: string;
-  CreatedAt: string;
-  UpdatedAt: string;
+  id: string;
+  name: string;
+  type: string;
+  company_id: string;
+  attributes: string;
+  node_name: string;
+  created_at: string;
+  updated_at: string;
 }

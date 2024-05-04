@@ -1,7 +1,7 @@
 export interface Company {
-  ID: string;
-  Name: string;
-  ClusterName: string;
-  CreatedAt: string;
-  UpdatedAt: string;
+  id: string;
+  name: string;
+  cluster_name: string;
+  created_at: string;
+  updated_at: string;
 }

@@ -1,6 +1,16 @@
+const isAuthenticated = () => {
+  const accessToken = useCookie('accessToken');
+  const refreshToken = useCookie('refreshToken');
+
+  // console.log('AT, RT', accessToken.value, refreshToken.value);
+
+  if (!accessToken.value || !refreshToken.value) return false;
+
+  return true;
+};
+
 export default defineNuxtRouteMiddleware((to, from) => {
   const nuxtApp = useNuxtApp();
-  const token = useAuthStore().get();
 
   if (
     import.meta.client &&
@@ -8,7 +18,8 @@ export default defineNuxtRouteMiddleware((to, from) => {
     nuxtApp.payload.serverRendered
   )
     return;
-  if (!token) {
-    return navigateTo('/login');
-  }
+
+  // if (!isAuthenticated()) {
+  //   return navigateTo('/login');
+  // }
 });
