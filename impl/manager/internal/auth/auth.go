@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"net/http"
 	"time"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/config"
@@ -16,7 +17,7 @@ import (
 
 var (
 	JWTSigningMethod  = jwt.SigningMethodHS256
-	LoginExpiration   = time.Duration(15) * time.Minute
+	LoginExpiration   = time.Duration(1) * time.Minute
 	RefreshExpiration = time.Duration(1) * time.Hour
 	cfg               = config.Config{}
 )
@@ -105,4 +106,16 @@ func ValidateToken(signedToken string) (*jwt.Token, error) {
 	}
 
 	return token, nil
+}
+
+func CreateCookie(key, val string, age int) *http.Cookie {
+	return &http.Cookie{
+		Name:     key,
+		Value:    val,
+		MaxAge:   age,
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   true,
+		SameSite: http.SameSiteLaxMode,
+	}
 }

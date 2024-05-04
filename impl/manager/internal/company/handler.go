@@ -58,22 +58,21 @@ func (h *Handler) V1Create(c echo.Context) error {
 
 func (h *Handler) V1GetByID(c echo.Context) error {
 	ctx := c.Request().Context()
-	idParam := c.Param("id")
+	companyID, ok := c.Get("companyID").(uuid.UUID)
 
-	id, err := uuid.Parse(idParam)
-	if err != nil {
-		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+	if !ok {
+		h.Logger.Errorf("error when converting company id to string")
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
 	}
 
-	user, err := h.Usecase.GetByID(ctx, id)
+	user, err := h.Usecase.GetByID(ctx, companyID)
 	if errors.Is(err, sql.ErrNoRows) {
-		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
+		h.Logger.Errorf("no rows found id: %s, err: %s", companyID, err)
 		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
+		h.Logger.Errorf("error when getting user with id: %s, err: %s", companyID, err)
 		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
 	}
 

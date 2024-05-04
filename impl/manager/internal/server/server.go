@@ -27,7 +27,13 @@ func New(l *logrus.Logger, cfg config.Config) Server {
 	e := echo.New()
 	e.Logger.SetOutput(l.Writer())
 
-	e.Use(middleware.CORS())
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowCredentials: true,
+		AllowOrigins:     []string{cfg.FEURL},
+		AllowMethods:     []string{"GET", "POST", "PATCH", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{""},
+	}))
+
 	e.Use(middleware.Recover())
 	e.Use(m.ValidateAPIKey)
 

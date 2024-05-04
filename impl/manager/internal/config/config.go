@@ -17,6 +17,7 @@ type Config struct {
 	AdminAPIKey      string
 	Port             int
 	JWTKey           string
+	FEURL            string
 }
 
 func New() Config {
@@ -45,6 +46,7 @@ func New() Config {
 		Port:             v.GetInt("APP_PORT"),
 		JWTKey:           v.GetString("APP_JWT_KEY"),
 		AdminAPIKey:      v.GetString("APP_ADMIN_API_KEY"),
+		FEURL:            v.GetString("APP_FE_URL"),
 	}
 
 	return cfg

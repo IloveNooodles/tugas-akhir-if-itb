@@ -39,8 +39,18 @@ func ValidateAdminAPIKey(next echo.HandlerFunc) echo.HandlerFunc {
 
 func ValidateJWT(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		authToken := c.Request().Header.Get("Authorization")
+		// Cookie method
+		var authToken = ""
+		cookies := c.Cookies()
+		for _, ck := range cookies {
+			if ck.Name == "accessToken" {
+				authToken = ck.Value
+			}
+		}
+
+		// authToken := c.Request().Header.Get("Authorization")
 		validToken, err := auth.ValidateToken(authToken)
+
 		if err != nil {
 			return c.JSON(http.StatusUnauthorized, dto.ErrorResponse{Message: "invalid token"})
 		}

@@ -130,8 +130,13 @@ func (h *Handler) V1Login(c echo.Context) error {
 	}
 
 	expiredAt := time.Now().Add(auth.LoginExpiration)
+	atCookie := auth.CreateCookie("accessToken", accessToken, 60*60)
+	rtCookie := auth.CreateCookie("refreshToken", refreshToken, 24*60*60)
 
-	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: LoginResponse{
+	c.SetCookie(atCookie)
+	c.SetCookie(rtCookie)
+
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: LoginResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		ExpiredAt:    expiredAt,
@@ -139,26 +144,23 @@ func (h *Handler) V1Login(c echo.Context) error {
 }
 
 func (h *Handler) V1Refresh(c echo.Context) error {
-	req := RefreshRequest{}
-	ctx := c.Request().Context()
+	var refreshToken = ""
+	cookies := c.Cookies()
 
-	if err := c.Bind(&req); err != nil {
-		err := fmt.Errorf("error when receiving request err: %s", err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+	for _, ck := range cookies {
+		if ck.Name == "refreshToken" {
+			refreshToken = ck.Value
+		}
 	}
 
-	v := validator.New()
-	if err := v.StructCtx(ctx, &req); err != nil {
-		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+	if refreshToken == "" {
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: "invalid token"})
 	}
 
-	rt, err := auth.ValidateToken(req.RefreshToken)
+	rt, err := auth.ValidateToken(refreshToken)
 	if err != nil {
 		h.Logger.Errorf("error when validating refresh token: %v, err: %s", rt, err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "Invalid token"})
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: "invalid token"})
 	}
 
 	claims, ok := rt.Claims.(*auth.JwtClaims)
@@ -174,12 +176,40 @@ func (h *Handler) V1Refresh(c echo.Context) error {
 	}
 
 	expiredAt := time.Now().Add(auth.LoginExpiration)
+	atCookie := auth.CreateCookie("accessToken", accessToken, 60*60)
+	rtCookie := auth.CreateCookie("refreshToken", refreshToken, 24*60*60)
 
-	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: LoginResponse{
+	c.SetCookie(atCookie)
+	c.SetCookie(rtCookie)
+
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: LoginResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		ExpiredAt:    expiredAt,
 	}})
+}
+
+func (h *Handler) V1GetAll(c echo.Context) error {
+	ctx := c.Request().Context()
+	companyID, ok := c.Get("companyID").(uuid.UUID)
+
+	if !ok {
+		h.Logger.Errorf("error when converting company id to string")
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
+	}
+
+	user, err := h.Usecase.GetAllByCompanyID(ctx, companyID)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found err: %s", err)
+		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+	}
+
+	if err != nil {
+		h.Logger.Errorf("error when getting users with err: %s", err)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: user})
 }
 
 func (h *Handler) V1AdminGetAll(c echo.Context) error {

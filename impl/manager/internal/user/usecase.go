@@ -53,3 +53,7 @@ func (u *Usecase) Login(ctx context.Context, email, password string) (User, erro
 func (u *Usecase) GetAll(ctx context.Context) ([]User, error) {
 	return u.Repo.GetAll(ctx)
 }
+
+func (u *Usecase) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]User, error) {
+	return u.Repo.GetAllByCompanyID(ctx, companyID)
+}

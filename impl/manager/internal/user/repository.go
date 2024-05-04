@@ -71,3 +71,16 @@ func (r *Repository) GetAll(ctx context.Context) ([]User, error) {
 
 	return users, nil
 }
+
+func (r *Repository) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]User, error) {
+	users := make([]User, 0)
+	q := `SELECT * FROM users WHERE company_id = $1`
+	err := r.DB.SelectContext(ctx, &users, q, companyID)
+
+	if err != nil {
+		r.Logger.Errorf("error when get users err: %s", err)
+		return users, err
+	}
+
+	return users, nil
+}

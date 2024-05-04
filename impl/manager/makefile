@@ -9,3 +9,6 @@ migrate-down:
 
 manager:
 	go run main.go start
+
+docker:
+	docker compose up -d
