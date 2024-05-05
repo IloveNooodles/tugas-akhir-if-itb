@@ -1,7 +1,7 @@
-import type { Company } from '~/types/company';
+import type { CompanyUser } from '~/types/company';
 import type { Response } from '~/types/response';
 
-function transformGetCompanyDetail(res: Response<Company>) {
+function transformGetCompanyDetail(res: Response<CompanyUser>) {
   return res.data;
 }
 

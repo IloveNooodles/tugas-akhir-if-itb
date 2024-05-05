@@ -8,7 +8,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const { user, pending } = props;
-const { name, company_id, created_at, email, id, updated_at } = user;
+const { name, created_at, email, updated_at } = user;
 
 const createdAt = formatDate(created_at);
 const updatedAt = formatDate(updated_at);

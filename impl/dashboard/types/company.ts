@@ -5,3 +5,8 @@ export interface Company {
   created_at: string;
   updated_at: string;
 }
+
+export interface CompanyUser extends Company {
+  username: string;
+  email: string;
+}

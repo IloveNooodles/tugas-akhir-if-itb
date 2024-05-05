@@ -8,7 +8,7 @@ interface Props {
 
 const props = defineProps<Props>();
 const { users, pending } = props;
-
+// TODO remove unrelated fields like created_at, updated_at, id
 const selected = ref([]);
 const dropdownItems = (row) => [
   [
