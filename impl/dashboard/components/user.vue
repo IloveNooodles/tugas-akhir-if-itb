@@ -1,14 +1,14 @@
 <script setup lang="ts">
-import type { Company } from '~/types/company';
+import type { User } from '~/types/user';
 
 interface Props {
-  company: Company;
+  user: User;
   pending: boolean;
 }
 
 const props = defineProps<Props>();
-const { company, pending } = props;
-const { name, cluster_name, created_at, id, updated_at } = company;
+const { user, pending } = props;
+const { name, company_id, created_at, email, id, updated_at } = user;
 
 const createdAt = formatDate(created_at);
 const updatedAt = formatDate(updated_at);
@@ -19,8 +19,8 @@ const updatedAt = formatDate(updated_at);
     <h1>Loading</h1>
   </UCard>
   <UCard v-else>
-    <h2>{{ name }}</h2>
-    <h3>Cluster Name: {{ cluster_name }}</h3>
+    <h2 class="font-bold">Welcome {{ name }}</h2>
+    <p class="">{{ email }}</p>
     <p>Created At: {{ createdAt }}</p>
     <p>Updated At: {{ updatedAt }}</p>
   </UCard>
