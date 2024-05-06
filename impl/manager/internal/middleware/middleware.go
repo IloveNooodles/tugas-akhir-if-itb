@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/auth"
@@ -47,6 +48,8 @@ func ValidateJWT(next echo.HandlerFunc) echo.HandlerFunc {
 				authToken = ck.Value
 			}
 		}
+
+		fmt.Println(authToken)
 
 		// authToken := c.Request().Header.Get("Authorization")
 		validToken, err := auth.ValidateToken(authToken)

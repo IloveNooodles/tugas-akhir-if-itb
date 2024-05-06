@@ -13,3 +13,9 @@ type Company struct {
 	CreatedAt   time.Time `json:"created_at" db:"created_at"`
 	UpdatedAt   time.Time `json:"updated_at" db:"updated_at"`
 }
+
+type CompanyUser struct {
+	Company
+	UserName  string `json:"username" db:"username"`
+	UserEmail string `json:"email" db:"email"`
+}

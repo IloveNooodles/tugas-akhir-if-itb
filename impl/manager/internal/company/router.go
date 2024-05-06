@@ -10,7 +10,7 @@ func RegisterRoute(h Handler, e *echo.Echo) {
 	adminCompaniesRoute := e.Group("/admin-api/v1/companies")
 
 	companiesRoute.POST("", h.V1Create)
-	companiesRoute.GET("", h.V1GetByID, middleware.ValidateJWT)
+	companiesRoute.GET("", h.V1GetCompanyAndLoggedInUser, middleware.ValidateJWT)
 
 	adminCompaniesRoute.GET("", h.V1AdminGetAll, middleware.ValidateAdminAPIKey, middleware.ValidateJWT)
 }

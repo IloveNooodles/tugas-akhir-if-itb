@@ -94,3 +94,27 @@ func (h *Handler) V1AdminGetAll(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: companies})
 }
+
+func (h *Handler) V1GetCompanyAndLoggedInUser(c echo.Context) error {
+	ctx := c.Request().Context()
+	companyID, companyOk := c.Get("companyID").(uuid.UUID)
+	userID, userOK := c.Get("userID").(uuid.UUID)
+
+	if !userOK || !companyOk {
+		h.Logger.Errorf("error when converting context info to string, companyID: %s, userID: %s", companyID, userID)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
+	}
+
+	user, err := h.Usecase.GetCompanyAndLoggedInUser(ctx, companyID, userID)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found id: %s, err: %s", companyID, err)
+		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+	}
+
+	if err != nil {
+		h.Logger.Errorf("error when getting user with id: %s, err: %s", companyID, err)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: user})
+}
