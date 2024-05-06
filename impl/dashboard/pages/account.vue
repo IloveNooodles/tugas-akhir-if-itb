@@ -24,6 +24,8 @@ const columns = computed(() => {
     'company_id',
   ]);
 });
+
+const dropdownList = dropdownItems;
 </script>
 
 <template>
@@ -44,7 +46,7 @@ const columns = computed(() => {
         :data="usersData"
         :pending="usersPending"
         :columns="columns"
-        :dropdown-items="dropdownItems"
+        :dropdown-items="dropdownList"
         :error="usersError"
       />
     </div>
