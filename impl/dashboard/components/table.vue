@@ -1,59 +1,33 @@
-<script setup lang="ts">
-import type { User } from '~/types/user';
+<script setup lang="ts" generic="T">
+import type { DropdownItem } from '#ui/types/dropdown';
 
 interface Props {
-  users: User[] | null;
+  data: T[] | null;
   pending: boolean;
+  columns: {
+    [key: string]: any;
+    key: string;
+    sortable?: boolean | undefined;
+    sort?: ((a: any, b: any, direction: 'asc' | 'desc') => number) | undefined;
+    direction?: 'asc' | 'desc' | undefined;
+    class?: string | undefined;
+  }[];
+  dropdownItems: DropdownItem[][];
   error?: any;
 }
 
 const props = defineProps<Props>();
-const dropdownItems = computed(() => [
-  [
-    {
-      label: 'Edit',
-      icon: 'i-heroicons-pencil-square-20-solid',
-    },
-    {
-      label: 'Duplicate',
-      icon: 'i-heroicons-document-duplicate-20-solid',
-    },
-  ],
-  [
-    {
-      label: 'Archive',
-      icon: 'i-heroicons-archive-box-20-solid',
-    },
-    {
-      label: 'Move',
-      icon: 'i-heroicons-arrow-right-circle-20-solid',
-    },
-  ],
-  [
-    {
-      label: 'Delete',
-      icon: 'i-heroicons-trash-20-solid',
-    },
-  ],
-]);
-const columns = computed(() => {
-  return generateColumnsFromArray(props.users, [
-    'created_at',
-    'updated_at',
-    'company_id',
-  ]);
-});
 </script>
 
 <template>
   <UCard v-if="pending">
     <Loading />
   </UCard>
-  <UCard v-else-if="error || !users">
+  <UCard v-else-if="error || !data">
     <div>Sorry, we're having an issue please try again</div>
   </UCard>
   <UTable
-    :rows="users"
+    :rows="data"
     :columns="columns"
     :loading="false"
     class="bg-slate-900 rounded-lg"

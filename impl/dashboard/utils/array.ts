@@ -27,3 +27,5 @@ export function generateColumnsFromArray<T>(arr: T[], filter?: string[]) {
   res = res.filter((item) => !filter.includes(item.key));
   return res;
 }
+
+

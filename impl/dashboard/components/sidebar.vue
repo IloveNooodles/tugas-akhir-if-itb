@@ -25,6 +25,11 @@ const links = [
     icon: 'i-heroicons-command-line',
     to: '/deployments',
   },
+  {
+    label: 'FAQ',
+    icon: 'i-heroicons-question-mark-circle',
+    to: '/faq',
+  },
 ];
 </script>
 

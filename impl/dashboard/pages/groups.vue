@@ -1,5 +1,6 @@
 <template>
   <UContainer>
-    <h1>Groups</h1>
+    <h1 class="text-center">Groups</h1>
+    <UDivider />
   </UContainer>
 </template>

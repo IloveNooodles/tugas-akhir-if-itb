@@ -7,7 +7,9 @@
     <div
       class="content flex flex-col flex-1 bg-slate-950 justify-between max-w-full width"
     >
-      <slot class="flex-1 h-full min-h-full" />
+      <div class="flex-1 h-full p-4">
+        <slot />
+      </div>
       <Footer />
     </div>
   </main>
