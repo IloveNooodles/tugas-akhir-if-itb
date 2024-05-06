@@ -2,15 +2,13 @@
 import type { User } from '~/types/user';
 
 interface Props {
-  users: User[];
+  users: User[] | null;
   pending: boolean;
+  error?: any;
 }
 
 const props = defineProps<Props>();
-const { users, pending } = props;
-// TODO remove unrelated fields like created_at, updated_at, id
-const selected = ref([]);
-const dropdownItems = (row) => [
+const dropdownItems = computed(() => (row) => [
   [
     {
       label: 'Edit',
@@ -38,39 +36,44 @@ const dropdownItems = (row) => [
       icon: 'i-heroicons-trash-20-solid',
     },
   ],
-];
-const columns = generateColumnsFromArray(users);
+]);
+const columns = computed(() => {
+  return generateColumnsFromArray(props.users, [
+    'created_at',
+    'updated_at',
+    'company_id',
+  ]);
+});
 </script>
 
 <template>
-  <div>
-    <UTable
-      :rows="users"
-      :columns="columns"
-      v-model="selected"
-      :loading="false"
-      class="bg-slate-900 rounded-lg"
-    >
-      <template #actions-data="{ row }">
-        <UDropdown :items="dropdownItems(row)">
-          <UButton
-            color="gray"
-            variant="ghost"
-            icon="i-heroicons-ellipsis-horizontal-20-solid"
-          />
-        </UDropdown>
-      </template>
-      <template #loading-state>
-        <div class="flex items-center justify-center h-32">
-          <i class="loader --6" />
-        </div>
-      </template>
-      <template #empty-state>
-        <div class="flex flex-col items-center justify-center py-6 gap-3">
-          <span class="italic text-sm">No one here!</span>
-          <UButton label="Add people" />
-        </div>
-      </template>
-    </UTable>
-  </div>
+  <UCard v-if="pending">
+    <Loading />
+  </UCard>
+  <UCard v-else-if="error || !users">
+    <div>Sorry, we're having an issue please try again</div>
+  </UCard>
+  <UTable
+    :rows="users"
+    :columns="columns"
+    :loading="false"
+    class="bg-slate-900 rounded-lg"
+    v-else
+  >
+    <template #actions-data="{ row }">
+      <UDropdown :items="dropdownItems(row)">
+        <UButton
+          color="gray"
+          variant="ghost"
+          icon="i-heroicons-ellipsis-horizontal-20-solid"
+        />
+      </UDropdown>
+    </template>
+    <template #empty-state>
+      <div class="flex flex-col items-center justify-center py-6 gap-3">
+        <span class="italic text-sm">No one here!</span>
+        <UButton label="Add people" />
+      </div>
+    </template>
+  </UTable>
 </template>

@@ -2,33 +2,35 @@
 import type { CompanyUser } from '~/types/company';
 
 interface Props {
-  company: CompanyUser;
+  company: CompanyUser | null;
   pending: boolean;
+  error?: any;
 }
 
 const props = defineProps<Props>();
-const { company, pending } = props;
-const { name, cluster_name, email, username } = company;
 </script>
 
 <template>
   <UCard v-if="pending">
-    <h1>Loading</h1>
+    <Loading />
+  </UCard>
+  <UCard v-else-if="error || !company">
+    <div>Sorry, we're having an issue please try again</div>
   </UCard>
   <UCard v-else>
     <h2>
       Welcome,
       <span class="text-bold">
-        {{ username }}
+        {{ company.username }}
       </span>
     </h2>
-    <h3 class="text-gray-200">Company: {{ name }}</h3>
+    <h3 class="text-gray-200">Company: {{ company.name }}</h3>
     <h3 class="text-gray-400">
       Server:
       <span>
-        {{ cluster_name }}
+        {{ company.cluster_name }}
       </span>
     </h3>
-    <p class="text-gray-500">Logged in as: {{ email }}</p>
+    <p class="text-gray-500">Logged in as: {{ company.email }}</p>
   </UCard>
 </template>

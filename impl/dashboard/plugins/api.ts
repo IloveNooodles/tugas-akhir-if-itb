@@ -1,7 +1,9 @@
+import { callWithNuxt } from '#app';
 import { refresh } from '~/api/auth';
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const config = useRuntimeConfig();
+  const nxtApp = useNuxtApp()
 
   async function createApiClient() {
     const {
@@ -12,23 +14,23 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       baseURL,
       headers: {
         ['X-API-Key']: apiKey,
-        ['X-Admin-API-Key']: adminApiKey ?? '', // Optional admin key
+        ['X-Admin-API-Key']: adminApiKey ?? '',
       },
-      async onResponseError({ options, request, response }) {
+      onResponseError({ error, request, response }) {
         if (response.status === 401) {
           try {
-            await refresh();
-            // Update headers or store tokens as needed
+            refresh(nxtApp);
           } catch (err) {
-            console.error('API refresh error:', err);
-            // Handle refresh error gracefully (e.g., logout)
+            callWithNuxt(nxtApp, () =>
+              navigateTo('/login', { redirectCode: 301 }),
+            );
           }
         }
       },
       credentials: 'include',
-      retry: 1,
-      retryDelay: 1000,
-      retryStatusCodes: [401, 408, 409, 425, 429, 500, 502, 503, 504],
+      retry: 2,
+      retryDelay: 2000,
+      timeout: 500,
     });
 
     return instance;

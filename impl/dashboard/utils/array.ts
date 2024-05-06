@@ -1,4 +1,4 @@
-export function generateColumnsFromArray<T>(arr: T[]) {
+export function generateColumnsFromArray<T>(arr: T[], filter?: string[]) {
   const result: {
     [key: string]: any;
     key: string;
@@ -8,12 +8,12 @@ export function generateColumnsFromArray<T>(arr: T[]) {
     class?: string | undefined;
   }[] = [];
 
-  if (arr.length === 0) {
-    return result;
+  if (!arr || arr.length === 0) {
+    return [];
   }
 
   const firstEle = arr[0];
-  const res = Object.entries(firstEle).map(([k, v]) => {
+  let res = Object.entries(firstEle).map(([k, v]) => {
     const transformed: Column = {
       key: k,
       label: k,
@@ -24,5 +24,6 @@ export function generateColumnsFromArray<T>(arr: T[]) {
   });
 
   res.push({ key: 'actions' });
+  res = res.filter((item) => !filter.includes(item.key));
   return res;
 }

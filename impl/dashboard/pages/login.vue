@@ -7,27 +7,35 @@ import {
 import { FetchError } from 'ofetch';
 import { login } from '~/api/auth';
 
-// const { set } = useAuthStore();
-const { $toast } = useNuxtApp();
+const { set } = useAuthStore();
+const nuxtApp = useNuxtApp();
+const toast = nuxtApp.$toast;
 
 const state = ref({
   email: '',
   password: '',
 });
 
+const disabled = ref(false);
+
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const body = event.data;
   try {
-    const response = await login(body);
-    $toast.success('Success Login, redirecting');
-    // const { access_token, refresh_token } = response.data;
+    const response = await login(body, nuxtApp);
+    toast.success('Success Login, redirecting');
+    const { access_token, refresh_token } = response.data;
+    set(access_token, refresh_token);
+    disabled.value = true;
 
     await navigateTo('/');
   } catch (err: any) {
-    if (err instanceof FetchError) {
-      $toast.error(err.data.message);
+    disabled.value = false;
+    if (err instanceof FetchError && err.data) {
+      toast.error(err.data.message);
       return;
     }
+
+    toast.error('Please try again');
   }
 }
 
@@ -55,7 +63,7 @@ definePageMeta({
         <UInput v-model="state.password" type="password" />
       </UFormGroup>
 
-      <UButton type="submit"> Submit </UButton>
+      <UButton type="submit" :disabled="disabled"> Submit </UButton>
     </UForm>
   </UContainer>
 </template>

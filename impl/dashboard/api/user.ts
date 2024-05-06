@@ -1,21 +1,31 @@
 import type { Response } from '~/types/response';
 import type { User } from '~/types/user';
 
-export async function getUserDetail(id: string) {
-  const nuxtApp = useNuxtApp();
+function transformGetUserDetail(res: Response<User>) {
+  return res.data;
+}
+
+function transformGetUserLists(res: Response<Array<User>>) {
+  return res.data;
+}
+
+export async function getUserDetail(id: string, nuxtApp = useNuxtApp()) {
   const fetch = nuxtApp.$api;
   const key = `/api/v1/users/${id}`;
 
-  return useLazyFetch<Response<User>>(key, {
+  return useLazyFetch(key, {
     $fetch: fetch,
+    transform: transformGetUserDetail,
+    server: false,
   });
 }
 
-export async function getUserLists() {
-  const nuxtApp = useNuxtApp();
+export async function getUserLists(nuxtApp = useNuxtApp()) {
   const fetch = nuxtApp.$api;
 
-  return useLazyFetch<Response<Array<User>>>('/api/v1/users', {
+  return useLazyFetch('/api/v1/users', {
     $fetch: fetch,
+    transform: transformGetUserLists,
+    server: false,
   });
 }
