@@ -17,8 +17,6 @@ const columns = computed(() => {
     // 'created_at', 'updated_at'
   ]);
 });
-
-const dropdownList = dropdownItems;
 </script>
 
 <template>
@@ -27,12 +25,7 @@ const dropdownList = dropdownItems;
     <UDivider />
     <div class="wrap">
       <h2>Available Devices</h2>
-      <Table
-        :data="devicesData"
-        :pending="pending"
-        :columns="columns"
-        :dropdown-items="dropdownList"
-      />
+      <DeviceList :data="devicesData" :pending="pending" :columns="columns" />
       <UButton
         label="Add Device"
         icon="i-heroicons-plus-solid"

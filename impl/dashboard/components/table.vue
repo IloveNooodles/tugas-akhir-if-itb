@@ -12,7 +12,7 @@ interface Props {
     direction?: 'asc' | 'desc' | undefined;
     class?: string | undefined;
   }[];
-  dropdownItems: DropdownItem[][];
+  dropdownItems: GenerateDropdownItems;
   error?: any;
 }
 
@@ -34,7 +34,7 @@ const props = defineProps<Props>();
     v-else
   >
     <template #actions-data="{ row }">
-      <UDropdown :items="dropdownItems">
+      <UDropdown :items="dropdownItems(row)">
         <UButton
           color="gray"
           variant="ghost"

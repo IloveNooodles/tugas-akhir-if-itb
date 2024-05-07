@@ -57,8 +57,6 @@ const deployHistoryColumn = computed(() => {
     // 'repository_id',
   ]);
 });
-
-const dropdownList = dropdownItems
 </script>
 
 <template>
@@ -67,12 +65,7 @@ const dropdownList = dropdownItems
     <UDivider />
     <div class="wrap">
       <h2>Images</h2>
-      <Table
-        :data="repoData"
-        :pending="pending"
-        :columns="columns"
-        :dropdown-items="dropdownList"
-      />
+      <RepositoryList :data="repoData" :pending="pending" :columns="columns" />
       <UButton
         label="Add image"
         icon="i-heroicons-plus-solid"
@@ -81,11 +74,10 @@ const dropdownList = dropdownItems
     </div>
     <div class="wrap">
       <h2>Deployments</h2>
-      <Table
+      <DeploymentList
         :data="deployData"
         :pending="deployPending"
         :columns="deployColumn"
-        :dropdown-items="dropdownList"
       />
       <UButton
         label="Add Deployment"
@@ -95,11 +87,10 @@ const dropdownList = dropdownItems
     </div>
     <div class="wrap">
       <h2>Deployment Histories</h2>
-      <Table
+      <HistoryList
         :data="deployHistoryData"
         :pending="deployHistoryPending"
         :columns="deployHistoryColumn"
-        :dropdown-items="dropdownList"
       />
     </div>
   </UContainer>

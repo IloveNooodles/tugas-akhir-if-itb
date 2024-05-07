@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { getCompanyDetail } from '~/api/company';
 import { getUserLists } from '~/api/user';
-import Table from '~/components/table.vue';
 
 const nuxtApp = useNuxtApp();
 
@@ -25,7 +24,29 @@ const columns = computed(() => {
   ]);
 });
 
-const dropdownList = dropdownItems;
+const dropdownItems = computed(() => {
+  return (row: any) => [
+    [
+      {
+        label: 'Detail',
+        icon: 'i-heroicons-document-magnifying-glass-16-solid',
+        click: () => {
+          navigateTo(`/groups/${row.id}`);
+        },
+      },
+      {
+        label: 'Edit',
+        icon: 'i-heroicons-pencil-square-20-solid',
+      },
+    ],
+    [
+      {
+        label: 'Delete',
+        icon: 'i-heroicons-trash-20-solid',
+      },
+    ],
+  ];
+});
 </script>
 
 <template>
@@ -42,12 +63,10 @@ const dropdownList = dropdownItems;
     </div>
     <div>
       <h2>Users</h2>
-      <Table
+      <UserList
         :data="usersData"
         :pending="usersPending"
         :columns="columns"
-        :dropdown-items="dropdownList"
-        :error="usersError"
       />
     </div>
   </UContainer>
