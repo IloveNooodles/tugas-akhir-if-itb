@@ -1,4 +1,4 @@
-import type { Device } from '~/types/device';
+import type { CreateDeviceSchema, Device } from '~/types/device';
 import type { Response } from '~/types/response';
 
 function transformGetDeviceList(res: Response<Array<Device>>) {
@@ -13,5 +13,18 @@ export async function getDeviceList(nuxtApp = useNuxtApp()) {
     $fetch: fetch,
     transform: transformGetDeviceList,
     server: false,
+  });
+}
+
+export async function createDevice(
+  body: CreateDeviceSchema,
+  nuxtApp = useNuxtApp(),
+) {
+  const fetch = nuxtApp.$api;
+  const key = '/api/v1/devices';
+  return await fetch(key, {
+    method: 'POST',
+    body: body,
+    timeout: 500,
   });
 }

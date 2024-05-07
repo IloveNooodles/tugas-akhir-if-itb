@@ -86,6 +86,7 @@ const deployHistoryColumn = computed(() => {
         :data="deployHistoryData"
         :pending="deployHistoryPending"
         :columns="deployHistoryColumn"
+        :error="deployHistoryError"
       />
     </div>
   </UContainer>

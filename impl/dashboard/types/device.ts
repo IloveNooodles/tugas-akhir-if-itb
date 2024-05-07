@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 export interface Device {
   id: string;
   name: string;
@@ -8,3 +10,18 @@ export interface Device {
   created_at: string;
   updated_at: string;
 }
+
+// TODO add backend validation minimal name 8
+// TODO attribute don't know what for
+// TODO type yang bakal jadi label?
+// TODO attributes kayaknya extra aja
+// TODO node name gaboleh duplicate
+// type=attribute? attribute -> x=y
+export const createDeviceSchema = z.object({
+  name: z.string().min(8),
+  node_name: z.string().min(8),
+  type: z.string(),
+  attributes: z.string(),
+});
+
+export type CreateDeviceSchema = z.infer<typeof createDeviceSchema>;

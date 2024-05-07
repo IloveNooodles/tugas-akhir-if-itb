@@ -21,11 +21,3 @@ export interface UserLoginResponse {
     refresh_token: string;
   };
 }
-
-export interface GetUserResponse {
-  data: User;
-}
-
-export interface GetAllUsersResponse {
-  data: Array<User>;
-}
