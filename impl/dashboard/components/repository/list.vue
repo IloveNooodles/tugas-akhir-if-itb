@@ -60,6 +60,7 @@ const columns = computed(() => {
     :data="data"
     :pending="pending"
     :columns="columns"
+    :error="error"
     :dropdown-items="dropdownItems"
   >
   </Table>

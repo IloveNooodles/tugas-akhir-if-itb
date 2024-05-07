@@ -23,30 +23,6 @@ const columns = computed(() => {
     'company_id',
   ]);
 });
-
-const dropdownItems = computed(() => {
-  return (row: any) => [
-    [
-      {
-        label: 'Detail',
-        icon: 'i-heroicons-document-magnifying-glass-16-solid',
-        click: () => {
-          navigateTo(`/groups/${row.id}`);
-        },
-      },
-      {
-        label: 'Edit',
-        icon: 'i-heroicons-pencil-square-20-solid',
-      },
-    ],
-    [
-      {
-        label: 'Delete',
-        icon: 'i-heroicons-trash-20-solid',
-      },
-    ],
-  ];
-});
 </script>
 
 <template>
@@ -67,6 +43,7 @@ const dropdownItems = computed(() => {
         :data="usersData"
         :pending="usersPending"
         :columns="columns"
+        :error="usersError"
       />
     </div>
   </UContainer>

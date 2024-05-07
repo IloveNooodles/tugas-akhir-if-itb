@@ -1,17 +1,17 @@
 import type { Repository } from '~/types/repository';
 import type { Response } from '~/types/response';
 
-function transformGetRepositories(res: Response<Array<Repository>>) {
+function transformGetRepositoryList(res: Response<Array<Repository>>) {
   return res.data;
 }
 
-export async function getRepositories(id: string, nuxtApp = useNuxtApp()) {
+export async function getRepositoryList(nuxtApp = useNuxtApp()) {
   const fetch = nuxtApp.$api;
-  const key = `/api/v1/users/${id}`;
+  const key = `/api/v1/repositories`;
 
   return useLazyFetch(key, {
     $fetch: fetch,
-    transform: transformGetRepositories,
+    transform: transformGetRepositoryList,
     server: false,
   });
 }

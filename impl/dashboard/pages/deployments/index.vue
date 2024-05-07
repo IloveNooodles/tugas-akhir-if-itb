@@ -1,37 +1,30 @@
 <script setup lang="ts">
-const repoData = [
-  {
-    id: '12c234d2-bdb5-4725-b3d1-d275154e4c30',
-    name: 'nginx',
-    description: 'nginx latest',
-    image: 'nginx:1.14.2',
-    created_at: '2024-04-29T08:52:59.620887Z',
-    updated_at: '2024-04-29T08:52:59.620887Z',
-  },
-];
-const pending = false;
+import { getDeploymentList } from '~/api/deployment';
+import { getRepositoryList } from '~/api/repository';
+
+const nuxtApp = useNuxtApp();
+
+const {
+  data: repoData,
+  error: repoError,
+  pending: repoPending,
+} = await getRepositoryList(nuxtApp);
+
 const columns = computed(() => {
-  return generateColumnsFromArray(repoData, [
+  return generateColumnsFromArray(repoData.value, [
     // 'created_at', 'updated_at'
   ]);
 });
 
+const {
+  data: deployData,
+  error: deployError,
+  pending: deployPending,
+} = await getDeploymentList(nuxtApp);
+
 // TODO gabungin sama image biar jelas tablenya ngapain
-// TODO Tambahkan create juga di buttonlistnya
-const deployData = [
-  {
-    id: '429bb8de-da58-4434-a5e0-3c3610f630c3',
-    repository_id: '12c234d2-bdb5-4725-b3d1-d275154e4c30',
-    name: 'home-deployment-group',
-    version: 'v1',
-    target: 'app=raspi',
-    created_at: '2024-04-29T08:53:34.619907Z',
-    updated_at: '2024-04-29T08:53:34.619907Z',
-  },
-];
-const deployPending = false;
 const deployColumn = computed(() => {
-  return generateColumnsFromArray(deployData, [
+  return generateColumnsFromArray(deployData.value, [
     // 'created_at',
     // 'updated_at',
     // 'repository_id',
@@ -65,7 +58,12 @@ const deployHistoryColumn = computed(() => {
     <UDivider />
     <div class="wrap">
       <h2>Images</h2>
-      <RepositoryList :data="repoData" :pending="pending" :columns="columns" />
+      <RepositoryList
+        :data="repoData"
+        :pending="repoPending"
+        :error="repoError"
+        :columns="columns"
+      />
       <UButton
         label="Add image"
         icon="i-heroicons-plus-solid"
@@ -78,6 +76,7 @@ const deployHistoryColumn = computed(() => {
         :data="deployData"
         :pending="deployPending"
         :columns="deployColumn"
+        :error="deployError"
       />
       <UButton
         label="Add Deployment"
