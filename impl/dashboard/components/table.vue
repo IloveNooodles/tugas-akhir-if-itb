@@ -1,6 +1,4 @@
 <script setup lang="ts" generic="T">
-import type { DropdownItem } from '#ui/types/dropdown';
-
 interface Props {
   data: T[] | null;
   pending: boolean;
@@ -44,8 +42,8 @@ const props = defineProps<Props>();
     </template>
     <template #empty-state>
       <div class="flex flex-col items-center justify-center py-6 gap-3">
-        <span class="italic text-sm">No one here!</span>
-        <UButton label="Add people" />
+        <span class="italic text-sm">It's empty</span>
+        <UButton label="Add Items" />
       </div>
     </template>
   </UTable>
