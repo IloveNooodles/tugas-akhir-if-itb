@@ -18,10 +18,10 @@ export interface Device {
 // TODO node name gaboleh duplicate
 // type=attribute? attribute -> x=y
 export const createDeviceSchema = z.object({
-  name: z.string().min(8),
-  node_name: z.string().min(8),
-  type: z.string(),
-  attributes: z.string(),
+  name: z.string().min(8, { message: 'Must be at least 8 characters' }),
+  node_name: z.string().min(8, { message: 'Must be at least 8 characters' }),
+  type: z.string({ message: 'Required' }),
+  attributes: z.string({ message: 'Required' }),
 });
 
 export type CreateDeviceSchema = z.infer<typeof createDeviceSchema>;

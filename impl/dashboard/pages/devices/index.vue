@@ -35,16 +35,20 @@ const state = ref({
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const body = event.data;
+  console.log(body);
   try {
     await createDevice(body, nuxtApp);
     toast.add({
       title: 'Success Creating Device',
     });
+
     disabled.value = true;
     isOpen.value = false;
-    devicesRefresh();
+
+    await devicesRefresh();
   } catch (err: any) {
     disabled.value = false;
+
     if (err instanceof FetchError && err.data) {
       toast.add({ title: err.data.message, color: 'red' });
       return;
@@ -75,26 +79,27 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       />
       <UModal v-model="isOpen">
         <UCard>
+          <h2 class="text-center p-0 m-0">Add New Device</h2>
           <UForm
             :schema="schema"
             :state="state"
             class="space-y-4 pt-4"
             @submit="onSubmit"
           >
-            <UFormGroup label="Name" name="Name">
-              <UInput v-model="state.name" />
+            <UFormGroup label="Name" name="name">
+              <UInput v-model="state.name" type="text" />
             </UFormGroup>
 
-            <UFormGroup label="Node Name" name="password">
-              <UInput v-model="state.node_name" />
+            <UFormGroup label="Node Name" name="node_name">
+              <UInput v-model="state.node_name" type="text" />
             </UFormGroup>
 
             <UFormGroup label="Type" name="type">
-              <UInput v-model="state.type" />
+              <UInput v-model="state.type" type="text" />
             </UFormGroup>
 
-            <UFormGroup label="Attribute" name="attribute">
-              <UInput v-model="state.attributes" />
+            <UFormGroup label="Attributes" name="attributes">
+              <UInput v-model="state.attributes" type="text" />
             </UFormGroup>
             <UButton type="submit" :disabled="disabled"> Submit </UButton>
           </UForm>

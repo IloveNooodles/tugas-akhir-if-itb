@@ -31,13 +31,16 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     await navigateTo('/');
   } catch (err: any) {
-    disabled.value = false;
     if (err instanceof FetchError && err.data) {
       toast.add({ title: err.data.message, color: 'red' });
       return;
     }
 
     toast.add({ title: 'Please try again', color: 'red' });
+  } finally {
+    disabled.value = false;
+    state.value.email = '';
+    state.value.password = '';
   }
 }
 
@@ -58,7 +61,7 @@ definePageMeta({
       @submit="onSubmit"
     >
       <UFormGroup label="Email" name="email">
-        <UInput v-model="state.email" />
+        <UInput v-model="state.email" type="email"/>
       </UFormGroup>
 
       <UFormGroup label="Password" name="password">

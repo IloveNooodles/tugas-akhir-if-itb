@@ -10,8 +10,11 @@ export interface User {
 }
 
 export const userLoginSchema = z.object({
-  email: z.string().email('Invalid email'),
-  password: z.string().min(8, 'Must be at least 8 characters'),
+  email: z.string({ message: 'Required' }).email('Invalid email'),
+  password: z
+    .string({ message: 'Required' })
+    .min(8, 'Must be at least 8 characters')
+    .max(72, 'Must be shorter than 72 characters'),
 });
 
 export type UserLoginSchema = z.infer<typeof userLoginSchema>;
