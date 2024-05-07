@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { getDeploymentList } from '~/api/deployment';
+import { getDeploymentHistoryList } from '~/api/history';
 import { getRepositoryList } from '~/api/repository';
 
 const nuxtApp = useNuxtApp();
@@ -10,7 +11,7 @@ const {
   pending: repoPending,
 } = await getRepositoryList(nuxtApp);
 
-const columns = computed(() => {
+const repoColumns = computed(() => {
   return generateColumnsFromArray(repoData.value, [
     // 'created_at', 'updated_at'
   ]);
@@ -31,20 +32,14 @@ const deployColumn = computed(() => {
   ]);
 });
 
-const deployHistoryData = [
-  {
-    id: '10da31f8-9df4-48e9-8698-052599d49415',
-    device_id: 'c4b21c55-8520-4aab-a789-75ad6ed88dc2',
-    image_id: '12c234d2-bdb5-4725-b3d1-d275154e4c30',
-    deployment_id: '429bb8de-da58-4434-a5e0-3c3610f630c3',
-    status: 'DEPLOYING',
-    created_at: '2024-04-29T08:59:19.327526Z',
-    updated_at: '2024-04-29T08:59:19.327526Z',
-  },
-];
-const deployHistoryPending = false;
+const {
+  data: deployHistoryData,
+  error: deployHistoryError,
+  pending: deployHistoryPending,
+} = await getDeploymentHistoryList(nuxtApp);
+
 const deployHistoryColumn = computed(() => {
-  return generateColumnsFromArray(deployHistoryData, [
+  return generateColumnsFromArray(deployHistoryData.value, [
     // 'created_at',
     // 'updated_at',
     // 'repository_id',
@@ -62,7 +57,7 @@ const deployHistoryColumn = computed(() => {
         :data="repoData"
         :pending="repoPending"
         :error="repoError"
-        :columns="columns"
+        :columns="repoColumns"
       />
       <UButton
         label="Add image"

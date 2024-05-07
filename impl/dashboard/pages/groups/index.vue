@@ -1,16 +1,16 @@
 <script setup lang="ts">
-const groupData = [
-  {
-    id: 'b728b517-431f-4fac-8ba3-48d6672d82e1',
-    name: 'home-deployment-group',
-    company_id: '3a892d6b-817b-4913-b558-774a5e455c1c',
-    created_at: '2024-04-22T14:39:20.818518Z',
-    updated_at: '2024-04-22T14:39:20.818518Z',
-  },
-];
-const pending = false;
+import { getGroupList } from '~/api/group';
+
+const nuxtApp = useNuxtApp();
+
+const {
+  data: groupData,
+  error: groupError,
+  pending: groupPending,
+} = await getGroupList(nuxtApp);
+
 const columns = computed(() => {
-  return generateColumnsFromArray(groupData, [
+  return generateColumnsFromArray(groupData.value, [
     // 'created_at', 'updated_at'
   ]);
 });
@@ -22,7 +22,12 @@ const columns = computed(() => {
     <UDivider />
     <div class="wrap">
       <h2>Available Groups</h2>
-      <GroupList :data="groupData" :pending="pending" :columns="columns" />
+      <GroupList
+        :data="groupData"
+        :pending="groupPending"
+        :columns="columns"
+        :error="groupError"
+      />
       <UButton
         label="Add Group"
         icon="i-heroicons-plus-solid"
