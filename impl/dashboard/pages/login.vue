@@ -9,7 +9,7 @@ import { login } from '~/api/auth';
 
 const { set } = useAuthStore();
 const nuxtApp = useNuxtApp();
-const toast = nuxtApp.$toast;
+const toast = useToast();
 
 const state = ref({
   email: '',
@@ -22,7 +22,9 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   const body = event.data;
   try {
     const response = await login(body, nuxtApp);
-    toast.success('Success Login, redirecting');
+    toast.add({
+      title: 'Success Login, redirecting',
+    });
     const { access_token, refresh_token } = response.data;
     set(access_token, refresh_token);
     disabled.value = true;
@@ -31,11 +33,11 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
   } catch (err: any) {
     disabled.value = false;
     if (err instanceof FetchError && err.data) {
-      toast.error(err.data.message);
+      toast.add({ title: err.data.message, color: 'red' });
       return;
     }
 
-    toast.error('Please try again');
+    toast.add({ title: 'Please try again', color: 'red' });
   }
 }
 

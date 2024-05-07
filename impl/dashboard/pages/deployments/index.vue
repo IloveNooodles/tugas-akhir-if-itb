@@ -11,6 +11,7 @@ const {
   pending: repoPending,
 } = await getRepositoryList(nuxtApp);
 
+
 const repoColumns = computed(() => {
   return generateColumnsFromArray(repoData.value, [
     // 'created_at', 'updated_at'
