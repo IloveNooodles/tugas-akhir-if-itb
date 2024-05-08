@@ -127,6 +127,14 @@ async function addDeployments(event: FormSubmitEvent<CreateDeploymentSchema>) {
     repositoryState.value.image = '';
   }
 }
+
+async function onDeleteRepository() {
+  await repoRefresh();
+}
+
+async function onDeleteDeployments() {
+  await deployRefresh();
+}
 </script>
 
 <template>
@@ -134,52 +142,13 @@ async function addDeployments(event: FormSubmitEvent<CreateDeploymentSchema>) {
     <h1 class="text-center">Deployments</h1>
     <UDivider />
     <div class="wrap">
-      <h2>Images</h2>
-      <RepositoryList
-        :data="repoData"
-        :pending="repoPending"
-        :error="repoError"
-        :columns="repoColumns"
-      />
-      <UButton
-        label="Add image"
-        icon="i-heroicons-plus-solid"
-        class="mt-2 max-w-fit self-end"
-        @click="isModalRepoDisabled = !isModalRepoDisabled"
-      />
-      <UModal v-model="isModalRepoDisabled">
-        <UCard>
-          <h2 class="text-center p-0 m-0">Add New Repository</h2>
-          <UForm
-            :schema="createRepositorySchema"
-            :state="repositoryState"
-            class="space-y-4 pt-4"
-            @submit="addRepository"
-          >
-            <UFormGroup label="Name" name="name">
-              <UInput v-model="repositoryState.name" type="text" />
-            </UFormGroup>
-            <UFormGroup label="Description" name="description">
-              <UInput v-model="repositoryState.description" type="text" />
-            </UFormGroup>
-            <UFormGroup label="Image" name="image">
-              <UInput v-model="repositoryState.image" type="text" />
-            </UFormGroup>
-
-            <UButton type="submit" :disabled="isButtonRepoDisabled">
-              Submit
-            </UButton>
-          </UForm>
-        </UCard>
-      </UModal>
-    </div>
-    <div class="wrap">
       <h2>Deployments</h2>
       <DeploymentList
         :data="deployData"
         :pending="deployPending"
         :columns="deployColumn"
         :error="deployError"
+        @on-delete="onDeleteDeployments"
       />
       <UButton
         label="Add Deployment"
@@ -221,6 +190,48 @@ async function addDeployments(event: FormSubmitEvent<CreateDeploymentSchema>) {
         </UCard>
       </UModal>
     </div>
+    <div class="wrap">
+      <h2>Images</h2>
+      <RepositoryList
+        :data="repoData"
+        :pending="repoPending"
+        :error="repoError"
+        :columns="repoColumns"
+        @on-delete="onDeleteRepository"
+      />
+      <UButton
+        label="Add image"
+        icon="i-heroicons-plus-solid"
+        class="mt-2 max-w-fit self-end"
+        @click="isModalRepoDisabled = !isModalRepoDisabled"
+      />
+      <UModal v-model="isModalRepoDisabled">
+        <UCard>
+          <h2 class="text-center p-0 m-0">Add New Repository</h2>
+          <UForm
+            :schema="createRepositorySchema"
+            :state="repositoryState"
+            class="space-y-4 pt-4"
+            @submit="addRepository"
+          >
+            <UFormGroup label="Name" name="name">
+              <UInput v-model="repositoryState.name" type="text" />
+            </UFormGroup>
+            <UFormGroup label="Description" name="description">
+              <UInput v-model="repositoryState.description" type="text" />
+            </UFormGroup>
+            <UFormGroup label="Image" name="image">
+              <UInput v-model="repositoryState.image" type="text" />
+            </UFormGroup>
+
+            <UButton type="submit" :disabled="isButtonRepoDisabled">
+              Submit
+            </UButton>
+          </UForm>
+        </UCard>
+      </UModal>
+    </div>
+
     <div class="wrap">
       <h2>Deployment Histories</h2>
       <HistoryList

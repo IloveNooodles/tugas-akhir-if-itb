@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { FetchError } from 'ofetch';
+import { deleteDeploymentByID } from '~/api/deployment';
 import type { Deployment } from '~/types/deployment';
 
 interface Props {
@@ -15,7 +17,31 @@ interface Props {
   error?: any;
 }
 
+const nuxtApp = useNuxtApp();
+const toast = useToast();
+
 const props = defineProps<Props>();
+const emits = defineEmits(['onDelete']);
+const disabled = ref(false);
+
+async function deleteByID(id: string) {
+  try {
+    disabled.value = true;
+    await deleteDeploymentByID(id, nuxtApp);
+    emits('onDelete');
+    toast.add({ title: `Success deleting deployments ${id}` });
+  } catch (err: any) {
+    if (err instanceof FetchError && err.data) {
+      toast.add({ title: err.data.message, color: 'red' });
+      return;
+    }
+
+    toast.add({ title: 'Please try again', color: 'red' });
+  } finally {
+    disabled.value = false;
+  }
+}
+
 const dropdownItems = computed(() => {
   return (row: any) => [
     [
@@ -31,10 +57,14 @@ const dropdownItems = computed(() => {
       {
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
+        click: async () => {
+          await deleteByID(row.id);
+        },
       },
     ],
   ];
 });
+
 const columns = computed(() => {
   return generateColumnsFromArray(props.data, [
     'created_at',
