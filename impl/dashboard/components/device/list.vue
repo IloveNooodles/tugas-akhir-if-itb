@@ -26,10 +26,6 @@ const dropdownItems = computed(() => {
           navigateTo(`/devices/${row.id}`);
         },
       },
-      {
-        label: 'Edit',
-        icon: 'i-heroicons-pencil-square-20-solid',
-      },
     ],
     [
       {

@@ -27,11 +27,6 @@ const dropdownItems = computed(() => {
         },
         disabled: true,
       },
-      {
-        label: 'Edit',
-        icon: 'i-heroicons-pencil-square-20-solid',
-        disabled: true,
-      },
     ],
     [
       {
