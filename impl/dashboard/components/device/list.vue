@@ -18,7 +18,6 @@ interface Props {
   error?: any;
 }
 
-const route = useRoute();
 const nuxtApp = useNuxtApp();
 const toast = useToast();
 

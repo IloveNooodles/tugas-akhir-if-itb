@@ -51,6 +51,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     state.value.name = '';
   }
 }
+
+async function onDelete() {
+  await groupRefresh();
+}
 </script>
 
 <template>
@@ -64,6 +68,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         :pending="groupPending"
         :columns="columns"
         :error="groupError"
+        @on-delete="onDelete"
       />
       <UButton
         label="Add Group"
