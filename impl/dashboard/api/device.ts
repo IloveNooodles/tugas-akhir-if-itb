@@ -1,5 +1,5 @@
 import type { CreateDeviceSchema, Device } from '~/types/device';
-import type { Group } from '~/types/group';
+import type { GroupDeviceD } from '~/types/groupdevice';
 import type { Response } from '~/types/response';
 
 function transformGetDeviceList(res: Response<Array<Device>>) {
@@ -10,7 +10,7 @@ function transformGetDevice(res: Response<Device>) {
   return res.data;
 }
 
-function transformGetDeviceGroups(res: Response<Array<Group>>) {
+function transformGetDeviceGroups(res: Response<Array<GroupDeviceD>>) {
   return res.data;
 }
 
@@ -56,6 +56,16 @@ export async function createDevice(
   return await fetch(key, {
     method: 'POST',
     body: body,
+    timeout: 500,
+  });
+}
+
+export async function deleteDeviceByID(id: string, nuxtApp = useNuxtApp()) {
+  const fetch = nuxtApp.$api;
+  const key = `/api/v1/devices/${id}`;
+
+  return fetch(key, {
+    method: 'DELETE',
     timeout: 500,
   });
 }

@@ -29,3 +29,13 @@ export async function getUserLists(nuxtApp = useNuxtApp()) {
     server: false,
   });
 }
+
+export async function deleteUserByID(id: string, nuxtApp = useNuxtApp()) {
+  const fetch = nuxtApp.$api;
+  const key = `/api/v1/users/${id}`;
+
+  return fetch(key, {
+    method: 'DELETE',
+    timeout: 500,
+  });
+}

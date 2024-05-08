@@ -61,7 +61,7 @@ definePageMeta({
       @submit="onSubmit"
     >
       <UFormGroup label="Email" name="email">
-        <UInput v-model="state.email" type="email"/>
+        <UInput v-model="state.email" type="email" />
       </UFormGroup>
 
       <UFormGroup label="Password" name="password">

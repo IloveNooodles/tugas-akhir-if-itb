@@ -25,16 +25,19 @@ const dropdownItems = computed(() => {
         click: () => {
           navigateTo(`/account/${row.id}`);
         },
+        disabled: true,
       },
       {
         label: 'Edit',
         icon: 'i-heroicons-pencil-square-20-solid',
+        disabled: true,
       },
     ],
     [
       {
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
+        disabled: true,
       },
     ],
   ];

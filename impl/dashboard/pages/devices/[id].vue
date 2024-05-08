@@ -36,9 +36,7 @@ const {
   pending: deployHistoryPending,
 } = await getDeploymentHistoryList(nuxtApp);
 
-const {
-  data: groupListData,
-} = await getGroupList(nuxtApp);
+const { data: groupListData } = await getGroupList(nuxtApp);
 
 const columns = computed(() => {
   return generateColumnsFromArray(groupData.value, ['company_id']);
@@ -88,6 +86,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     state.value.group_id = '';
   }
 }
+
+function onDelete() {
+  groupRefresh();
+}
 </script>
 
 <template>
@@ -114,11 +116,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         </div>
         <div class="flex flex-col">
           <h2>Groups</h2>
-          <GroupList
+          <GroupdeviceList
             :data="groupData"
             :pending="groupPending"
             :columns="columns"
             :error="groupError"
+            @on-delete="onDelete"
           />
           <UButton
             label="Add Group"

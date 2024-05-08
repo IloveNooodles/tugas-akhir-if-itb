@@ -15,3 +15,13 @@ export async function getRepositoryList(nuxtApp = useNuxtApp()) {
     server: false,
   });
 }
+
+export async function deleteRepositoryByID(id: string, nuxtApp = useNuxtApp()) {
+  const fetch = nuxtApp.$api;
+  const key = `/api/v1/repositories/${id}`;
+
+  return fetch(key, {
+    method: 'DELETE',
+    timeout: 500,
+  });
+}

@@ -15,3 +15,13 @@ export async function getCompanyDetail(nuxtApp = useNuxtApp()) {
     server: false,
   });
 }
+
+export async function deleteCompanyByID(id: string, nuxtApp = useNuxtApp()) {
+  const fetch = nuxtApp.$api;
+  const key = `/api/v1/companies/${id}`;
+
+  return fetch(key, {
+    method: 'DELETE',
+    timeout: 500,
+  });
+}

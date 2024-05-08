@@ -12,3 +12,16 @@ export async function createGroupDevice(
     timeout: 500,
   });
 }
+
+export async function deleteGroupDeviceByID(
+  id: string,
+  nuxtApp = useNuxtApp(),
+) {
+  const fetch = nuxtApp.$api;
+  const key = `/api/v1/groupdevices/${id}`;
+
+  return fetch(key, {
+    method: 'DELETE',
+    timeout: 500,
+  });
+}
