@@ -114,6 +114,7 @@ async function deleteDevices() {
 
 function onDelete() {
   groupRefresh();
+  
 }
 </script>
 

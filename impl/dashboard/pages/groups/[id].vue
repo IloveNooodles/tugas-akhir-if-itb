@@ -6,7 +6,11 @@ import {
 } from '@/types/groupdevice';
 import { FetchError } from 'ofetch';
 import { getDeviceList } from '~/api/device';
-import { getGroupById, getGroupDevicesById } from '~/api/group';
+import {
+  deleteGroupByID,
+  getGroupById,
+  getGroupDevicesById,
+} from '~/api/group';
 import { createGroupDevice } from '~/api/groupdevice';
 import { getDeploymentHistoryList } from '~/api/history';
 
@@ -63,6 +67,9 @@ const state = ref({
   device_id: '',
 });
 
+const isConfirmModal = ref(false);
+const isButtonDisabled = ref(false);
+
 // TODO validation when creating group device
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const body = event.data;
@@ -87,6 +94,25 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     state.value.group_id = '';
   }
 }
+
+async function deleteGroups() {
+  try {
+    isButtonDisabled.value = true;
+    await deleteGroupByID(groupId, nuxtApp);
+    toast.add({ title: `Success Deleteing group ${groupId}` });
+    await navigateTo('/groups');
+  } catch (err) {
+    if (err instanceof FetchError && err.data) {
+      toast.add({ title: err.data.message, color: 'red' });
+      return;
+    }
+
+    toast.add({ title: 'Please try again', color: 'red' });
+  } finally {
+    isButtonDisabled.value = false;
+  }
+}
+
 function onDelete() {
   devicesRefresh();
 }
@@ -102,8 +128,35 @@ function onDelete() {
       <div class="flex flex-row items-center justify-between">
         <h1 class="m-0">{{ groupData.name }}</h1>
         <div class="btnContainer flex gap-2">
-          <UButton icon="i-heroicons-pencil-square-20-solid" />
-          <UButton icon="i-heroicons-trash-20-solid" />
+          <UButton
+            icon="i-heroicons-trash-20-solid"
+            :disabled="isButtonDisabled"
+            @click="isConfirmModal = !isConfirmModal"
+          />
+          <UModal v-model="isConfirmModal">
+            <UCard>
+              <h2 class="text-center p-0 m-0">
+                Are you sure you want to delete
+              </h2>
+              <h3 class="text-center">{{ groupData.name }}</h3>
+              <div class="flex justify-center gap-10">
+                <UButton
+                  type="submit"
+                  :disabled="isButtonDisabled"
+                  @click.prevent="deleteGroups"
+                >
+                  Yes
+                </UButton>
+                <UButton
+                  type="submit"
+                  @click.prevent="isConfirmModal = false"
+                  color="red"
+                >
+                  No
+                </UButton>
+              </div>
+            </UCard>
+          </UModal>
         </div>
       </div>
       <UDivider />

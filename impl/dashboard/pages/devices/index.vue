@@ -57,6 +57,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     toast.add({ title: 'Please try again', color: 'red' });
   }
 }
+
+async function onDelete() {
+  await devicesRefresh();
+}
 </script>
 
 <template>
@@ -70,6 +74,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         :pending="devicesPending"
         :columns="columns"
         :error="devicesError"
+        @on-delete="onDelete"
       />
       <UButton
         label="Add Device"
