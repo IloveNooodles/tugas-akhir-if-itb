@@ -190,7 +190,7 @@ function onDelete() {
                 class="space-y-4 pt-4"
                 @submit="onSubmit"
               >
-                <UFormGroup label="Group ID" name="group_id">
+                <UFormGroup label="Group" name="group_id">
                   <USelect
                     v-model="state.group_id"
                     :options="listSelectGroup"

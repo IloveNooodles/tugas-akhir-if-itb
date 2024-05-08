@@ -1,4 +1,4 @@
-import type { Deployment } from '~/types/deployment';
+import type { CreateDeploymentSchema, Deployment } from '~/types/deployment';
 import type { Response } from '~/types/response';
 
 function transformGetDeploymentList(res: Response<Deployment[]>) {
@@ -41,5 +41,19 @@ export async function deleteDeploymentByID(id: string, nuxtApp = useNuxtApp()) {
   return fetch(key, {
     method: 'DELETE',
     timeout: 500,
+  });
+}
+
+export async function createDeployment(
+  body: CreateDeploymentSchema,
+  nuxtApp = useNuxtApp(),
+) {
+  const fetch = nuxtApp.$api;
+  const key = `/api/v1/deployments`;
+
+  return fetch(key, {
+    method: 'POST',
+    timeout: 1000,
+    body: body,
   });
 }
