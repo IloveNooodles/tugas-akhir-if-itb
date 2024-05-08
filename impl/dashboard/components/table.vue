@@ -43,7 +43,6 @@ const props = defineProps<Props>();
     <template #empty-state>
       <div class="flex flex-col items-center justify-center py-6 gap-3">
         <span class="italic text-sm">It's empty</span>
-        <UButton label="Add Items" />
       </div>
     </template>
   </UTable>
