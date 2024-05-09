@@ -58,3 +58,22 @@ func (r *Repository) GetAll(ctx context.Context) ([]Repositories, error) {
 
 	return listRepositories, nil
 }
+
+func (r *Repository) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]Repositories, error) {
+	listRepositories := make([]Repositories, 0)
+	q := `SELECT * FROM deployment_repositories WHERE company_id = $1`
+	err := r.DB.SelectContext(ctx, &listRepositories, q, companyID)
+
+	if err != nil {
+		r.Logger.Errorf("error when getting list of groups err: %s", err)
+		return listRepositories, err
+	}
+
+	return listRepositories, nil
+}
+
+func (r *Repository) Delete(ctx context.Context, id uuid.UUID) error {
+	q := `DELETE FROM deployment_repositories WHERE id = $1`
+	_, err := r.DB.ExecContext(ctx, q, id)
+	return err
+}

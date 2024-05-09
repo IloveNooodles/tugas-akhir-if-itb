@@ -10,8 +10,10 @@ func RegisterRoute(h Handler, e *echo.Echo) {
 	adminDevicesRoute := e.Group("/admin-api/v1/devices")
 
 	devicesRoute.Use(middleware.ValidateJWT)
+	devicesRoute.GET("", h.V1GetAllByCompanyID)
 	devicesRoute.POST("", h.V1Create)
 	devicesRoute.GET("/:id", h.V1GetByID)
+  devicesRoute.DELETE("/:id", h.V1Delete)
 	devicesRoute.GET("/:id/groups", h.V1GetGroupByDeviceID)
 
 	adminDevicesRoute.Use(middleware.ValidateAdminAPIKey)

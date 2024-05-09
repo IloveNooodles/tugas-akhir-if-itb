@@ -58,3 +58,22 @@ func (r *Repository) GetAll(ctx context.Context) ([]GroupDevice, error) {
 
 	return groupDevices, nil
 }
+
+func (r *Repository) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]GroupDevice, error) {
+	groupDevices := make([]GroupDevice, 0)
+	q := `SELECT * FROM groupdevices WHERE company_id = $1`
+	err := r.DB.SelectContext(ctx, &groupDevices, q, companyID)
+
+	if err != nil {
+		r.Logger.Errorf("error when getting all group devices err: %s", err)
+		return groupDevices, err
+	}
+
+	return groupDevices, nil
+}
+
+func (r *Repository) Delete(ctx context.Context, id uuid.UUID) error {
+	q := `DELETE FROM groupdevices WHERE id = $1`
+	_, err := r.DB.ExecContext(ctx, q, id)
+	return err
+}

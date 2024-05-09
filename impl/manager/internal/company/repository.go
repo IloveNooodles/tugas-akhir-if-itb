@@ -84,3 +84,9 @@ AND
 
 	return companyUser, nil
 }
+
+func (r *Repository) Delete(ctx context.Context, id uuid.UUID) error {
+	q := `DELETE FROM companies WHERE id = $1`
+	_, err := r.DB.ExecContext(ctx, q, id)
+	return err
+}

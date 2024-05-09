@@ -58,3 +58,16 @@ func (r *Repository) GetAll(ctx context.Context) ([]Histories, error) {
 
 	return listHistories, nil
 }
+
+func (r *Repository) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]Histories, error) {
+	listHistories := make([]Histories, 0)
+	q := `SELECT * FROM deployment_histories WHERE company_id = $1`
+	err := r.DB.SelectContext(ctx, &listHistories, q, companyID)
+
+	if err != nil {
+		r.Logger.Errorf("error when getting list of groups err: %s", err)
+		return listHistories, err
+	}
+
+	return listHistories, nil
+}

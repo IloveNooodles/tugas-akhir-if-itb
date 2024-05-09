@@ -111,6 +111,30 @@ func (h *Handler) V1AdminGetAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: groups})
 }
 
+func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
+	ctx := c.Request().Context()
+	companyID, ok := c.Get("companyID").(uuid.UUID)
+
+	if !ok {
+		h.Logger.Errorf("error when converting company id to string")
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
+	}
+
+	groups, err := h.Usecase.GetAllByCompanyID(ctx, companyID)
+
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found err: %s", err)
+		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+	}
+
+	if err != nil {
+		h.Logger.Errorf("error when getting groups with err: %s", err)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: groups})
+}
+
 func (h *Handler) V1GetByDeviceID(c echo.Context) error {
 	ctx := c.Request().Context()
 	companyID, ok := c.Get("companyID").(uuid.UUID)
@@ -139,4 +163,28 @@ func (h *Handler) V1GetByDeviceID(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: devices})
+}
+
+func (h *Handler) V1Delete(c echo.Context) error {
+	ctx := c.Request().Context()
+	idParam := c.Param("id")
+
+	id, err := uuid.Parse(idParam)
+	if err != nil {
+		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
+		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	err = h.Usecase.Delete(ctx, id)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
+		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+	}
+
+	if err != nil {
+		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
+		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusNoContent, dto.SuccessResponse{})
 }

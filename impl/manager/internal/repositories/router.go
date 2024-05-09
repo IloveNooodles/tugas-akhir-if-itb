@@ -6,13 +6,11 @@ import (
 )
 
 func RegisterRoute(h Handler, e *echo.Echo) {
-	groupsRoute := e.Group("/api/v1/repositories")
-	adminGroupsRoute := e.Group("/admin-api/v1/repositories")
+	repositoryGroup := e.Group("/api/v1/repositories")
 
-	groupsRoute.Use(middleware.ValidateJWT)
-	groupsRoute.POST("", h.V1Create)
-	groupsRoute.GET("/:id", h.V1GetByID)
-
-	adminGroupsRoute.Use(middleware.ValidateAdminAPIKey)
-	adminGroupsRoute.GET("", h.V1AdminGetAll)
+	repositoryGroup.Use(middleware.ValidateJWT)
+	repositoryGroup.GET("", h.V1AdminGetAll)
+	repositoryGroup.POST("", h.V1Create)
+	repositoryGroup.GET("/:id", h.V1GetByID)
+	repositoryGroup.DELETE("/:id", h.V1Delete)
 }

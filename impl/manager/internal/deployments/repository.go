@@ -59,6 +59,19 @@ func (r *Repository) GetAll(ctx context.Context) ([]Deployment, error) {
 	return listDeployment, nil
 }
 
+func (r *Repository) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]Deployment, error) {
+	listDeployment := make([]Deployment, 0)
+	q := `SELECT * FROM deployments WHERE company_id = $1`
+	err := r.DB.SelectContext(ctx, &listDeployment, q, companyID)
+
+	if err != nil {
+		r.Logger.Errorf("error when getting list of groups err: %s", err)
+		return listDeployment, err
+	}
+
+	return listDeployment, nil
+}
+
 func (r *Repository) GetDeploymentWithRepository(ctx context.Context, id uuid.UUID) (DeploymentWithRepository, error) {
 	dr := DeploymentWithRepository{}
 	q := `select 
@@ -83,4 +96,10 @@ func (r *Repository) GetDeploymentWithRepository(ctx context.Context, id uuid.UU
 
 	return dr, nil
 
+}
+
+func (r *Repository) Delete(ctx context.Context, id uuid.UUID) error {
+	q := `DELETE FROM deployments WHERE id = $1`
+	_, err := r.DB.ExecContext(ctx, q, id)
+	return err
 }

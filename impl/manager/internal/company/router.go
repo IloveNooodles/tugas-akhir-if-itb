@@ -11,6 +11,7 @@ func RegisterRoute(h Handler, e *echo.Echo) {
 
 	companiesRoute.POST("", h.V1Create)
 	companiesRoute.GET("", h.V1GetCompanyAndLoggedInUser, middleware.ValidateJWT)
+	companiesRoute.DELETE("/:id", h.V1Delete, middleware.ValidateJWT)
 
 	adminCompaniesRoute.GET("", h.V1AdminGetAll, middleware.ValidateAdminAPIKey, middleware.ValidateJWT)
 }

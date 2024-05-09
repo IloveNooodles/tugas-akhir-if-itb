@@ -5,14 +5,17 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
+// TODO deploymentGroups -> deviceId to groupId -> bisa remove aja deviceId nya kalo gitu???
+// TODO tambahin description di grup
 func RegisterRoute(h Handler, e *echo.Echo) {
-	groupsRoute := e.Group("/api/v1/histories")
-	adminGroupsRoute := e.Group("/admin-api/v1/histories")
+	historyRoute := e.Group("/api/v1/histories")
+	adminHistoryRoute := e.Group("/admin-api/v1/histories")
 
-	groupsRoute.Use(middleware.ValidateJWT)
-	groupsRoute.POST("", h.V1Create)
-	groupsRoute.GET("/:id", h.V1GetByID)
+	historyRoute.Use(middleware.ValidateJWT)
+	historyRoute.GET("", h.V1GetAllByCompanyID)
+	historyRoute.GET("/:id", h.V1GetByID)
+	historyRoute.POST("", h.V1Create)
 
-	adminGroupsRoute.Use(middleware.ValidateAdminAPIKey)
-	adminGroupsRoute.GET("", h.V1AdminGetAll)
+	adminHistoryRoute.Use(middleware.ValidateAdminAPIKey)
+	adminHistoryRoute.GET("", h.V1AdminGetAll)
 }

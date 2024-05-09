@@ -30,3 +30,7 @@ func (u *Usecase) GetByID(ctx context.Context, id uuid.UUID) (Histories, error) 
 func (u *Usecase) GetAll(ctx context.Context) ([]Histories, error) {
 	return u.Repo.GetAll(ctx)
 }
+
+func (u *Usecase) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]Histories, error) {
+	return u.Repo.GetAllByCompanyID(ctx, companyID)
+}

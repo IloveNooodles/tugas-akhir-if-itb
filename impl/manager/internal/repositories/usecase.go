@@ -30,3 +30,11 @@ func (u *Usecase) GetByID(ctx context.Context, id uuid.UUID) (Repositories, erro
 func (u *Usecase) GetAll(ctx context.Context) ([]Repositories, error) {
 	return u.Repo.GetAll(ctx)
 }
+
+func (u *Usecase) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]Repositories, error) {
+	return u.Repo.GetAllByCompanyID(ctx, companyID)
+}
+
+func (u *Usecase) Delete(ctx context.Context, id uuid.UUID) error {
+	return u.Repo.Delete(ctx, id)
+}

@@ -57,3 +57,7 @@ func (u *Usecase) GetAll(ctx context.Context) ([]User, error) {
 func (u *Usecase) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]User, error) {
 	return u.Repo.GetAllByCompanyID(ctx, companyID)
 }
+
+func (u *Usecase) Delete(ctx context.Context, id uuid.UUID) error {
+  return u.Repo.Delete(ctx, id)
+}

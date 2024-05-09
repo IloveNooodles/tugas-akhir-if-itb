@@ -1,12 +1,9 @@
 <script setup lang="ts">
-import type { FormSubmitEvent } from '#ui/types';
-import {
-  createGroupDeviceSchema as schema,
-  type CreateGroupDevice as Schema,
-} from '@/types/groupdevice';
 import { FetchError } from 'ofetch';
-import { getDeploymentDetailByID } from '~/api/deployment';
-import { createGroupDevice } from '~/api/groupdevice';
+import {
+  deleteDeploymentByID,
+  getDeploymentDetailByID,
+} from '~/api/deployment';
 import { getDeploymentHistoryList } from '~/api/history';
 
 const route = useRoute();
@@ -22,6 +19,7 @@ const {
 } = await getDeploymentDetailByID(deploymentId, nuxtApp);
 
 // TODO rubah ini
+// TODO gabung sama data image juga make yg mana jadi di join
 const {
   data: deployHistoryData,
   error: deployHistoryError,
@@ -38,18 +36,16 @@ const state = ref({
   group_id: '',
 });
 
-// TODO validation when creating group device
-async function onSubmit(event: FormSubmitEvent<Schema>) {
-  const body = event.data;
-  try {
-    await createGroupDevice(body, nuxtApp);
-    toast.add({
-      title: 'Success adding group',
-    });
+const isConfirmModal = ref(false);
+const isButtonDisabled = ref(false);
 
-    disabled.value = true;
-    isOpen.value = false;
-  } catch (err: any) {
+async function deleteDevices() {
+  try {
+    isButtonDisabled.value = true;
+    await deleteDeploymentByID(deploymentId, nuxtApp);
+    toast.add({ title: `Success deleteing deployment ${deploymentId}` });
+    await navigateTo('/deployments');
+  } catch (err) {
     if (err instanceof FetchError && err.data) {
       toast.add({ title: err.data.message, color: 'red' });
       return;
@@ -57,8 +53,7 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
 
     toast.add({ title: 'Please try again', color: 'red' });
   } finally {
-    disabled.value = false;
-    state.value.group_id = '';
+    isButtonDisabled.value = false;
   }
 }
 </script>
@@ -73,8 +68,35 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       <div class="flex flex-row items-center justify-between">
         <h1 class="m-0">{{ deploymentData.name }}</h1>
         <div class="btnContainer flex gap-2">
-          <UButton icon="i-heroicons-pencil-square-20-solid" />
-          <UButton icon="i-heroicons-trash-20-solid" />
+          <UButton
+            icon="i-heroicons-trash-20-solid"
+            :disabled="isButtonDisabled"
+            @click="isConfirmModal = !isConfirmModal"
+          />
+          <UModal v-model="isConfirmModal">
+            <UCard>
+              <h2 class="text-center p-0 m-0">
+                Are you sure you want to delete
+              </h2>
+              <h3 class="text-center">{{ deploymentData.name }}</h3>
+              <div class="flex justify-center gap-10">
+                <UButton
+                  type="submit"
+                  :disabled="isButtonDisabled"
+                  @click.prevent="deleteDevices"
+                >
+                  Yes
+                </UButton>
+                <UButton
+                  type="submit"
+                  @click.prevent="isConfirmModal = false"
+                  color="red"
+                >
+                  No
+                </UButton>
+              </div>
+            </UCard>
+          </UModal>
         </div>
       </div>
       <UDivider />
@@ -82,22 +104,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
         <div class="wrap">
           <UCard>
             <h2>Description</h2>
-            <p>Node name: {{ deploymentData.name }}</p>
+            <p>name: {{ deploymentData.name }}</p>
           </UCard>
-        </div>
-        <div class="flex flex-col">
-          <UModal v-model="isOpen">
-            <UCard>
-              <h2 class="text-center p-0 m-0">Add New Group</h2>
-              <UForm
-                :schema="schema"
-                :state="state"
-                class="space-y-4 pt-4"
-                @submit="onSubmit"
-              >
-              </UForm>
-            </UCard>
-          </UModal>
         </div>
         <div>
           <h2>Histories</h2>

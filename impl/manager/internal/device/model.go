@@ -18,6 +18,7 @@ type Device struct {
 }
 
 type GroupDetail struct {
+	ID        uuid.UUID `json:"id" db:"id"`
 	GroupID   uuid.UUID `json:"group_id" db:"group_id"`
-	GroupName string    `json:"group_name" db:"group_name"`
+	GroupName string    `json:"name" db:"name"`
 }

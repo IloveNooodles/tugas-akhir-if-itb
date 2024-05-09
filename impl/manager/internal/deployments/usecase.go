@@ -36,6 +36,10 @@ func (u *Usecase) GetAll(ctx context.Context) ([]Deployment, error) {
 	return u.Repo.GetAll(ctx)
 }
 
+func (u *Usecase) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]Deployment, error) {
+	return u.Repo.GetAllByCompanyID(ctx, companyID)
+}
+
 func (u *Usecase) Deploy(ctx context.Context, deploymentIds uuid.UUIDs) ([]*v1.Deployment, []error) {
 	var listError = make([]error, 0)
 	var listRes = make([]*v1.Deployment, 0)
@@ -114,4 +118,8 @@ func (u *Usecase) DeleteDeploy(ctx context.Context, deploymentIds uuid.UUIDs) []
 	}
 
 	return listError
+}
+
+func (u *Usecase) Delete(ctx context.Context, id uuid.UUID) error {
+	return u.Repo.Delete(ctx, id)
 }
