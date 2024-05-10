@@ -1,34 +1,40 @@
 \section{Lingkungan}
 
-\textit{Autoscaler} berbasis kontrol fleksibel akan diimplementasikan di lingkungan komputer lokal. Berikut adalah lingkungan perangkat keras dan perangkat lunak secara terperinci.
+Pengembangan sistem \textit{remote deployment} akan diimplementasikan di lingkungan komputer lokal. Berikut merupakan penjelasan implementasi dari masing masing bagian secara terperinci yang terbagi menjadi dua bagian yaitu perangkat lunak dan perangkat keras.
 
-Implementasi sistem tugas akhir dilakukan dengan mengimplementasikan dengan bantuan beberapa kakas pada bahasa \textit{python}. Sistem akan hidup di luar \textit{kubernetes cluster} dan mengakses Kubernetes beserta \textit{pods}-nya melalui \textit{Kubernetes Client Library} dan \textit{service Elastic search} melalui \textit{web service} yang dapat diakses dari luar \textit{cluster}.
+Implementasi sistem tugas akhir dilakukan dengan mengimplementasikan dengan bantuan beberapa kakas pada bahasa \textit{golang},\textit{vue}, dan \textit{typescript}. Sistem akan hidup di luar \textit{kubernetes cluster} dan mengakses Kubernetes beserta \textit{pods}-nya melalui \textit{Kubernetes Client} dan \textit{dashboard} yang dapat diakses dari luar \textit{cluster} oleh pengguna.
 
-\textit{Autoscaler} berbasis kontrol fleksibel akan berjalan di \textit{cluster} Kubernetes lokal. Adapun spesifikasi dari komputer yang dipakai untuk pengembangan adalah sebagai berikut.
+Adapun spesifikasi dari komputer yang dipakai untuk pengembangan adalah sebagai berikut.
 \begin{enumerate}
-    \item \textbf{Perangkat Keras}
-    
+  \item \textbf{Perangkat Keras}
+
         \begin{enumerate}
-            \item CPU: \textit{Apple M1 Chip}
-            \item RAM: 16 GB
+          \item CPU: \textit{Apple M1 Chip}
+          \item RAM: 8 GB
         \end{enumerate}
-    
-    \item \textbf{Perangkat Lunak}
-        
+
+  \item \textbf{Perangkat Lunak}
+
         \begin{enumerate}
-            \item Platform dan Sistem Operasi: Darwin AMD64, MacOS Monterey 12.6
-            \item \textit{Containerization}: Docker
-            \item \textit{Kubernetes Cluster}:
+          \item Platform dan Sistem Operasi: Darwin Arm 64, MacOS Ventura 13.3
+          \item \textit{Database}: Postgres 16.2-alpine3.19
+          \item \textit{Containerization}: Docker
+          \item \textit{Kubernetes Cluster}:
                 \begin{enumerate}
-                    \item Kubernetes Client v1.27.1-eks-2f008fe
-                    \item Kubernetes Docker Desktop: Kubernetes v1.25.9
+                  \item Kubernetes Client v1.30.0
+                  \item K3s v1.29.4+k3s1
                 \end{enumerate}
-            \item Bahasa: Python 3.9.12
-            \item Dependensi Lain:
+          \item Bahasa pemrogramman:
                 \begin{enumerate}
-                    \item \textit{Kubernetes Client Library}
-                    \item \textit{Pandas, numpy, statsmodels dan pmdarima}
-                    \item \textit{Pickle}
+                  \item Go 1.22.2 darwin/arm64
+                  \item Vue
+                  \item Typescript
+                \end{enumerate}
+          \item Dependensi Lain:
+                \begin{enumerate}
+                  \item \textit{Kubernetes Go-Client}
+                  \item \textit{Echo, Logrus, Viper, PQ, Sqlx, Go-migrate, Validator}
+                  \item \textit{Nuxt, NuxtUI, pinia, Zod}
                 \end{enumerate}
         \end{enumerate}
 \end{enumerate}

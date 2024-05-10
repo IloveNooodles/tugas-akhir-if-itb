@@ -1,2 +1,0 @@
-\subsection{Komponen \textit{Metrics Fetcher}}
-\textbf{\textit{Metrics Fetcher}} merupakan komponen yang berbeda dibanding komponen lainnya, karena komponen ini berjalan pada \textit{script} serta proses yang berbeda. Komponen berjalan secara paralel pada proses lain dikarenakan bahasa Python memiliki kekurangan dalam penanganan \textit{multithreading}. Komponen ini akan mengirimkan data yang sudah diolah ke komponen \textbf{\textit{Predictor}} melalui \textit{stream file}. Pendekatan ini dipilih karena sederhana dan mudah diimplementasikan. 

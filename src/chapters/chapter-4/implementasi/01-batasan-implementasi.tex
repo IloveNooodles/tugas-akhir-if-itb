@@ -1,0 +1,7 @@
+\subsection{Batasan Implementasi}
+Berikut adalah batasan yang ditetapkan dalam melakukan implementasi sistem kontrol adaptif.
+\begin{enumerate}
+  \item Semua batasan masalah dan konfigurasi yang telah dibahas pada bagian \ref{sec:batasan-masalah}.
+  \item Komponen \textit{Metrics Fetcher} berjalan di proses lain dan diimplementasikan dalam \textit{script} yang berbeda dikarenakan bahasa Python memiliki kekurangan dalam penanganan \textit{multithreading}.
+  \item Pertukaran data antara komponen \textit{Metrics Fetcher} dan \textit{Predictor} melalui stream file.
+\end{enumerate}
