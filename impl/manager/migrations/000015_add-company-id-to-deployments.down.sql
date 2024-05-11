@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS deployments
+DROP COLUMN IF EXISTS company_id;
