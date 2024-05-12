@@ -1,1 +1,49 @@
 \section{Rancangan Detail Komponen Dashboard}
+
+Seperti yang telah disebutkan pada \textbf{Bagian \ref{subsec:model-usecase}} mengenai \textit{use case} diagram, \textbf{Bagian \ref{subsec:arsitektur-behavioural}}, dan \textbf{Bagian \ref{subsec:arsitektur-struktural}} dapat dilakukan pemetaan halaman yang dibuat untuk sistem dashboard. Terdapat dua modul yaitu modul \textit{API Connector} serta \textit{display}.
+
+Modul \textit{API Connector} dibuat dengan cara melakukan HTTP Request ke sistem \textit{service}. Modul display yang bertanggung jawab untuk menampilkan halaman yang digunakan oleh user. Terdapat 10 Halaman yang ada pada sistem ini, yaitu sebagai berikut
+
+\subsection{Halaman Login}
+
+Halaman ini digunakan sebagai entrypoint dari sistem \textit{dashboard}. Pada halaman ini terdapat beberapa input yang dapat \textit{user} masukan untuk mengirimkan kredensial ke server. Setelah melalui halaman ini, barulah semua fitur dapat diakses.
+
+\subsection{Halaman utama}
+
+Halaman ini adalah halaman yang dituju oleh \textit{user} ketika telah menyelesaikan proses login. Halaman ini berisi \textit{summary} dari seluruh objek yang terdapat pada perusahaan ini.
+
+\subsection{Halaman \textit{account}}
+
+Halaman ini adalah halaman yang dapat diakses oleh \textit{user} setelah login. Halaman ini berisi informasi perusahaan \textit{user} serta daftar \textit{user} lain yang terdaftar.
+
+\subsection{Halaman \textit{devices}}
+
+Halaman ini adalah halaman yang dapat diakses oleh \textit{user} setelah login. Halaman ini berisi informasi mengenai perangkat apa saja yang ada pada perusahaan. \textit{user} dapat menghapus serta menambahkan perangkat pada halaman ini. Selain itu \textit{user} juga dapat mengunjungi laman detail dari masing masing perangkat.
+
+\subsection{Halaman \textit{devices detail}}
+
+Halaman ini adalah halaman yang dapat diakses oleh \textit{user} setelah login. Halaman ini dapat dituju dengan cara pergi ke halaman \textit{devices} dan memilih \textit{devices} mana yang ingin dilihat informasi lebih lanjut.
+
+\subsection{Halaman \textit{groups}}
+
+Halaman ini adalah halaman yang dapat diakses oleh \textit{user} setelah login. Halaman ini berisi informasi mengenai \textit{groups} apa saja yang ada pada perusahaan. \textit{user} dapat menghapus serta menambahkan \textit{groups} pada halaman ini. Selain itu \textit{user} juga dapat mengunjungi laman detail dari setiap \textit{groups}.
+
+\subsection{Halaman \textit{groups detail}}
+
+Halaman ini adalah halaman yang dapat diakses oleh \textit{user} setelah login. Halaman ini dapat dituju dengan cara pergi ke halaman \textit{groups} dan memilih \textit{groups} mana yang ingin dilihat informasi lebih lanjut
+
+\subsection{Halaman \textit{deployments}}
+
+Halaman ini adalah halaman yang dapat diakses oleh \textit{user} setelah login. Halaman ini berisi informasi mengenai \textit{deployment images} serta \textit{deployment plan} yang ada pada sistem. Selain itu pada halaman ini juga dapat melakukan manajemen serperti menambahkan atau menghapus baik \textit{deployment images} atauapun \textit{deployment plan}. Dari halaman ini pun, dapat diakses detail \textit{deployment images} maupun \textit{deployment plan}.
+
+Pada halaman ini \textit{user} dapat melakukan \textit{remote deployment}
+
+\subsection{Halaman \textit{deployments detail}}
+
+Halaman ini menunjukan riwayat \textit{deployment} apa saja yang telah dilakukan, statusnya serta target dari \textit{deployment}.
+
+\subsection{Halaman \textit{history detail}}
+
+Halaman ini menujukan detail riwayat dari \textit{deployment} yang telah dilakukan.
+
+% \subsection{Halaman \textit{deployment image detail}}
