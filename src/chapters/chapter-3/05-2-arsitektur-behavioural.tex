@@ -3,14 +3,14 @@
 
 Berdasarkan \textit{use case} diagram yang telah dibuat, terdapat 13 Use case yang memiliki alur yang berbeda. Untuk menjelaskan interaksi aktor, sistem, serta objek secara terperinci akan digunakan \textit{sequence} diagram. Terdapat 13 \textit{sequence} pada sistem ini, diagram ini sudah termasuk interaksi antara sistem \textit{dashboard} dan service.
 
-\subsubsection{Alur Mendaftarkan Perusahaan}
+\subsubsection{Alur Mendaftarkan \textit{company}}
 
-Pada \textit{use case} ini, admin yang berperan untuk mendaftarakan perusahaan baru yang ingin mendaftarkan ke dalam sistem. Admin dapat melakukan request melalui HTTP Client ke server. Server akan melakukan validasi data dan apabila telah pass, server akan memasukan informasi ke database. Akhirnya, server akan memberikan response berupa objek dari perusahaan yang dapat digunakan.
+Pada \textit{use case} ini, admin yang berperan untuk mendaftarakan \textit{company} baru yang ingin mendaftarkan ke dalam sistem. Admin dapat melakukan request melalui HTTP Client ke server. Server akan melakukan validasi data dan apabila telah pass, server akan memasukan informasi ke database. Akhirnya, server akan memberikan response berupa objek dari \textit{company} yang dapat digunakan.
 
 \begin{figure}
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-01.jpg}
-  \caption{\textit{Use case} Mendaftarkan perusahaan}
+  \caption{\textit{Use case} Mendaftarkan \textit{company}}
   \label{fig:usecase-01}
 \end{figure}
 
@@ -27,14 +27,14 @@ Pada \textit{use case} ini, admin yang berperan untuk mendaftarakan \textit{user
   \label{fig:usecase-02}
 \end{figure}
 
-\subsubsection{Alur Manajemen Perusahaan}
+\subsubsection{Alur Manajemen \textit{company}}
 
-Pada \textit{use case} ini, admin yang berperan untuk melakukan manajemen perusahaan. Admin dapat menghapus ataupun mengupdate detail perusahaan. Server akan melakukan validasi data dan apabila telah pass, server akan melakukan update informasi yang diberikan ke database. Server akan memberikan repsonse berupa hasil update.
+Pada \textit{use case} ini, admin yang berperan untuk melakukan manajemen \textit{company}. Admin dapat menghapus ataupun mengupdate detail \textit{company}. Server akan melakukan validasi data dan apabila telah pass, server akan melakukan update informasi yang diberikan ke database. Server akan memberikan repsonse berupa hasil update.
 
 \begin{figure}
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-03.jpg}
-  \caption{\textit{Use case} Manajemen perusahaan}
+  \caption{\textit{Use case} Manajemen \textit{company}}
   \label{fig:usecase-03}
 \end{figure}
 
@@ -60,27 +60,27 @@ Pada \textit{use case} ini, \textit{user} dapat login ke dalam aplikasi dengan m
   \label{fig:usecase-05}
 \end{figure}
 
-\subsubsection{Alur Melihat detail perusahaan}
+\subsubsection{Alur Melihat detail \textit{company}}
 
-Pada \textit{use case} ini, \textit{user} dapat melihat detail perusahaan dengan cara mengunjungi halaman \textit{account}. Data akan diambil secara langsung melalui API Call ke server, apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan, akan ditampilkan detail dari perusahaan \textit{user}.
+Pada \textit{use case} ini, \textit{user} dapat melihat detail \textit{company} dengan cara mengunjungi halaman \textit{account}. Data akan diambil secara langsung melalui API Call ke server, apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan, akan ditampilkan detail dari \textit{company} \textit{user}.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-06.jpg}
-  \caption{\textit{Use case} Melihat detail perusahaan}
+  \caption{\textit{Use case} Melihat detail \textit{company}}
   \label{fig:usecase-06}
 \end{figure}
 
 \pagebreak
 
-\subsubsection{Alur Melihat user lain di satu perusahaan}
+\subsubsection{Alur Melihat user lain di satu \textit{company}}
 
-Pada \textit{use case} ini, \textit{user} dapat melihat detail seluruh user yang berada pada satu perusahaan yang sama dengan cara mengunjungi halaman \textit{account}. Data akan diambil secara langsung melalui API Call ke server, apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan, akan ditampilkan daftar \textit{user} yang bersesuaian.
+Pada \textit{use case} ini, \textit{user} dapat melihat detail seluruh user yang berada pada satu \textit{company} yang sama dengan cara mengunjungi halaman \textit{account}. Data akan diambil secara langsung melalui API Call ke server, apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan, akan ditampilkan daftar \textit{user} yang bersesuaian.
 
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-07.jpg}
-  \caption{\textit{Use case} Melihat user lain di satu perusahaan}
+  \caption{\textit{Use case} Melihat user lain di satu \textit{company}}
   \label{fig:usecase-07}
 \end{figure}
 
@@ -154,7 +154,7 @@ Pada \textit{use case} ini, \textit{user} dapat melakukan \textit{remote deploym
 
 \subsubsection{Alur melihat riwayat \textit{deployment}}
 
-Pada \textit{use case} ini, \textit{user} dapat melihat detail perusahaan dengan cara mengunjungi halaman \textit{deployments}. Data akan diambil secara langsung melalui API Call ke server, apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan akan ditampilkan \textit{deployment} apa saja yang telah dilakukan beserta statusnya.
+Pada \textit{use case} ini, \textit{user} dapat melihat detail \textit{company} dengan cara mengunjungi halaman \textit{deployments}. Data akan diambil secara langsung melalui API Call ke server, apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan akan ditampilkan \textit{deployment} apa saja yang telah dilakukan beserta statusnya.
 
 \begin{figure}[ht]
   \centering
