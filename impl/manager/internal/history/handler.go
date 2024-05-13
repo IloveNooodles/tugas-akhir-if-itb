@@ -59,7 +59,7 @@ func (h *Handler) V1Create(c echo.Context) error {
 
 	groupRequest := Histories{
 		DeviceID:     req.DeviceID,
-		ImageID:      req.ImageID,
+		RepositoryID: req.RepositoryID,
 		DeploymentID: req.DeploymentID,
 		Status:       req.Status,
 	}

@@ -1,4 +1,3 @@
-
 package deployments
 
 import (
@@ -9,6 +8,7 @@ import (
 
 type Deployment struct {
 	ID           uuid.UUID `json:"id" db:"id"`
+	CompanyID    uuid.UUID `json:"company_id" db:"company_id"`
 	RepositoryID uuid.UUID `json:"repository_id" db:"repository_id"`
 	Name         string    `json:"name" db:"name"`
 	Version      string    `json:"version" db:"version"`
@@ -19,6 +19,7 @@ type Deployment struct {
 
 type DeploymentWithRepository struct {
 	ID                    uuid.UUID `json:"id" db:"id"`
+	CompanyID             uuid.UUID `json:"company_id" db:"company_id"`
 	RepositoryID          uuid.UUID `json:"repository_id" db:"repository_id"`
 	Name                  string    `json:"name" db:"name"`
 	Version               string    `json:"version" db:"version"`

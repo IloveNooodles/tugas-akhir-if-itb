@@ -1,9 +1,21 @@
 \subsection{Kakas yang Digunakan}
 Dalam melakukan implementasi ini diperlukan beberapa kakas, diantaranya adalah sebagai berikut.
 \begin{enumerate}
-  \item \textit{Docker}, \textit{Docker Desktop} dan \textit{Docker Desktop Kubernetes} untuk dipakai sebagai \textit{containerization} dan \textit{cluster} kubernetes lokal.
-  \item Pandas dan Numpy untuk keperluan \textit{data processing} serta bentuk data untuk dikirimkan ke komponen lain serta model prediksi ARIMA.
-  \item \textit{Kubernetes Python Client} untuk mengontrol \textit{cluster} kubernetes melalui kode Python.
-  \item \textit{Pickle} untuk menyimpan model ARIMA sehingga persisten meskipun sistem di-\textit{restart}.
-  \item \textit{Statsmodels} dan \textit{pmdarima} untuk membangun model ARIMA serta melakukan otomasi pencarian orde atau lebih dikenal sebagai Auto-ARIMA.
+  \item \textit{Docker}, \textit{Docker Desktop} dan \textit{Kind} untuk dipakai sebagai \textit{containerization} dan \textit{cluster} kubernetes lokal.
+  \item Implementasi \textit{service} bahasa pemrograman golang dan menggunakan beberapa kakas berikut
+        \begin{enumerate}
+          \item \textit{Kubernetes Go Client} untuk mengontrol \textit{cluster} kubernetes melalui kode Golang.
+          \item \textit{Echo} sebagai \textit{server framework}
+          \item \textit{Logrus} sebagai logger dari setiap aksi pada sistem
+          \item \textit{Cobra dan Viper} sebagai \textit{CLI command} pada golang untuk memudahkan pemilihan \textit{entrypoint} dan \textit{environment variables}
+          \item \textit{PQ, Sqlx, Go-migrate} sebagai kakas yang menghubungkan sistem dengan database. Sqlx merupakan ekstensi dari library \textit{database/sql} milik golang. Go migrate digunakan untuk melakukan migrasi dari schema sql yang telah dibuat dan melakukan keep track dari versi schema yang sedang digunakan
+          \item \textit{Validator} digunakan untuk memvalidasi \textit{request} yang masuk
+        \end{enumerate}
+
+  \item Implementasi \textit{dashboard} menggunakan \textit{vue} dan \textit{typescript} dan \textit{nuxt} sebagai framework.
+        \begin{enumerate}
+          \item \textit{NuxtUI} Sebagai kakas untuk memudahkan pembuatan \textit{UI}.
+          \item \textit{Pinia} Sebagai kakas untuk manajemen data \textit{UI}.
+          \item \textit{Zod} Sebagai object schema validator sebelum mengirimkan request.
+        \end{enumerate}
 \end{enumerate}

@@ -9,7 +9,7 @@ import (
 type Histories struct {
 	ID           uuid.UUID `json:"id" db:"id"`
 	DeviceID     uuid.UUID `json:"device_id" db:"device_id"`
-	ImageID      uuid.UUID `json:"image_id" db:"image_id"`
+	RepositoryID uuid.UUID `json:"repository_id" db:"repository_id"`
 	DeploymentID uuid.UUID `json:"deployment_id" db:"deployment_id"`
 	CompanyID    uuid.UUID `json:"company_id" db:"company_id"`
 	Status       string    `json:"status" db:"status"`

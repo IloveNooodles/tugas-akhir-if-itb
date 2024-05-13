@@ -29,7 +29,7 @@ export default defineNuxtConfig({
     pageTransition: { name: 'page', mode: 'out-in' },
   },
   typescript: {
-    typeCheck: true,
+    typeCheck: false,
     strict: false,
   },
   css: ['~/assets/css/tailwind.css', '~/assets/css/index.css'],

@@ -2,7 +2,6 @@
 import type { FormSubmitEvent } from '#ui/types';
 import { FetchError } from 'ofetch';
 import { createDeployment, getDeploymentList } from '~/api/deployment';
-import { getDeploymentHistoryList } from '~/api/history';
 import { createRepository, getRepositoryList } from '~/api/repository';
 import {
   type CreateDeploymentSchema,
@@ -41,16 +40,6 @@ const {
 // TODO gabungin sama image biar jelas tablenya ngapain
 const deployColumn = computed(() => {
   return generateColumnsFromArray(deployData.value, []);
-});
-
-const {
-  data: deployHistoryData,
-  error: deployHistoryError,
-  pending: deployHistoryPending,
-} = await getDeploymentHistoryList(nuxtApp);
-
-const deployHistoryColumn = computed(() => {
-  return generateColumnsFromArray(deployHistoryData.value, []);
 });
 
 const repositoryState = ref<CreateRepositorySchema>({
@@ -232,7 +221,7 @@ async function onDeleteDeployments() {
       </UModal>
     </div>
 
-    <div class="wrap">
+    <!-- <div class="wrap">
       <h2>Deployment Histories</h2>
       <HistoryList
         :data="deployHistoryData"
@@ -240,6 +229,6 @@ async function onDeleteDeployments() {
         :columns="deployHistoryColumn"
         :error="deployHistoryError"
       />
-    </div>
+    </div> -->
   </UContainer>
 </template>
