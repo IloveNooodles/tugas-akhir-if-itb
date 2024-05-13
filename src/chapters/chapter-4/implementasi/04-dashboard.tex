@@ -43,7 +43,7 @@ Sama seperti halaman \textit{account}, terdapat tombol dengan icon elipsis pada 
   \label{fig:halaman-device-actions}
 \end{figure}
 
-Pada halaman ini terdapat tombol yang dapat ditekan untuk menambahkan \textit{device}. Apabila ditekan akan muncul sebuah modal. Modal ini berisi input yang dapat \textit{user} isi untuk membuat sebuah \textit{device} baru pada sistem. Terdapat validasi pada setiap input, setelah semua validasi dilewati maka barulah tombol \textit{submit} akan mengirimkan \textit{request} ke \textit{server} untuk di proses.
+Pada halaman ini terdapat tombol yang dapat ditekan untuk menambahkan \textit{device}. Apabila ditekan akan muncul sebuah modal. Modal ini berisi input yang dapat \textit{user} isi untuk membuat sebuah \textit{device} baru pada sistem. Terdapat validasi pada setiap input, setelah semua validasi dilewati, tombol \textit{submit} akan mengirimkan \textit{request} ke \textit{server} untuk di proses.
 
 Akan muncul sebuah notifikasi pada bagian kanan bawah tergantung \textit{response} yang diberikan oleh \textit{server}. Warna hijau menandakan bahwa \textit{response} sukses dan warna \textit{merah} menandakan bahwa terdapat masalah ketika memproses \textit{request}.
 
@@ -59,7 +59,11 @@ Akan muncul sebuah notifikasi pada bagian kanan bawah tergantung \textit{respons
 \pagebreak
 
 \subsubsection{Halaman \textit{Device detail}}
-penjelasan halaman device detail
+Halaman ini dapat diakses dengan cara mengunjungi \textbf{/devices/:id} dari tombol \textit{detail} pada \textit{actions} yang berada pada halaman \textbf{/devices}. Pada halaman ini \textit{user} dapat menambahkan \textit{device} ke dalam sebuah group dengan menekan tombol \textit{add group}.
+
+Modal \textit{add group} akan muncul jika tombol ditekan, modal ini memliki sebuah dropdown yang telah berisi \textit{group} yang tersedia pada sistem. Akan muncul sebuah notifikasi pada bagian bawah kanan untuk menandakan bahwa \textit{request} berhasil di proses oleh server. Warna hijau menandakan sukses dan warna merah menandakan bawhwa \textit{server} belum berhasil memproses permintaan tersebut.
+
+Pada halaman ini juga terdapat tombol \textit{delete} yang berada pada pojok kanan atas. Jika \textit{user} memutuskan untuk menghapus \textit{device}, akan muncul sebuah modal konfirmasi sebelum aksi penghapusan dilakukan.
 \begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-4/dashboard/device-detail-page.jpg}
@@ -84,12 +88,26 @@ penjelasan halaman device detail
 \pagebreak
 
 \subsubsection{Halaman \textit{Groups}}
-penjelasan halaman groups
+Halaman ini berada pada \textit{route \textbf{/groups}}. Halaman ini menunjukan informasi mengenai \textit{groups} yang telah terdaftar pada sistem. Informasi ditampilkan dalam bentuk tabel yang berisi detail dari objek \textit{groups}.
+
+Pada tabel terdapat tombol elipsis yang terletak pada bagian kanan dari masing masing \textit{row}. Sama seperti tabel lainnya, tombol ini berfungsi untuk melakukan \textit{action} pada \textit{row}. Aksi yang dapat dilakukan berupa mengakses halaman detail atau menghapus \textit{item} tersebut.
+
+Apabila tombol \textit{detail} dipilh maka \textit{user} akan menuju halaman \textit{group detail}. Apabila tombol \textit{delete} dipilih maka \textit{item} akan dihapus dari sistem dan muncul notifikasi pada bagian bawah yang menandkana bahwa proses berhasil dilakukan.
+
+Pada halaman ini juga \textit{user} dapat menambahkan \textit{groups} dengan menekan tombol \textit{add group}. Ketika tombol ini ditekan akan muncul modal yang memiliki input nama. Input ini memiliki validasi berupa panjang karakter yang dimasukan haruslah memiliki panjang minimal 8 karakter. Setelah validasi berhasil di lewati, maka tombol submit akan berfungsi untuk mengirimkan \textit{request} ke server. Akan muncul notifikasi pada bagian bawah kanan untuk menandakan bahwa \textit{request} berhasil di proses. Warna hijau menandakan bahwa \textit{request} berhasil di proses dan warna merah menandakan sebaliknya.
+
 \begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-4/dashboard/groups-page.jpg}
   \caption{Halaman \textit{groups}}
   \label{fig:halaman-groups}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{resources/chapter-4/dashboard/groups-page-actions.jpg}
+  \caption{Actions pada table \textit{groups}}
+  \label{fig:halaman-groups-actions}
 \end{figure}
 
 \begin{figure}[h]
@@ -102,7 +120,10 @@ penjelasan halaman groups
 \pagebreak
 
 \subsubsection{Halaman \textit{Groups detail}}
-penjelasan halaman groups detail
+Halaman ini dapat diakses oleh \textit{pengguna} melalui tombol \textit{detail} yang ada pada tabel di halaman \textit{groups}. Halaman ini memiliki \textit{route \textbf{/groups/:id}}. Pada halaman ini \textit{user} dapat melihat informasi mengenai detail dari \textit{groups} yang dipilih mulai dari nama, deskripsi dan \textit{device} apa saja yang telah terhubung pada \textit{group tersebut}.
+
+\textit{user} juga dapat menambahkan \textit{device} dengan cara menekan tombol \textit{add devices} yang akan memunculkan modal berisi dropdown seluruh perangkat yang belum memiliki \textit{groups}.
+
 \begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-4/dashboard/groups-detail-page.jpg}
@@ -110,27 +131,29 @@ penjelasan halaman groups detail
   \label{fig:halaman-groups-detail}
 \end{figure}
 
-halamann awkefljawkfejawkefaw
-
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-4/dashboard/groups-detail-add-device.jpg}
   \caption{Modal menambahkan group pada \textit{groups detail}}
   \label{fig:halaman-groups-detail-add-group}
 \end{figure}
 
-halamann awkefljawkfejawkefaw
-
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-4/dashboard/groups-detail-delete.jpg}
   \caption{Modal menghapus groups pada halaman \textit{groups detail}}
   \label{fig:halaman-groups-detail-delete}
 \end{figure}
 
+\pagebreak
 
 \subsubsection{Halaman \textit{Deployment}}
-penjelasan halaman deployment
+Halaman ini merupakan fungsionalitas utama dari sistem \textit{remote deployment}. Halaman ini dapat diakses melalui \textit{sidebar} dan memiliki \textit{route \textbf{/deployments}}. Pada halaman ini \textit{user} dapat melihat informasi mengenai \textit{deployment plan} yang terdaftar pada sistem. Selain itu juga terdapat informasi mengenai \textit{deployment images} yang tersedia dalam sistem. Kedua informasi ditampilkan dalam bentuk tabel yang masing masing memiliki tombol \textit{add} pada bagian kanan bawah tabel.
+
+Tombol add tersebut akan memunculkan modal yang berisi input yang harus diisi jika ingin membuat \textit{item} baru. Sama seperti tabel lainnya, pada masing masing tabel terdapat tombol elipsis pada bagian kanan untuk melakukan aksi berupa melihat \textit{detail} ataupun menghapus \textit{item} yang bersesuaian.
+
+Tombol \textit{detail} akan mengarahkan \textit{user} ke halaman detail yang bersesuaian.
+
 \begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-4/dashboard/deployment-page.jpg}
@@ -155,7 +178,8 @@ penjelasan halaman deployment
 \pagebreak
 
 \subsubsection{Halaman \textit{deployments detail}}
-penjelasan halaman deployments detail
+Halaman ini dapat diakses melalui tombol \textit{detail} di tabel \textit{deployment} pada halaman \textit{deployment}. Halaman ini memiliki \textit{route \textbf{/deployments/:id}}. Halaman ini menunjukan informasi mengenai \textit{deployment} yang telah dilakukan, status dari \textit{deployment}, serta target dari \textit{deployment} tersebut.
+
 \begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-4/dashboard/deployment-detail-page.jpg}
@@ -172,9 +196,5 @@ penjelasan halaman deployments detail
 
 \pagebreak
 
-\subsubsection{Halaman \textit{history detail}}
-Penjelasan halaman history detail
-
 \subsubsection{Halaman \textit{FAQ}}
-Penjelasan halaman faq
-
+Halaman ini berada pada \textit{route \textbf{/faq}}. Halaman ini bertujuan untuk memberikan informasi mengenai tata cara hal yang perlu dilakukan sebelum mendaftarkan \textit{device} ke sistem. Terdapat dua bagian yang dibedakan dari banyaknya \textit{device} yang terhubung ke dalam sistem. Dua kategori tersebut yaitu jika belum memiliki \textit{device} sama sekali dan memiliki setidaknya 1 \textit{device} yang telah terhubung dengan sistem.
