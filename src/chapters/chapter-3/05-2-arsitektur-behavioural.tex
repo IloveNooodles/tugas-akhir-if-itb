@@ -20,7 +20,7 @@ Pada \textit{use case} ini, admin yang berperan untuk mendaftarakan \textit{comp
 
 Pada \textit{use case} ini, admin yang berperan untuk mendaftarakan \textit{user} baru yang ingin mendaftarkan ke dalam sistem. Admin dapat melakukan request melalui HTTP Client ke server. Server akan melakukan validasi data dan apabila telah pass, server akan memasukan informasi ke database. Akhirnya, server akan memberikan response berupa objek \textit{user} yang dapat digunakan untuk login oleh \textit{user}.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-02.jpg}
   \caption{\textit{Use case} Mendaftarkan \textit{User}}
@@ -42,7 +42,7 @@ Pada \textit{use case} ini, admin yang berperan untuk melakukan manajemen \texti
 
 Pada \textit{use case} ini, admin yang berperan untuk melakukan manajemen \textit{user}. Admin dapat menghapus ataupun mengupdate detail \textit{user}. Server akan melakukan validasi data dan apabila telah pass, server akan melakukan update informasi yang diberikan ke database. Setelah itu server akan memberikan repsonse berupa hasil update yang telah dilakukan.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-04.jpg}
   \caption{\textit{Use case} Manajemen \textit{User}}
@@ -53,7 +53,7 @@ Pada \textit{use case} ini, admin yang berperan untuk melakukan manajemen \texti
 
 Pada \textit{use case} ini, \textit{user} dapat login ke dalam aplikasi dengan menginput kredensial berupa email dan password. Apabila data yang diberikan salah maka akan muncul modal untuk menandakan kesalahan yang dibuat. Apabila data benar, maka akan diberikan modal sukses lalu akan dilakukan \textit{redirect} ke halaman utama. Pada sisi server, terdapat beberapa validasi seperti apakah email terdapat di database ataupun password match dengan hashed password yang ada di database. Setelah itu, server akan memberikan response status ok dan memberikan \textit{user} akses ke halaman utama.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-05.jpg}
   \caption{\textit{Use case} Alur Login}
@@ -64,7 +64,7 @@ Pada \textit{use case} ini, \textit{user} dapat login ke dalam aplikasi dengan m
 
 Pada \textit{use case} ini, \textit{user} dapat melihat detail \textit{company} dengan cara mengunjungi halaman \textit{account}. Data akan diambil secara langsung melalui API Call ke server, apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan, akan ditampilkan detail dari \textit{company} \textit{user}.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-06.jpg}
   \caption{\textit{Use case} Melihat detail \textit{company}}
@@ -77,7 +77,7 @@ Pada \textit{use case} ini, \textit{user} dapat melihat detail \textit{company} 
 
 Pada \textit{use case} ini, \textit{user} dapat melihat detail seluruh user yang berada pada satu \textit{company} yang sama dengan cara mengunjungi halaman \textit{account}. Data akan diambil secara langsung melalui API Call ke server, apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan, akan ditampilkan daftar \textit{user} yang bersesuaian.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-07.jpg}
   \caption{\textit{Use case} Melihat user lain di satu \textit{company}}
@@ -90,7 +90,7 @@ Pada \textit{use case} ini, \textit{user} dapat melihat detail seluruh user yang
 
 Pada \textit{use case} ini, \textit{user} dapat melakuakan manajemen perangkat dengan mengunjungi halaman \textit{devices}. Pada halaman ini \textit{user} dapat melakukan beberapa operasi yaitu mengambil daftar perangkat yang terdaftar, menambahkan perangkat baru, dan menghapus perangkat. Operasi pengambilan perangkat yang terdaftar dilakukan secara langsung ketika mengunjungi halaman. Operasi penghapusan ataupun penambahan perangkat dapat dilakukan oleh \textit{user} dengan cara menekan tombol yang ada pada laman. Ketika tombol ditekan terdapat validasi yang dilakukan pada halaman maupun pada server. Setelah melewati tahapan validasi, server akan melakukan update pada database. Apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan, akan ditampilkan sebuah modal yang menandakan operasi berhasil untuk dilakukan.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-08.jpg}
   \caption{\textit{Use case} Manajemen Perangkat}
@@ -103,7 +103,7 @@ Pada \textit{use case} ini, \textit{user} dapat melakuakan manajemen perangkat d
 
 Pada \textit{use case} ini, \textit{user} dapat melakuakan manajemen \textit{groups} dengan mengunjungi halaman \textit{groups}. Pada halaman ini \textit{user} dapat melakukan beberapa operasi yaitu mengambil daftar \textit{groups} yang terdaftar, menambahkan \textit{groups} baru, dan menghapus \textit{groups}. Operasi pengambilan \textit{groups} yang terdaftar dilakukan secara langsung ketika mengunjungi halaman. Operasi penghapusan ataupun penambahan \textit{groups} dapat dilakukan oleh \textit{user} dengan cara menekan tombol yang ada pada laman. Ketika tombol ditekan terdapat validasi yang dilakukan pada halaman maupun pada server. Setelah melewati tahapan validasi, server akan melakukan update pada database. Apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan, akan ditampilkan sebuah modal yang menandakan operasi berhasil untuk dilakukan.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-09.jpg}
   \caption{\textit{Use case} Manajemen \textit{groups}}
@@ -116,7 +116,7 @@ Pada \textit{use case} ini, \textit{user} dapat melakuakan manajemen \textit{gro
 
 Pada \textit{use case} ini, \textit{user} dapat melakuakan manajemen \textit{deployment images} dengan mengunjungi halaman \textit{deployments}. Pada halaman ini \textit{user} dapat melakukan beberapa operasi yaitu mengambil daftar \textit{deployment images} yang terdaftar, menambahkan \textit{deployment images} baru, dan menghapus \textit{deployment images}. Operasi pengambilan \textit{deployment images} yang terdaftar dilakukan secara langsung ketika mengunjungi halaman. Operasi penghapusan ataupun penambahan \textit{deployment images} dapat dilakukan oleh \textit{user} dengan cara menekan tombol yang ada pada laman. Ketika tombol ditekan terdapat validasi yang dilakukan pada halaman maupun pada server. Setelah melewati tahapan validasi, server akan melakukan update pada database. Apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan, akan ditampilkan sebuah modal yang menandakan operasi berhasil untuk dilakukan.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-10.jpg}
   \caption{\textit{Use case} Manajemen \textit{deployment images}}
@@ -129,7 +129,7 @@ Pada \textit{use case} ini, \textit{user} dapat melakuakan manajemen \textit{dep
 
 Pada \textit{use case} ini, \textit{user} dapat melakuakan manajemen \textit{deployment plan} dengan mengunjungi halaman \textit{deployments}. Pada halaman ini \textit{user} dapat melakukan beberapa operasi yaitu mengambil daftar \textit{deployment plan} yang terdaftar, menambahkan \textit{deployment plan} baru, dan menghapus \textit{deployment plan}. Operasi pengambilan \textit{deployment plan} yang terdaftar dilakukan secara langsung ketika mengunjungi halaman. Operasi penghapusan ataupun penambahan \textit{deployment plan} dapat dilakukan oleh \textit{user} dengan cara menekan tombol yang ada pada laman. Ketika tombol ditekan terdapat validasi yang dilakukan pada halaman maupun pada server. Setelah melewati tahapan validasi, server akan melakukan update pada database. Apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan, akan ditampilkan sebuah modal yang menandakan operasi berhasil untuk dilakukan.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-11.jpg}
   \caption{\textit{Use case} Manajemen \textit{deployment plan}}
@@ -143,7 +143,7 @@ Pada \textit{use case} ini, \textit{user} dapat melakuakan manajemen \textit{dep
 Pada \textit{use case} ini, \textit{user} dapat melakukan \textit{remote deployment} dengan \textit{deployment plan} yang telah dibuat. Aksi ini dilakukan dengan cara mengunjungi halaman \textit{deployments} lalu menekan tombol deploy. Akan ada modal yang muncul memilih deployment mana yang akan dilakukan. Ketika user memilih deployment plan yang ingin di \textit{deploy}, terdapat validasi pada server sebelum melakukan deployment pada kubernetes. Setelah semua validasi berhasil dilakukan, kubernetes akan menginformasikan control plane pada cluster yang terhubung untuk memberikan perintah deploy kepada target. Balikan dari seluruh operasi ini adalah response berupa deployment berhasil dilakukan. Terdapat operasi \textit{asynchronus} pada \textit{background} untuk mengecek status deployment user
 
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-12.jpg}
   \caption{\textit{Use case} \textit{remote deployment}}
@@ -156,7 +156,7 @@ Pada \textit{use case} ini, \textit{user} dapat melakukan \textit{remote deploym
 
 Pada \textit{use case} ini, \textit{user} dapat melihat detail \textit{company} dengan cara mengunjungi halaman \textit{deployments}. Data akan diambil secara langsung melalui API Call ke server, apabila terdapat error maka terdapat pesan error yang muncul. Apabila data berhasil di dapatkan akan ditampilkan \textit{deployment} apa saja yang telah dilakukan beserta statusnya.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/usecase/uc-13.jpg}
   \caption{\textit{Use case} melihat riwayat \textit{deployment}}

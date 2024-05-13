@@ -10,7 +10,7 @@ Tujuan pengujian ini memastikan komponen \textbf{\textit{Predictor}} memakai mod
 
 Pengujian terhadap model prediksi dilakukan dengan \textit{dataset web server logs} NASA selama dua bulan. Data ini dikumpulkan oleh NASA Kennedy Space Center WWW server di Florida selama dua bulan dan bisa diklasifikasikan menjadi dua buah bagian. Bagian pertama dimulai dari 00:00:00 1 Juli 1995 sampai 23:59:59 31 July 1995 dengan total 31 hari. Bagian kedua dimulai dari 00:00:00 1 August 1995 sampai 23:59:59 31 August 1995. Kedua bagian ini mengandung $3.461.612$ permintaan secara total. Karena adanya badai Erin, server ditutup, sehingga tidak ada data yang dikumpulkan antara 1 Agustus 1995 14:52:01 dan 3 Agustus 1995 04:36:13. Data diproses dengan melakukan agregat ke semua log di menit yang sama untuk merepresentasikan beban kerja per menit, lihat gambar \ref{fig:nasa-aggr}.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{chapter-4/nasa-aggr.png}
   \caption{Agregat Log \textit{Web Server} NASA}
@@ -95,7 +95,7 @@ Setelah dilakukan pengujian, maka didapatkan angka berikut. Diambil juga data ri
 
 Dilakukan juga pembuatan grafik perbandingan nilai aktual dengan prediksi yang dapat dilihat pada gambar \ref{fig:arima-actual-predict}.
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{chapter-4/arima-actual-predict.png}
   \caption{Perbandingan Nilai Aktual dan Prediksi Model ARIMA}

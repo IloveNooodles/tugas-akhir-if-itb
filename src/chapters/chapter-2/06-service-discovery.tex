@@ -12,7 +12,7 @@ Keuntungan untuk menggunakan \textit{pattern} ini ialah proses pembuatan kode ya
 \subsection{\textit{Client Side}}
 \textit{Client Side pattern} adalah suatu solusi \textit{service discovery} dengan proses \textit{client} yang mencari lokasi \textit{service} yang ingin dituju. \textit{Client} akan mencari lokasi dari tujuan dengan cara melakukan \textit{query} ke \textit{service registry} sehingga lokasi dari \textit{service} yang dituju dapat ditemukan secara dinamis dan \textit{runtime}. Beberapa keunggulan dari \textit{pattern} ini adalah mengurangi kompleksitas dan latensi karena mengurangi jumlah \textit{node} yang perlu di kunjungi. Namun salah satu kekurangannya yaitu meningkatnya kompleksitas kode yang dibuat, karena proses pencarian \textit{service} diletakkan di \textit{client} maka proses pencarian dan perubahan sepenuhnya dibebankan pada \textit{client}. Hal ini membuat proses pencarian tidak \textit{scalable} dan sulit ketika akan melakukan perubahan \parencite{clientsidediscovery}. Visualisasi dari \textit{client side service discovery} dapat dilihat pada \textbf{Gambar \ref{fig:client-side-discovery}}
 
-\begin{figure}[ht]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-2/client-side-discovery.jpg}
   \caption{Visualisasi \textit{client side discovery} \parencite{clientsidediscovery} }

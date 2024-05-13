@@ -42,6 +42,7 @@ const columns = computed(() => {
     'created_at',
     'updated_at',
     'company_id',
+    'actions',
   ]);
 });
 </script>
