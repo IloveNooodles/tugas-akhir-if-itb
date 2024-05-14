@@ -18,49 +18,49 @@ Tujuan pengujian ini memastikan komponen \textbf{\textit{Resource Controller}} d
 
 Pada program pengujian yang dapat dilihat pada gambar \ref{fig:rc-driver}, pertama-tama akan ditambahkan memori sebesar 500MiB, dilanjutkan dengan menambah prosesor sejumlah 500m, kemudian, 1000m dan 1000MiB untuk prosesor dan memori, lalu terakhir, dikurangi sebesar 750m dan 1250MiB. Sebelum diubah, \textit{pods} memiliki konfigurasi yang dapat dilihat pada gambar \ref{fig:rc-state-0}. Untuk hasil pengubahan dapat dilihat pada gambar \ref{fig:rc-state-1}, \ref{fig:rc-state-2}, \ref{fig:rc-state-3}, dan \ref{fig:rc-state-4}. Kemudian program dijalankan ulang untuk melihat antrian pengubahan alokasi, gambar hasil pengujian dapat dilihat pada \ref{fig:rc-queue}. Dari pengujian tersebut, komponen sudah menjalankan tugas sesuai ekspektasi.
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.55\textwidth]{chapter-4/rc-driver.png}
   \caption{Program \textit{Test Driver} untuk Menguji \textit{Resource Controller}}
   \label{fig:rc-driver}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\textwidth]{chapter-4/rc-state-0.png}
   \caption{Status \textit{Pods} Sebelum Pengubahan Alokasi}
   \label{fig:rc-state-0}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\textwidth]{chapter-4/rc-state-1.png}
   \caption{Status \textit{Pods} Setelah Pengubahan Pertama}
   \label{fig:rc-state-1}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\textwidth]{chapter-4/rc-state-2.png}
   \caption{Status \textit{Pods} Setelah Pengubahan Kedua}
   \label{fig:rc-state-2}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\textwidth]{chapter-4/rc-state-3.png}
   \caption{Status \textit{Pods} Setelah Pengubahan Ketiga}
   \label{fig:rc-state-3}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.8\textwidth]{chapter-4/rc-state-4.png}
   \caption{Status \textit{Pods} Setelah Pengubahan Keempat}
   \label{fig:rc-state-4}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.45\textwidth]{chapter-4/rc-queue.png}
   \caption{Antrian Pengubahan Alokasi}
