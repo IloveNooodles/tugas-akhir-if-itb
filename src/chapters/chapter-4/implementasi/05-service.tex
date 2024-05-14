@@ -1,4 +1,8 @@
-\subsection{Implementasi \textit{service}}
+\subsection{Implementasi \textit{Service}}
+
+Implementasi \textit{service} dibuat dengan menggunakan bahasa pemrogramman golang dan framework \textit{Echo}. Arsitektur kode yang dibuat memiliki tiga lapisan dimulai dari \textit{handler}, \textit{usecase}, dan \textit{repository}. Handler bertujuan membaca permintaan pengguna dan dapat disebut sebagai entrypoint. Data dari handler akan diberikan kepada \textit{usecase} untuk diproses. \textit{Usecase} merupakan lapisan yang hanya memiliki \textit{logic} proses bisnis. Setelah data berhasil melewati lapisan \textit{usecase}, data siap untuk dimasukkan ke database. Proses hubungan antara \textit{service} dengan \textit{database} diletakan pada lapisan \textit{repository}. 
+
+Pemisahan lapisan ini mengikuti design pattern yaitu \textit{dependency injection}. Selain itu, pemisahan ini juga bertujuan memudahkan testing dan meningkatkan \textit{maintanability} karena mudah untuk dibaca dan dipahami.
 
 \subsubsection{Domain \textit{company}}
 \subsubsection{Domain \textit{user}}
