@@ -10,7 +10,9 @@ func RegisterRoute(h Handler, e *echo.Echo) {
 	companiesRoute.GET("", h.V1GetCompanyAndLoggedInUser, middleware.ValidateJWT)
 
 	adminCompaniesRoute := e.Group("/admin-api/v1/companies")
-	adminCompaniesRoute.POST("", h.V1Create, middleware.ValidateAdminAPIKey)
-	adminCompaniesRoute.GET("", h.V1AdminGetAll, middleware.ValidateAdminAPIKey)
-	adminCompaniesRoute.DELETE("/:id", h.V1Delete, middleware.ValidateAdminAPIKey)
+	adminCompaniesRoute.Use(middleware.ValidateAdminAPIKey)
+	adminCompaniesRoute.POST("", h.V1Create)
+	adminCompaniesRoute.GET("", h.V1AdminGetAll)
+	adminCompaniesRoute.GET("/:id", h.V1GetByID)
+	adminCompaniesRoute.DELETE("/:id", h.V1Delete)
 }

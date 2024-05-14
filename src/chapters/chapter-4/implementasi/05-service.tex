@@ -9,11 +9,11 @@ Pada sistem ini terdapat \textit{middleware} yang digunakan untuk melakukan auto
 \begin{enumerate}
   \item ValidateAPIKey
 
-        \textit{middleware} ini bertujuan untuk memastikan bahwa hanya \textit{client} yang sesuai lah yang dapat mengakses \textit{service}. API Key dikirimkan dengan cara meletakan pada header dengan key \textbf{X-API-Key}. Middleware ini akan dijalankan untuk seluruh \textit{endpoint} yang ada pada \textit{service}.
+        \textit{Middleware} ini bertujuan untuk memastikan bahwa hanya \textit{client} yang sesuai lah yang dapat mengakses \textit{service}. API Key dikirimkan dengan cara meletakan pada header dengan key \textbf{X-API-Key}. Middleware ini akan dijalankan untuk seluruh \textit{endpoint} yang ada pada \textit{service}.
 
   \item ValidateJWTKey
 
-        \textit{middleware} ini memiliki fungsi untuk memvalidasi JWT ketika \textit{user} mengirimkan \textit{request}. \textit{Middleware} ini dijalankan dengan melakukan parsing \textit{accessToken} yang didapat dari cookie pada setiap \textit{request}. Cookie didapat ketika \textit{user} telah melakukan login sebelumnya dan memiliki batas waktu \textit{expire}. Setelah berhasil \textit{login} \textit{user} akan memiliki dua buah cookie yaitu \textit{accessToken} dan \textit{refreshToken}.  \textit{Middleware} ini berjalan untuk seluruh \textit{endpoint user} kecuali \textit{refresh dan login}
+        \textit{Middleware} ini memiliki fungsi untuk memvalidasi JWT ketika \textit{user} mengirimkan \textit{request}. \textit{Middleware} ini dijalankan dengan melakukan parsing \textit{accessToken} yang didapat dari cookie pada setiap \textit{request}. Cookie didapat ketika \textit{user} telah melakukan login sebelumnya dan memiliki batas waktu \textit{expire}. Setelah berhasil \textit{login} \textit{user} akan memiliki dua buah cookie yaitu \textit{accessToken} dan \textit{refreshToken}.  \textit{Middleware} ini berjalan untuk seluruh \textit{endpoint user} kecuali \textit{refresh dan login}
 
 
   \item ValidateAdminAPIKey
@@ -25,7 +25,8 @@ Pada sistem ini terdapat \textit{middleware} yang digunakan untuk melakukan auto
 
 \subsubsection{Domain \textit{company}}
 
-Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} dan 3 untuk \textit{admin}. \textit{middleware} ValidateJWTKey digunakan pada \textit{endpoint user}. Untuk ketiga \textit{endpoint} admin, menggunakan \textit{middleware} ValidateAdminAPIKey.
+Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} dan 3 untuk \textit{admin}. \textit{middleware} ValidateJWTKey digunakan pada \textit{endpoint user}. Untuk ketiga \textit{endpoint} admin, menggunakan \textit{middleware} ValidateAdminAPIKey. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:company-class-diagram}
+
 
 \bgroup
 \begin{table}[ht]
@@ -33,24 +34,49 @@ Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} d
   \label{tab:api-contract-domain-company}
   \def\arraystretch{1.7}
   \centering
-  \begin{tabular}{|c|p{5cm}|p{6cm}|}
+  \begin{tabular}{|c|p{6cm}|p{4cm}|}
     \hline
     Method & Endpoint                    &
-    Deskripsi                                                                                                                                               \\
+    Fungsi                                                  \\
     \hline
-    POST   & /api/v1/companies           & \textit{User} dapat mendapatkan informasi mengenai \textit{company} miliknya serta daftar \textit{user} lainnya. \\
+    GET    & /api/v1/companies           & GetCompanyDetail \\
     \hline
-    POST   & /admin-api/v1/companies     & Admin dapat membuat \textit{company} baru pada sistem                                                            \\
+    POST   & /admin-api/v1/companies     & Create           \\
     \hline
-    GET    & /admin-api/v1/companies     & Admin dapat melihat seluruh \textit{company} pada sistem                                                         \\
+    GET    & /admin-api/v1/companies     & GetAll           \\
     \hline
-    DELETE & /admin-api/v1/companies/:id & Admin dapat menghapus \textit{company} dengan id tertentu                                                        \\
+    GET    & /admin-api/v1/companies/:id & GetById          \\
+    \hline
+    DELETE & /admin-api/v1/companies/:id & Delete           \\
     \hline
   \end{tabular}
 \end{table}
 \egroup
 
-Berdasarkan tabel \ref{tab:api-contract-domain-company} berikut
+\begin{enumerate}
+  \item Create
+
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name} dan \textit{cluster\textunderscore name} dari \textit{requester}. Kedua \textit{field} tersebut digunakan untuk mengidentifikasi cluster dari setiap \textit{company}. Terdapat validasi berupa unique(name, cluster\textunderscore name) pada \textit{databse} untuk memastikan bahwa tidak ada duplikat untuk setiap \textit{company}. Setelah semua validasi selesai \textit{server} akan memberikan \textit{response} berupa objek \textit{company} kepada \textit{requester}. Apabila gagal maka akan diberikan pesan error
+
+  \item GetAll
+
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun oleh admin. Fungsionalitas ini akan mengembalikan semua \textit{company} yang ada pada \textit{database} lalu mengembalikan kepada \textit{requester}.
+
+  \item GetById
+
+        Fungsionalitas ini dapat diakses oleh admin dengan cara memberikan \textit{company id} pada URL. Fungsi ini akan mencari id yang bersesuaian pada \textit{database} lalu mengembalikannya kepada \textit{requester}. Apabila id yang diberikan tidak valid maka akan dikembalikan pesan error
+
+  \item GetCompanyDetail
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan informasi mengenai \textit{company detail} miliknya. Fungsionalitas ini tidak menerima request apapun namun terdapat validasi jika \textit{companyId} dari \textit{user} tidak valid maka akan diberikan pesan error serta apabila \textit{accessToken} sudah \textit{expire} akan dikeluarkan pesan \textit{unauthorized}
+
+  \item Delete
+
+        Fungsionalitas ini dapat diakses oleh \textit{admin} untuk menghapus \textit{company} dari \textit{database}. Karena \textit{company} memiliki relasi ke banyak domain, ketika \textit{company} di delete akan mengadaptasi sistem \textit{cascade} sehingga seluruh data yang memiliki referensi ke \textit{companyId} akan terhapus secara otomatis.
+
+\end{enumerate}
+
+
 
 \subsubsection{Domain \textit{user}}
 \subsubsection{Domain \textit{devices}}
