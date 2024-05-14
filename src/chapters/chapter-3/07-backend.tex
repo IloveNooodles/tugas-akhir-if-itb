@@ -1,16 +1,20 @@
 \section{Rancangan Detail Komponen Service}
 \label{sec:rancangan-service}
 
-Berdasarkan \textit{sequence diagram} yang telah dibuat pada \textbf{Bagian \ref{subsec:arsitektur-behavioural}}. Sistem \textit{service} akan dibagi menjadi beberapa domain. Pembagian domain berfungsi untuk memfokuskan implementasi serta memudahkan tahapan testing. Terdapat 6 domain yaitu \textit{company}, \textit{user}, \textit{devices}, \textit{groups}, \textit{deployment}, dan \textit{external services}. Masing masing domain akan memiliki diagram kelas yang menjelaskan rancangan implementasi
+Berdasarkan \textit{sequence diagram} yang telah dibuat pada bagian \ref{subsec:arsitektur-behavioural}. Sistem \textit{service} akan dibagi menjadi beberapa domain. Pembagian domain berfungsi untuk memfokuskan implementasi serta memudahkan tahapan testing. Terdapat 6 domain yaitu \textit{company}, \textit{user}, \textit{devices}, \textit{groups}, \textit{deployment}, dan \textit{external services}. Setiap domain akan memiliki diagram kelas yang menjelaskan rancangan implementasi. \textit{package} diagram dan \textit{class} diagram secara keseluruhan dapat dilihat pada gambar \ref{fig:package-diagram} dan \ref{fig:package-class-domain-diagram}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{resources/chapter-3/class/class-diagram-overall.jpg}
+  \caption{\textit{package diagram} komponen service}
+  \label{fig:package-class-domain-diagram}
+\end{figure}
 
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/package-backend-diagram.jpg}
   \caption{\textit{package diagram} komponen service}
   \label{fig:package-diagram-backend}
 \end{figure}
-
-\pagebreak
 
 \subsection{Domain \textit{company}}
 
@@ -27,7 +31,7 @@ Domain ini mengatur konektivitas antara server dan database dalam hal \textit{co
 
 \subsection{Domain \textit{user}}
 
-Domain ini mengatur konektivitas antara server dan database dalam hal \textit{user}. Domain ini juga memliki tiga lapisan mulai dari lapisan paling luar \textit{handler}, diikuti dengan \textit{usecase} lalu terkahir \textit{repository} yang berhubungan dengan database. Domain ini juga yang mengatur bagian authentikasi seperti login dan register.
+Domain ini mengatur konektivitas antara server dan database dalam hal \textit{user}. Domain ini juga memliki tiga lapisan mulai dari lapisan paling luar \textit{handler}, diikuti dengan \textit{usecase} lalu terkahir \textit{repository} yang berhubungan dengan database. Domain ini juga yang mengatur bagian autentikasi seperti login dan register.
 
 \begin{figure}[h]
   \centering

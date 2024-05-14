@@ -1,10 +1,57 @@
 \subsection{Implementasi \textit{Service}}
 
-Implementasi \textit{service} dibuat dengan menggunakan bahasa pemrogramman golang dan framework \textit{Echo}. Arsitektur kode yang dibuat memiliki tiga lapisan dimulai dari \textit{handler}, \textit{usecase}, dan \textit{repository}. Handler bertujuan membaca permintaan pengguna dan dapat disebut sebagai entrypoint. Data dari handler akan diberikan kepada \textit{usecase} untuk diproses. \textit{Usecase} merupakan lapisan yang hanya memiliki \textit{logic} proses bisnis. Setelah data berhasil melewati lapisan \textit{usecase}, data siap untuk dimasukkan ke database. Proses hubungan antara \textit{service} dengan \textit{database} diletakan pada lapisan \textit{repository}. 
+Implementasi \textit{service} dibuat dengan menggunakan bahasa pemrogramman golang dan framework \textit{Echo} serta menggunakan \textit{REST API} sebagai gaya komunikasinya. Arsitektur kode yang dibuat memiliki tiga lapisan dimulai dari \textit{handler}, \textit{usecase}, dan \textit{repository}. Handler bertujuan membaca permintaan pengguna dan dapat disebut sebagai entrypoint. Data dari handler akan diberikan kepada \textit{usecase} untuk diproses. \textit{Usecase} merupakan lapisan yang hanya memiliki \textit{logic} proses bisnis. Setelah data berhasil melewati lapisan \textit{usecase}, data siap untuk dimasukkan ke database. Proses hubungan antara \textit{service} dengan \textit{database} diletakan pada lapisan \textit{repository}.
 
-Pemisahan lapisan ini mengikuti design pattern yaitu \textit{dependency injection}. Selain itu, pemisahan ini juga bertujuan memudahkan testing dan meningkatkan \textit{maintanability} karena mudah untuk dibaca dan dipahami.
+Pemisahan lapisan ini mengikuti design pattern yaitu \textit{dependency injection}. Selain itu, pemisahan ini juga bertujuan memudahkan testing dan meningkatkan \textit{maintanability} karena mudah untuk dibaca dan dipahami. \textit{endpoint} dibuat dengan menggunakan versioning dengan base \textit{endpoint} \textbf{/api/v1}. Versioning digunakan untuk memudahkan penggantian endpoint jika suatu saat terdapat perubahan major yang bersifat \textit{breaking}.
+
+Pada sistem ini terdapat \textit{middleware} yang digunakan untuk melakukan autorisasi \textit{pengguna}. Berikut merupakan daftar dan penjelasan \textit{middleware} pada sistem
+
+\begin{enumerate}
+  \item ValidateAPIKey
+
+        \textit{middleware} ini bertujuan untuk memastikan bahwa hanya \textit{client} yang sesuai lah yang dapat mengakses \textit{service}. API Key dikirimkan dengan cara meletakan pada header dengan key \textbf{X-API-Key}. Middleware ini akan dijalankan untuk seluruh \textit{endpoint} yang ada pada \textit{service}.
+
+  \item ValidateJWTKey
+
+        \textit{middleware} ini memiliki fungsi untuk memvalidasi JWT ketika \textit{user} mengirimkan \textit{request}. \textit{Middleware} ini dijalankan dengan melakukan parsing \textit{accessToken} yang didapat dari cookie pada setiap \textit{request}. Cookie didapat ketika \textit{user} telah melakukan login sebelumnya dan memiliki batas waktu \textit{expire}. Setelah berhasil \textit{login} \textit{user} akan memiliki dua buah cookie yaitu \textit{accessToken} dan \textit{refreshToken}.  \textit{Middleware} ini berjalan untuk seluruh \textit{endpoint user} kecuali \textit{refresh dan login}
+
+
+  \item ValidateAdminAPIKey
+
+        \textit{middleware} ini memiliki fungsi untuk melakukan autorisasi \textit{admin}. Terdapat Admin API Key yang dilietakan pada header dari setiap \textit{request} dengan key \textbf{X-Admin-API-Key}. Middleware ini berjalan untuk seluruh \textit{endpoint} dengan prefix \textbf{admin-api}.
+\end{enumerate}
+
+
 
 \subsubsection{Domain \textit{company}}
+
+Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} dan 3 untuk \textit{admin}. \textit{middleware} ValidateJWTKey digunakan pada \textit{endpoint user}. Untuk ketiga \textit{endpoint} admin, menggunakan \textit{middleware} ValidateAdminAPIKey.
+
+\bgroup
+\begin{table}[ht]
+  \caption{Api Contract Domain Company}
+  \label{tab:api-contract-domain-company}
+  \def\arraystretch{1.7}
+  \centering
+  \begin{tabular}{|c|p{5cm}|p{6cm}|}
+    \hline
+    Method & Endpoint                    &
+    Deskripsi                                                                                                                                               \\
+    \hline
+    POST   & /api/v1/companies           & \textit{User} dapat mendapatkan informasi mengenai \textit{company} miliknya serta daftar \textit{user} lainnya. \\
+    \hline
+    POST   & /admin-api/v1/companies     & Admin dapat membuat \textit{company} baru pada sistem                                                            \\
+    \hline
+    GET    & /admin-api/v1/companies     & Admin dapat melihat seluruh \textit{company} pada sistem                                                         \\
+    \hline
+    DELETE & /admin-api/v1/companies/:id & Admin dapat menghapus \textit{company} dengan id tertentu                                                        \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
+
+Berdasarkan tabel \ref{tab:api-contract-domain-company} berikut
+
 \subsubsection{Domain \textit{user}}
 \subsubsection{Domain \textit{devices}}
 \subsubsection{Domain \textit{groups}}
