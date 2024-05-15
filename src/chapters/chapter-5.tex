@@ -5,11 +5,19 @@ Bab Kesimpulan dan Saran akan menjadi bagian akhir dan penutup dari penelitian t
 \section{Kesimpulan}
 Penelitian tugas akhir ini mengimplementasikan cara untuk melakukan \textit{remote deployment} pada lingkungan \textit{IoT} dengan menggunakan kubernetes. Setelah dilakukan analisis, implementasi, dan pengujian, dapat diambil kesimpulan sebagai berikut.
 \begin{enumerate}
-  \item Contoh kesimpulan
+  \item Sistem \textit{remote deployment} pada lingkungan \textit{IoT} dengan \textit{Kubernetes} berhasil dibuat dengan arsitektur yang tersentralisasi untuk mengatur proses \textit{remote deployment} pada seluruh \textit{company}. Sistem sudah dibuat dengan baik dan berhasil untuk memenuhi kebutuhan fungsional yang telah didefinisikan sebelumnya, namun memiliki \textit{single point of failure} karena arsitektur yang terpusat.
+  \item Dengan sistem \textit{remote deployment}, perusahaan dapat dengan mudah untuk melakaukan manajemen perangkat \textit{IoT} dan melakukan \textit{deployment} dengan mudah.
+  \item Kubernetes sudah cocok sebagai \textit{resource manager} yang dipakai untuk proses \textit{remote deployment} pada sistem ini. Dengan seluruh fungsionalitas dan keamanannya memudahkan dalam proses pembuatan.
 \end{enumerate}
 
 \section{Saran}
 Adapun banyak kekurangan dan kelemahan yang ditemukan dalam penelitian tugas akhir ini. Berikut adalah beberapa saran yang dapat dilakukan untuk pengembangan atau penelitian selanjutnya.
 \begin{enumerate}
-  \item Contoh saran
+  \item Dapat diimplementasikan versioning pada deployment ketika melakukan \textit{rollback}. Ketika versi yang dicapai sudah tidak lagi ditemukan barulah \textit{deployment} di hapus dari \textit{cluster}.
+  \item Dapat diimplementasikan dashboard untuk \textit{admin} agar memudahkan proses manajemen \textit{company} dan \textit{user}.
+  \item Dapat membuat proses \textit{remote deployment} lebih terkustomisasi dengan cara membuat \textit{deployment plan} lebih \textit{flexible} lagi.
+  \item Menambahkan fitur seperti \textit{remote command} untuk melakukan eksekusi \textit{command} di setiap perangkat tanpa harus melakukannya satu persatu
+  \item Proses registrasi \textit{node} pada \textit{cluster} masih dilakukan secara manual, dapat digunakan sistem \textit{device discovery} untuk mengeleminasi proses yang redundan.
+  \item Sistem dapat dibuat sebagai \textit{microservice} untuk menghindari \textit{single point of failure}
+  \item Pembuatan \textit{swagger} dalam membuat \textit{service} akan membantu dokumentasi serta memudahkan proses \textit{testing}.
 \end{enumerate}
