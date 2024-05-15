@@ -1,7 +1,7 @@
 \subsection{Rancangan Detail Komponen Service}
 \label{sec:rancangan-service}
 
-Berdasarkan \textit{sequence diagram} yang telah dibuat pada bagian \ref{subsec:arsitektur-behavioural}. Sistem \textit{service} akan dibagi menjadi beberapa domain. Pembagian domain berfungsi untuk memfokuskan implementasi serta memudahkan tahapan testing. Terdapat 6 domain yaitu \textit{company}, \textit{user}, \textit{devices}, \textit{groups}, \textit{deployment}, dan \textit{external services}. Setiap domain akan memiliki diagram kelas yang menjelaskan rancangan implementasi. \textit{package} diagram dan \textit{class} diagram secara keseluruhan dapat dilihat pada gambar \ref{fig:package-diagram} dan \ref{fig:package-class-domain-diagram}
+Berdasarkan \textit{sequence diagram} yang telah dibuat pada bagian \ref{subsec:arsitektur-behavioural}. Sistem \textit{service} akan dibagi menjadi beberapa domain. Pembagian domain berfungsi untuk memfokuskan implementasi serta memudahkan tahapan testing. Terdapat 6 domain yaitu \textit{company}, \textit{user}, \textit{devices}, \textit{groups}, \textit{deployment}, dan \textit{external services}. Setiap domain akan memiliki diagram kelas yang menjelaskan rancangan implementasi. \textit{package} diagram dan \textit{class} diagram secara keseluruhan dapat dilihat pada gambar \ref{fig:package-diagram} dan \ref{fig:package-class-domain-diagram}.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-3/class/class-diagram-overall.jpg}
@@ -9,16 +9,11 @@ Berdasarkan \textit{sequence diagram} yang telah dibuat pada bagian \ref{subsec:
   \label{fig:package-class-domain-diagram}
 \end{figure}
 
-\begin{figure}[ht]
-  \centering
-  \includegraphics[width=1\textwidth]{resources/chapter-3/package-backend-diagram.jpg}
-  \caption{\textit{Package Diagram} Komponen \textit{Service}}
-  \label{fig:package-diagram-backend}
-\end{figure}
+\pagebreak
 
 \subsubsection{Domain \textit{company}}
 
-Domain ini mengatur konektivitas antara server dan database dalam hal \textit{company}. Domain ini memiliki tiga lapisan yaitu \textit{handler, usecase, dan repository}. Lapisan \textit{repository} yang akan melakukan hubungan dengan database dan lapisan \textit{handler} yang akan berinteraksi dengan request yang masuk.
+Domain ini mengatur konektivitas antara server dan database dalam hal \textit{company}. Domain ini memiliki tiga lapisan yaitu \textit{handler, usecase, dan repository}. Lapisan \textit{repository} yang akan melakukan hubungan dengan database dan lapisan \textit{handler} yang akan berinteraksi dengan request yang masuk. Illustrasi \textit{class diagram} dapat dilihat pada gambar \ref{fig:company-class-diagram}.
 
 \begin{figure}[ht]
   \centering
@@ -31,7 +26,7 @@ Domain ini mengatur konektivitas antara server dan database dalam hal \textit{co
 
 \subsubsection{Domain \textit{user}}
 
-Domain ini mengatur konektivitas antara server dan database dalam hal \textit{user}. Domain ini juga memliki tiga lapisan mulai dari lapisan paling luar \textit{handler}, diikuti dengan \textit{usecase} lalu terkahir \textit{repository} yang berhubungan dengan database. Domain ini juga yang mengatur bagian autentikasi seperti login dan register.
+Domain ini mengatur konektivitas antara server dan database dalam hal \textit{user}. Domain ini juga memliki tiga lapisan mulai dari lapisan paling luar \textit{handler}, diikuti dengan \textit{usecase} lalu terkahir \textit{repository} yang berhubungan dengan database. Domain ini juga yang mengatur bagian autentikasi seperti login dan register. Illustrasi \textit{class diagram} dapat dilihat pada gambar \ref{fig:user-class-diagram}.
 
 \begin{figure}[ht]
   \centering
@@ -42,7 +37,7 @@ Domain ini mengatur konektivitas antara server dan database dalam hal \textit{us
 
 \subsubsection{Domain \textit{devices}}
 
-Domain ini mengatur perangkat yang ada dalam sistem. Setiap perangkat memiliki ikatan dengan \textit{company}. Domain ini mengatur masalah CRUD dari satu \textit{company} yang dapat di manage oleh banyak \textit{user}. Sama seperti domain lainnya, domain ini memiliki tiga lapisan yaitu \textit{handler, usecase, dan repository}.
+Domain ini mengatur perangkat yang ada dalam sistem. Setiap perangkat memiliki ikatan dengan \textit{company}. Domain ini mengatur masalah CRUD dari satu \textit{company} yang dapat di manage oleh banyak \textit{user}. Sama seperti domain lainnya, domain ini memiliki tiga lapisan yaitu \textit{handler, usecase, dan repository}. Illustrasi \textit{class diagram} dapat dilihat pada gambar \ref{fig:device-class-diagram}.
 
 \begin{figure}[ht]
   \centering
@@ -53,7 +48,7 @@ Domain ini mengatur perangkat yang ada dalam sistem. Setiap perangkat memiliki i
 
 \subsubsection{Domain \textit{groups}}
 
-Domain ini mengatur \textit{groups} yang merupakan gabungan dari satu atau lebih perangkat. Seperti domain \textit{devices}, domain ini pun dapat dikelompokan berdasarkan \textit{company}. Seluruh \textit{user} dapat manage \textit{groups} selama masih dalam satu perusahaan yang sama. Domain ini juga memiliki tiga lapisan yaitu \textit{handler, usecase, dan repository}
+Domain ini mengatur \textit{groups} yang merupakan gabungan dari satu atau lebih perangkat. Seperti domain \textit{devices}, domain ini pun dapat dikelompokan berdasarkan \textit{company}. Seluruh \textit{user} dapat manage \textit{groups} selama masih dalam satu perusahaan yang sama. Domain ini juga memiliki tiga lapisan yaitu \textit{handler, usecase, dan repository}. Illustrasi \textit{class diagram} dapat dilihat pada gambar \ref{fig:groups-class-diagram}.
 
 \begin{figure}[ht]
   \centering
@@ -66,7 +61,7 @@ Domain ini mengatur \textit{groups} yang merupakan gabungan dari satu atau lebih
 
 \subsubsection{Domain \textit{deployment}}
 
-Domain ini merupakan domain yang paling \textit{complex} pada service ini. Domain ini cukup luas karena berhubungan dengan \textit{deployment images} dan \textit{deployment history}. Selain itu domain ini juga memiliki hubungan dengan external service yaitu \textit{kubernetes} untuk proses deploymentnya.
+Domain ini merupakan domain yang paling \textit{complex} pada service ini. Domain ini cukup luas karena berhubungan dengan \textit{deployment images} dan \textit{deployment history}. Selain itu domain ini juga memiliki hubungan dengan external service yaitu \textit{kubernetes} untuk proses deploymentnya. Illustrasi \textit{class diagram} dapat dilihat pada gambar \ref{fig:deployment-class-diagram}
 
 \begin{figure}[ht]
   \centering
@@ -77,7 +72,7 @@ Domain ini merupakan domain yang paling \textit{complex} pada service ini. Domai
 
 \subsubsection{Domain \textit{external services}}
 
-Domain ini merupakan sebuah interface dari \textit{external service} yang digunakan oleh sistem. Terdapat dua external service yaitu \textit{database} dan \textit{kubernetes}. Namun,
+Domain ini merupakan sebuah interface dari \textit{external service} yang digunakan oleh sistem. Terdapat dua external service yaitu \textit{database} dan \textit{kubernetes}. Namun, hanya \textit{kuberntes controller} saja yang akan dibuat \textit{class diagram} karena untuk \textit{database} itu sudah diimplementasikan di masing masing domain pada lapisan \textit{repository}. Illustrasi \textit{class diagram} dapat dilihat pada gambar \ref{fig:kubernetes-controller-class-diagram}
 
 \begin{figure}[ht]
   \centering
