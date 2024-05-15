@@ -27,7 +27,7 @@ Keuntungan untuk menggunakan \textit{pattern} ini ialah proses pembuatan kode ya
   \item \textit{service} yang sedang tidak bisa melayani permintaan harus di-\textit{unregister} dari \textit{registry} untuk menghindari terjadinya \textit{crash}
 \end{enumerate}
 
-Selain itu \textit{client} juga harus melakukan poling untuk mendapatkan data terbaru mengenai \textit{service} yang sedang aktif dan dapat menerima permintaan \parencite{selfregistration}.
+Selain itu \textit{client} juga harus melakukan poling untuk mendapatkan data terbaru \textit{service} yang sedang aktif dan dapat menerima permintaan \parencite{selfregistration}.
 
 \subsection{\textit{Server-side}}
 Solusi ini memiliki visualisasi yang sama dengan \textit{client side discovery} pada \textbf{Gambar \ref{fig:client-side-discovery}}. Perbedaan yang mencolok yaitu alih alih \textit{client} yang melakukan request ke \textit{service registry}, \textit{client} akan melakukan \textit{request} kepada \textit{load balancer} dan \textit{load balancer} lah yang akan melakukan pencarian layanan mana yang sedang aktif dan dapat menerima permintaan. Cara ini merupakan cara yang paling umum digunakan untuk melakukan \textit{scaling} pada \textit{service} \parencite{servicesidediscovery}.

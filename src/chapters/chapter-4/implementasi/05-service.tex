@@ -13,7 +13,7 @@ Pada sistem ini terdapat \textit{middleware} yang digunakan untuk melakukan auto
 
   \item ValidateJWTKey
 
-        \textit{Middleware} ini memiliki fungsi untuk memvalidasi JWT ketika \textit{user} mengirimkan \textit{request}. \textit{Middleware} ini dijalankan dengan melakukan parsing \textit{accessToken} yang didapat dari cookie pada setiap \textit{request}. Cookie didapat ketika \textit{user} telah melakukan login sebelumnya dan memiliki batas waktu \textit{expire}. Setelah berhasil \textit{login} \textit{user} akan memiliki dua buah cookie yaitu \textit{accessToken} dan \textit{refreshToken}.  \textit{Middleware} ini berjalan untuk seluruh \textit{endpoint user} kecuali \textit{refresh dan login}
+        \textit{Middleware} ini memiliki fungsi untuk memvalidasi JWT ketika \textit{user} melakukan \textit{request}. \textit{Middleware} ini dijalankan dengan melakukan parsing \textit{accessToken} yang didapat dari cookie pada setiap \textit{request}. Cookie didapat saat \textit{user} telah melakukan login sebelumnya dan memiliki batas waktu \textit{expire}. Setelah berhasil \textit{login} \textit{user} akan memiliki dua buah cookie yaitu \textit{accessToken} dan \textit{refreshToken}.  \textit{Middleware} ini berjalan untuk seluruh \textit{endpoint user} kecuali \textit{refresh dan login}
 
 
   \item ValidateAdminAPIKey
@@ -67,7 +67,7 @@ Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} d
 
   \item GetCompanyDetail
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan informasi mengenai \textit{company detail} miliknya. Fungsionalitas ini tidak menerima request apapun namun terdapat validasi jika \textit{companyId} dari \textit{user} tidak valid maka akan diberikan pesan error serta apabila \textit{accessToken} sudah \textit{expire} akan dikeluarkan pesan \textit{unauthorized}
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan informasi \textit{company detail} miliknya. Fungsionalitas ini tidak menerima request apapun namun terdapat validasi jika \textit{companyId} dari \textit{user} tidak valid maka akan diberikan pesan error serta apabila \textit{accessToken} sudah \textit{expire} akan dikeluarkan pesan \textit{unauthorized}
 
   \item Delete
 
