@@ -4,7 +4,7 @@ Dalam penelitian ini akan dibahas tiga distribusi kubernetes yaitu KubeEdge, Mic
 \subsection{KubeEdge}
 KubeEdge merupakan solusi \textit{edge architecture} \textit{open source} yang mengembangkan kubernetes secara lebih jauh untuk domain spesifik yaitu \textit{IoT} \parencite{kubeedge}. Arsitektur KubeEdge memungkinkan untuk melakukan konfigurasi perangkat \textit{IoT} yang berada di \textit{edge} secara terpusat melalui komponen \textit{cloud}. Dengan adanya dua komponen \textit{edge core} dan \textit{cloud core} membuat komunikasi antara platform aplikasi menjadi \textit{seamless}.
 
-Untuk menghubungkan \textit{cloud core} dengan \textit{edge core}, KubeEdge menggunakan sebuah \textit{controller} yang dapat melakukan \textit{device discovery} terhadap \textit{edge core}. Setelah \textit{edge core} ditemukan, \textit{controller} akan meneruskan \textit{request} ke komponen berikutnya yaitu Sync Service. KubeEdge menggunakan KubeBus untuk melakukan komunikasi antar \textit{cloud} dan \textit{edge}, KubeBus menggunakan protokol HTTP untuk meneruskan \textit{request} dari \textit{cloud core} menuju \textit{edge core}. Setelah \textit{request} diterima oleh \textit{edge core}, akan digunakan protokol MQTT untuk menerima ataupun mengirim data dari perangkat \textit{IoT} ke \textit{edge core} begitu pula sebaliknya.
+Untuk menghubungkan \textit{cloud core} dengan \textit{edge core}, KubeEdge menggunakan sebuah \textit{controller} yang dapat melakukan \textit{device discovery} terhadap \textit{edge core}. Setelah \textit{edge core} ditemukan, \textit{controller} akan meneruskan \textit{request} ke komponen berikutnya yaitu Sync Service. KubeEdge menggunakan KubeBus untuk melakukan komunikasi antar \textit{cloud} dan \textit{edge}, KubeBus menggunakan protokol HTTP untuk meneruskan \textit{request} dari \textit{cloud core} menuju \textit{edge core}. Setelah \textit{request} diterima oleh \textit{edge core}, akan digunakan protokol MQTT untuk menerima ataupun mengirim data dari perangkat \textit{IoT} ke \textit{edge core} begitu pula sebaliknya. Illustrasi arsitektur dapat dilihat pada gambar \ref*{fig:arsitektur-kube-edge}
 
 \begin{figure}[ht]
   \centering
@@ -28,7 +28,7 @@ Dengan mengurangi penggunaan sumber daya yang dibutuhkan untuk menjalankan Kuber
 \subsection{K3s}
 K3s adalah sebuah platform \textit{open-source} yang memfasilitasi penggunaan Kubernetes dengan ukuran yang lebih ringan dan mudah diimplementasikan. K3s dikembangkan untuk memudahkan distirbusi dan manajemen Kubernetes dalam lingkungan yang lebih sederhana dan bersifat minimalis. K3s dibuat untuk mendukung pengembangan pada ranah \textit{IoT} karena K3s memiliki support sepenuhnya untuk arsitektur ARM serta cocok untuk digunakan pada lingkungan edge dan \textit{IoT} \parencite{k3s}.
 
-K3s memiliki dua komponen utama yaitu \textit{server, agent}. \textit{Server} dapat dikatakan sebagai sebuah \textit{control plane} atau \textit{master node} yang digunakan pada K3s berfungsi untuk mengatur seluruh permintaan ataupun request dari \textit{agent}. \textit{Server} memiliki tanggung jawab penuh terhadap masing masing \textit{agent} yang terhubung mulai dari menyimpan data dari masing masing \textit{agent}, \textit{controller}, serta \textit{scheduler} \parencite{k3s}. \textit{Agent} di sisi lain berfungsi sebagai \textit{slave node} yang akan mengeksekusi semua perintah dari \textit{server} atau \textit{master node}.
+K3s memiliki dua komponen utama yaitu \textit{server, agent}. \textit{Server} dapat dikatakan sebagai sebuah \textit{control plane} atau \textit{master node} yang digunakan pada K3s berfungsi untuk mengatur seluruh permintaan ataupun request dari \textit{agent}. \textit{Server} memiliki tanggung jawab penuh terhadap masing masing \textit{agent} yang terhubung mulai dari menyimpan data dari masing masing \textit{agent}, \textit{controller}, serta \textit{scheduler} \parencite{k3s}. \textit{Agent} di sisi lain berfungsi sebagai \textit{slave node} yang akan mengeksekusi semua perintah dari \textit{server} atau \textit{master node}. Illustrasi arsitektur dapat dilihat pada gambar \ref{fig:arsitektur-k3s}
 
 \begin{figure}[ht]
   \centering
@@ -36,3 +36,5 @@ K3s memiliki dua komponen utama yaitu \textit{server, agent}. \textit{Server} da
   \caption{Arsitektur K3s \parencite{k3s}}
   \label{fig:arsitektur-k3s}
 \end{figure}
+
+\pagebreak
