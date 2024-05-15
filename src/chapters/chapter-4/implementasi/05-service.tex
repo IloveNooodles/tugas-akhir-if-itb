@@ -230,7 +230,6 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 \end{table}
 \egroup
 
-
 \begin{enumerate}
   \item GetAll
 
@@ -262,10 +261,10 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 
 \subsubsection{Domain \textit{deployment}}
 
-Domain ini memiliki relasi \textit{one} to \textit{one} dengan domain \textit{external service}. Selain itu domain ini juga memiliki relasi one to many dengan \textit{company}. Karena satu \textit{company} bisa memiliki banyak \textit{deployment}. Pada domain ini akan dibagi menjadi tiga bagian yaitu \textit{deployment images}, \textit{deployment histories} dan \textit{deployment}. Hubungan domain dapat dilihat pada gambar \ref*{fig:deployment-class-diagram}
+Domain ini memiliki relasi \textit{one} to \textit{one} dengan domain \textit{external service}. Selain itu domain ini juga memiliki relasi one to many dengan \textit{company}. Karena satu \textit{company} bisa memiliki banyak \textit{deployment}. Pada domain ini akan dibagi menjadi tiga bagian yaitu \textit{deployment images}, \textit{deployment histories} dan \textit{deployment}. Hubungan domain dapat dilihat pada gambar \ref{fig:deployment-class-diagram}
 
 \subsubsubsection{Deployment Images}
-Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:groups-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-deployment-images}
+Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:deployment-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-deployment-images}
 
 \bgroup
 \begin{table}[ht]
@@ -313,6 +312,122 @@ Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{
   \item Delete
 
         Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{eployment images} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{eployment images} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{eployment images}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+
+\end{enumerate}
+
+\subsubsubsection{Deployment Histories}
+Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:deployment-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-deployment-histories}
+
+\bgroup
+\begin{table}[ht]
+  \caption{Api Contract Domain Deployment Histories}
+  \label{tab:api-contract-domain-deployment-histories}
+  \def\arraystretch{1.7}
+  \centering
+  \begin{tabular}{|c|p{6cm}|p{4cm}|}
+    \hline
+    Method & Endpoint                &
+    Fungsi                                               \\
+    \hline
+    GET    & /admin-api/v1/histories & GetAll            \\
+    \hline
+    GET    & /api/v1/histories       & GetAllByCompanyId \\
+    \hline
+    GET    & /api/v1/histories/:id   & GetById           \\
+    \hline
+    POST   & /api/v1/histories       & Create            \\
+    \hline
+    DELETE & /api/v1/histories/:id   & Delete            \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
+
+
+\begin{enumerate}
+  \item GetAll
+
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{deployment histories} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka akan dikembalikan daftar kosong.
+
+  \item GetAllByCompanyId
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{deployment histories} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey akan mencoba untuk melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka akan dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{deployment histories} akan menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
+
+  \item GetById
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{deployment histories} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka akan mengeluarkan pesan error.
+
+  \item Create
+
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{device\textunderscore id}, \textit{repository\textunderscore id}, \textit{deployment\textunderscore id}. Tidak ada validasi ketika ingin membuat \textit{deployement histories} dan \textit{Service} mengirimkan \textit{response} berupa \textit{deployment histories} yang berhasil dibuat kepada \textit{requester}.
+
+  \item Delete
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{eployment histories} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{deployment histories} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{deployment histories}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+
+\end{enumerate}
+
+\subsubsubsection{Deployment plan}
+Pada bagian ini yang terdapat 7 \textit{endpoint} dengan detail 6 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi ini merupakan implementasi utama dari domain ini. Bagian ini juga menjadi terhubung dengan dua bagian lainnya serperti pada gambar \ref{fig:deployment-class-diagram}. Pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-deployment}
+
+\bgroup
+\begin{table}[ht]
+  \caption{Api Contract Domain Deployment plan}
+  \label{tab:api-contract-domain-deployment}
+  \def\arraystretch{1.7}
+  \centering
+  \begin{tabular}{|c|p{6cm}|p{4cm}|}
+    \hline
+    Method & Endpoint                          &
+    Fungsi                                                         \\
+    \hline
+    GET    & /admin-api/v1/deployments         & GetAll            \\
+    \hline
+    GET    & /api/v1/deployments               & GetAllByCompanyId \\
+    \hline
+    GET    & /api/v1/deployments/:id           & GetById           \\
+    \hline
+    POST   & /api/v1/deployments               & Create            \\
+    \hline
+    DELETE & /api/v1/deployments/:id           & Delete            \\
+    \hline
+    POST   & /api/v1/deployments/deploy        & Deploy            \\
+    \hline
+    POST   & /api/v1/deployments/deploy/delete & DeleteDeploy      \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
+
+
+\begin{enumerate}
+  \item GetAll
+
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{deployment plan} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka akan dikembalikan daftar kosong.
+
+  \item GetAllByCompanyId
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{deployment plan} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey akan mencoba untuk melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka akan dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{deployment plan} akan menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
+
+  \item GetById
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{deployment plan} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka akan mengeluarkan pesan error.
+
+  \item Create
+
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{version}, \textit{target}, dan \textit{repository\textunderscore id}. Terdapat validasi yaitu \textit{unique constraint} pada \textit{name, version, dan repository\textunderscore id} pada satu company yang sama untuk mencegah data duplikat yang membingungkan. Setelah validasi selsai maka \textit{Service} mengirimkan \textit{response} berupa \textit{deployment plan} yang berhasil dibuat kepada \textit{requester}. Apabila gagal maka akan dikirimkan pesan error.
+
+  \item Delete
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{deployment plan} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{deployment plan} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{deployment plan}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+
+  \item Deploy
+
+        Fungsionalitas ini merupakan fungsionalitas utama dalam sistem \textit{remote deployment}. Fungsionalitas ini dapat diakses oleh \textit{user} untuk melakukan \textit{remote deployment} sesuai dengan \textit{deployment plan} yang dipilih. Fungsi ini menerima \textit{argument} berupa daftar dari \textit{deployment plan} yang ingin dipilh. Apabila terdapat salah satu \textit{deployment plan} yang tidak ditemukan maka proses akan gagal. Setelah semua validasi berhasil dilakukan, fungsi ini akan melanjutkan untuk memanggil \textit{extenral service kubernetes controller} dengan data yang telah disesuaikan.
+
+  \item DeleteDeploy
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk melakukan \textit{rollback deployment} dari \textit{deployment plan} yang dipilih. Fungsi ini menerima \textit{argument} berupa daftar dari \textit{deployment plan} yang ingin dihapus atau dilakukan \textit{rollback}. Apabila terdapat salah satu \textit{deployment plan} yang tidak ditemukan maka proses akan gagal
 
 \end{enumerate}
 
