@@ -16,7 +16,17 @@
 % Setting margin
 \usepackage[top=2cm,bottom=2cm,left=4cm,right=3cm]{geometry}
 
+% Math package
 \usepackage{mathptmx}
+
+% 4th Sectioning
+\newcommand{\subsubsubsection}[1]{\paragraph{#1}\mbox{}\\}
+\usepackage{titlesec}
+
+\titleformat{\subsubsubsection}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\subsubsubsection}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 % Judul bahasa Indonesia
 \usepackage[bahasa]{babel}
@@ -130,7 +140,7 @@
     {\Large\bfseries\uppercase}
 
 % Setting nomor pada subbsubsubbab
-\setcounter{secnumdepth}{3}
+\setcounter{secnumdepth}{4}
 
 \makeatletter
 

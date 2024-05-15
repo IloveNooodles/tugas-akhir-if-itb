@@ -22,10 +22,9 @@ Pada sistem ini terdapat \textit{middleware} yang digunakan untuk melakukan auto
 \end{enumerate}
 
 
-
 \subsubsection{Domain \textit{company}}
 
-Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} dan 3 untuk \textit{admin}. \textit{middleware} ValidateJWTKey digunakan pada \textit{endpoint user}. Untuk ketiga \textit{endpoint} admin, menggunakan \textit{middleware} ValidateAdminAPIKey. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:company-class-diagram}
+Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} dan 3 untuk \textit{admin}. \textit{middleware} ValidateJWTKey digunakan pada \textit{endpoint user}. Untuk ketiga \textit{endpoint} admin, menggunakan \textit{middleware} ValidateAdminAPIKey. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:company-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-company}
 
 
 \bgroup
@@ -77,9 +76,284 @@ Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} d
 \end{enumerate}
 
 
-
 \subsubsection{Domain \textit{user}}
+
+Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{company} karena satu company bisa memiliki banyak \textit{user}. Terdapat 7 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 3 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:user-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-user}
+
+\bgroup
+\begin{table}[ht]
+  \caption{Api Contract Domain User}
+  \label{tab:api-contract-domain-user}
+  \def\arraystretch{1.7}
+  \centering
+  \begin{tabular}{|c|p{6cm}|p{4cm}|}
+    \hline
+    Method & Endpoint                &
+    Fungsi                                     \\
+    \hline
+    GET    & /api/v1/users           & GetAll  \\
+    \hline
+    GET    & /api/v1/users/:id       & GetById \\
+    \hline
+    POST   & /api/v1/users/login     & Login   \\
+    \hline
+    POST   & /api/v1/users/refresh   & Refresh \\
+    \hline
+    GET    & /admin-api/v1/users     & GetAll  \\
+    \hline
+    POST   & /admin-api/v1/users     & Create  \\
+    \hline
+    DELETE & /admin-api/v1/users/:id & Delete  \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
+
+
+\begin{enumerate}
+  \item GetAll
+
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini akan memiliki pengecekan apakah user ataupun admin dan mengembalikan hasil yang sesuai. Jika \textit{user} yang memanggil fungsi ini maka akan dikembalikan user pada satu \textit{company} dan jika \textit{admin} yang memanggil ini maka akan dikembalikan seluruh user yang ada kepada \textit{requester}.
+
+  \item GetById
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} dengan cara memberikan \textit{user id} pada URL. Fungsi ini akan mencari id yang bersesuaian pada \textit{database} lalu mengembalikannya kepada \textit{requester}. Apabila id yang diberikan tidak valid maka akan dikembalikan pesan error
+
+  \item Login
+
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{email} dan \textit{password} dari \textit{requester}. Kedua field tersebut akan digunakan untuk mencari \textit{user} yang bersesuaian pada \textit{database}. Setelah data ditemukan akan dilakukan validasi password dengan cara melakukan \textit{compare hash} password dengan hash password yang tersimpan di database. Setelah semua validasi berhasil dilakukan maka, akan dikembalikan response serta cookie yang dengan "accessToken" dan "refreshToken". Apabila gagal maka akan diberikan pesan error
+
+        Kedua cookie ini nantinya akan digunakan untuk mengautorisasi setiap request. "accessToken" memiliki waktu \textit{expire} selama 1 jam dan "refreshToken" memiliki waktu \textit{expire} selama 1 hari. Untuk meningkatkan keamanan dan menghindari CSRF, Cookie di set dengan attribut "httpOnly", "sameSiteLax", serta "secure".
+
+  \item Refresh
+
+        Fungsionalitas ini menerima masukan berupa "refreshToken" dan akan memberikan "accessToken" baru ketika \textit{endpoint} ini di panggil oleh \textit{requester}. "refreshToken" akan \textit{expire} secara otomatis setelah 1 hari sehingga \textit{endpoint} ini otomatis akan mengembalikan pesan error jika "refreshToken" sudah \textit{expire}.
+
+  \item Create
+
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{email}, \textit{password}, serta \textit{company\textunderscore id} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek user pada \textit{database}. Pada fungsi ini akan dilakukan pengecekan apakah \textit{email} valid dan \textit{unique}. Selain itu ada validasi \textit{company\textunderscore id} agar dipastikan bahwa \textit{user} benar terdaftar ke \textit{company} yang sesuai. Apabila validasi tidak berhasil maka akan dikeluarkan pesan error, namun jika semua berhasil dilewati maka akan dikembalikan \textit{response} berupa \textit{user} yang telah dibuat pada database.
+
+  \item Delete
+
+        Fungsionalitas ini dapat diakses oleh \textit{admin} untuk menghapus \textit{user} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{user} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{user}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+
+\end{enumerate}
+
 \subsubsection{Domain \textit{devices}}
+
+Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{company} karena satu company bisa memiliki banyak \textit{devices}. Terdapat 6 \textit{endpoint} dengan detail 5 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:device-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-device}
+
+\bgroup
+\begin{table}[ht]
+  \caption{Api Contract Domain Devices}
+  \label{tab:api-contract-domain-device}
+  \def\arraystretch{1.7}
+  \centering
+  \begin{tabular}{|c|p{6cm}|p{4cm}|}
+    \hline
+    Method & Endpoint                   &
+    Fungsi                                                    \\
+    \hline
+    GET    & /admin-api/v1/devices      & GetAll              \\
+    \hline
+    GET    & /api/v1/devices            & GetAllByCompanyId   \\
+    \hline
+    GET    & /api/v1/devices/:id        & GetById             \\
+    \hline
+    GET    & /api/v1/devices/:id/groups & GetGroupsByDeviceId \\
+    \hline
+    POST   & /api/v1/devices            & Create              \\
+    \hline
+    DELETE & /api/v1/devices/:id        & Delete              \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
+
+
+\begin{enumerate}
+  \item GetAll
+
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{device} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka akan dikembalikan daftar kosong.
+
+  \item GetAllByCompanyId
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{device} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey akan mencoba untuk melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka akan dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{device} akan menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
+
+  \item GetById
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{device} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka akan mengeluarkan pesan error.
+
+  \item GetGroupsByDeviceId
+
+
+        Fungsionalitas ini akan mengembalikan seluruh relasi \textit{groups} yang berkaitan dengan \textit{device id} terkait. Fungsi ini akan menerima \textit{device id} dan akan mencari apakah terdapat \textit{groups} yang berkaitan dengan id tersebut. Fungsi ini akan mengembalikan seluruh \textit{groups} yang ada dan jika tidak ada satupun maka akan dikeluarkan daftar kosong. Apabila \textit{device id} tidak valid maka akan diberikan pesan error.
+
+  \item Create
+
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{type}, \textit{attributes}, serta \textit{node\textunderscore name} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek \textit{device} pada \textit{database}. Pada fungsi ini akan dilakukan pengecekan apakah \textit{node\textunderscore name} ada pada \textit{cluster} serta merupakan nama yang valid dan \textit{unique}. Selain itu terdapat validasi \textit{attributes} yaitu merupakan list of string yang masing masing harus memiliki '=' sebagai tanda pemisah. Hal ini dilakukan karena ini merupakan label yang akan diberikan pada \textit{node} pada \textit{cluster} nantinya. Apabila validasi tidak berhasil maka akan dikeluarkan pesan error, namun jika semua berhasil dilewati maka akan dikembalikan \textit{response} berupa \textit{device} yang telah dibuat pada database serta proses \textit{node} pada \textit{cluster} yang sudah di labeli dengan \textit{attributes}.
+
+  \item Delete
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{device} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{device} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{device}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+
+\end{enumerate}
+
 \subsubsection{Domain \textit{groups}}
+
+Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{company} karena satu \textit{company} bisa memiliki banyak \textit{groups}. Terdapat 6 \textit{endpoint} dengan detail 5 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:groups-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-groups}
+
+\bgroup
+\begin{table}[ht]
+  \caption{Api Contract Domain Groups}
+  \label{tab:api-contract-domain-groups}
+  \def\arraystretch{1.7}
+  \centering
+  \begin{tabular}{|c|p{6cm}|p{4cm}|}
+    \hline
+    Method & Endpoint                  &
+    Fungsi                                                  \\
+    \hline
+    GET    & /admin-api/v1/groups      & GetAll             \\
+    \hline
+    GET    & /api/v1/groups            & GetAllByCompanyId  \\
+    \hline
+    GET    & /api/v1/groups/:id        & GetById            \\
+    \hline
+    GET    & /api/v1/groups/:id/groups & GetDeviceByGroupId \\
+    \hline
+    POST   & /api/v1/groups            & Create             \\
+    \hline
+    DELETE & /api/v1/groups/:id        & Delete             \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
+
+
+\begin{enumerate}
+  \item GetAll
+
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{groups} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka akan dikembalikan daftar kosong.
+
+  \item GetAllByCompanyId
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{groups} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey akan mencoba untuk melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka akan dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{groups} akan menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
+
+  \item GetById
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{groups} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka akan mengeluarkan pesan error.
+
+  \item GetDeviceByGroupId
+
+
+        Fungsionalitas ini akan mengembalikan seluruh relasi \textit{device} yang berkaitan dengan \textit{group id} terkait. Fungsi ini akan menerima \textit{group id} dan akan mencari apakah terdapat \textit{device} yang berkaitan dengan id tersebut. Fungsi ini akan mengembalikan seluruh \textit{device} yang ada dan jika tidak ada satupun maka akan dikeluarkan daftar kosong. Apabila \textit{group id} tidak valid maka akan diberikan pesan error.
+
+  \item Create
+
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}. \textit{Field name} memiliki \textit{unique constraint} sehingga tidak mungkin ada nama \textit{groups} yang sama pada satu \textit{company}. Terdapat validasi untuk membuat nama \textit{groups} yang memiliki panjang minimal 8 characters untuk menghindari memberikan nama tanpa konteks. Apabila terdapat duplikat maka akan dikembalikan pesan error dan setelah semua validasi berhasil, \textit{service} akan mengirimkan \textit{response} berupa \textit{groups} yang berhasil dibuat kepada \textit{requester}.
+
+  \item Delete
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{groups} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{groups} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{groups}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+
+\end{enumerate}
+
+
 \subsubsection{Domain \textit{deployment}}
+
+Domain ini memiliki relasi \textit{one} to \textit{one} dengan domain \textit{external service}. Selain itu domain ini juga memiliki relasi one to many dengan \textit{company}. Karena satu \textit{company} bisa memiliki banyak \textit{deployment}. Pada domain ini akan dibagi menjadi tiga bagian yaitu \textit{deployment images}, \textit{deployment histories} dan \textit{deployment}. Hubungan domain dapat dilihat pada gambar \ref*{fig:deployment-class-diagram}
+
+\subsubsubsection{Deployment Images}
+Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:groups-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-deployment-images}
+
+\bgroup
+\begin{table}[ht]
+  \caption{Api Contract Domain Deployment Images}
+  \label{tab:api-contract-domain-deployment-images}
+  \def\arraystretch{1.7}
+  \centering
+  \begin{tabular}{|c|p{6cm}|p{4cm}|}
+    \hline
+    Method & Endpoint                   &
+    Fungsi                                                  \\
+    \hline
+    GET    & /admin-api/v1/repositories & GetAll            \\
+    \hline
+    GET    & /api/v1/repositories       & GetAllByCompanyId \\
+    \hline
+    GET    & /api/v1/repositories/:id   & GetById           \\
+    \hline
+    POST   & /api/v1/repositories       & Create            \\
+    \hline
+    DELETE & /api/v1/repositories/:id   & Delete            \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
+
+
+\begin{enumerate}
+  \item GetAll
+
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{deployment images} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka akan dikembalikan daftar kosong.
+
+  \item GetAllByCompanyId
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{deployment images} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey akan mencoba untuk melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka akan dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{deployment images} akan menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
+
+  \item GetById
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{deployment images} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka akan mengeluarkan pesan error.
+
+  \item Create
+
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{description}, \textit{image}. Teradapat \textit{unique constraint} pada \textit{field nama dan image} pada satu \textit{company} untuk mencegah duplikat. Apabila terdapat duplikat maka akan dikembalikan pesan error dan setelah semua validasi berhasil, \textit{service} akan mengirimkan \textit{response} berupa \textit{deployment images} yang berhasil dibuat kepada \textit{requester}.
+
+  \item Delete
+
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{eployment images} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{eployment images} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{eployment images}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+
+\end{enumerate}
+
 \subsubsection{Domain \textit{external services}}
+
+Domain ini memiliki relasi \textit{one} to \textit{one} dengan domain \textit{deployment}. Pada \textit{domain} ini tidak terdapat endpoint karena seluruh \textit{Fungsionalitas} ini akan digunakan pada domain \textit{deployment} pada lapisan \textit{usecase}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:kubernetes-controller-class-diagram}.
+
+
+\begin{enumerate}
+  \item GetConfig
+
+        Fungsionalitas ini digunakan untuk mendapatkan \textit{config} dari \textit{kubernetes client} yang dipakai.
+
+  \item GetNodes
+
+        Fungsionalitas ini digunakan untuk mendapatkan seluruh \textit{nodes} yang ada pada \textit{cluster} yang sedang terhubung
+
+  \item SwitchCluster
+
+        Fungsionalitas ini digunakan untuk merubah \textit{koneksi cluster kubernetes} yang digunakan. Karena setiap \textit{company} punya \textit{cluster\textunderscore name} yang berbeda beda maka ketika terdapat \textit{company} yang berbeda yang ingin memproses \textit{deployment} maka domain ini dapat melakukan manajemen \textit{cluster} yang terhubung.
+
+  \item LabelNode
+
+        Fungsionalitas ini digunakan untuk membuat label pada \textit{node} di \textit{cluster}. Label haruslah berbentuk key value yang dipisahkan dengan tanda =. Apabila label tidak valid maka akan mengembalikan error.
+
+  \item Deploy
+
+        Fungsionalitas ini digunakan untuk melakukan deployment pada \textit{cluster}. Deployment dilakukan dengan menargetkan \textit{device} sesuai dengan \textit{field target} pada \textit{deployment plan}. Apabila deployment sudah pernah dibuat, maka akan mengeluarkan pesan error dan jika belum maka proses deployment akan dilaksanakan dan diberikan \textit{response} berupa hasil \textit{deployment}
+
+  \item Get
+
+        Fungsionalitas ini digunakan untuk melakukan melihat seluruh deployment yang telah dibuat pada \textit{cluster} beserta status nya.
+
+
+
+  \item Patch
+
+        Fungsionalitas ini digunakan untuk \textit{mengupdate} deployment yang telah dibuat pada \textit{cluster}.
+
+  \item Delete
+
+        Fungsionalitas ini digunakan untuk menghapus \textit{deployment} pada \textit{cluster}.
+
+\end{enumerate}
