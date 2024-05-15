@@ -1,13 +1,13 @@
-\section{Analisis Solusi}
+\subsection{Alternatif Solusi}
 \label{sec:analisis-solusi}
 
 Berdasarkan analisis permasalahan pada \textbf{Bagian \ref{sec:analisis-permasalahan}} serta studi literatur, Terdapat tiga alternatif solusi untuk mengatasi permasalahan tesrebut. Sistem \textit{remote deployment} dapat dibuat dengan 3 cara yaitu berbasis kubernetes, berbasis \textit{apache zookeper}, serta membuat sendiri dari \textit{scratch}
 
-\subsection{Membuat sistem \textit{remote deployment} berbasis \textit{kubernetes}}
+\subsubsection{Membuat sistem \textit{remote deployment} berbasis \textit{kubernetes}}
 \textit{Kubernetes}, sebagai layanan orkestrasi kontainer yang kuat, menawarkan mekanisme otomatisasi \textit{deployment}, skalabilitas, dan manajemen aplikasi yang sangat cocok untuk lingkungan cloud dan terdistribusi. Dalam konteks \textit{IoT}, \textit{Kubernetes} bisa dimanfaatkan untuk mengelola dan mengorkestrasi aplikasi berbasis kontainer pada lingkungan \textit{IoT} (edge) ataupun pada cloud. \textit{kubernetes} mendukung model microservices yang fleksibel dan resilien serta memiliki banyak kelebihan yaitu  meliputi kemampuan autoscaling, pemulihan otomatis dari kegagalan, dan manajemen beban kerja yang efisien. Namun, Kubernetes juga memiliki kekurangan seperti kompleksitas konfigurasi dan kebutuhan sumber daya yang relatif tinggi, yang mungkin tidak ideal untuk perangkat IoT dengan keterbatasan sumber daya.
 
-\subsection{Membuat sistem \textit{remote deployment} berbasis \textit{Apache ZooKeper}}
+\subsubsection{Membuat sistem \textit{remote deployment} berbasis \textit{Apache ZooKeper}}
 Apache ZooKeeper menyediakan layanan koordinasi terdistribusi yang sangat diperlukan pada lingkungan aplikasi terdistribusi. Dalam konteks sistem \textit{remote deployment} pada lingkungan \textit{IoT}, ZooKeeper dapat dimanfaatkan untuk mengelola konfigurasi dan melakukan sinkronisasi di antara komponen sistem. Kelebihan menggunakan ZooKeeper antara lain konsistensi data yang tinggi, latensi rendah, dan model pemrograman yang relatif sederhana. Kekurangannya, ZooKeeper tidak secara langsung mendukung kasus penggunaan IoT yang spesifik tanpa integrasi tambahan dan bisa menjadi \textit{bottleneck} jika tidak dirancang dengan hati-hati, terutama dalam lingkungan dengan jumlah perangkat yang sangat besar. Sehingga perlu disesuaikan dan di adopsi agar menjadi kompatibel agar tidak menjadi \textit{bottleneck}
 
-\subsection{Membuat sistem \textit{remote deployment} dari \textit{scratch}}
+\subsubsection{Membuat sistem \textit{remote deployment} dari \textit{scratch}}
 Mengembangkan sistem provisioning skala besar dari awal memberi kebebasan maksimal dalam desain arsitektur yang spesifik sesuai dengan kebutuhan khusus proyek. Ini memungkinkan optimasi kinerja, efisiensi sumber daya, dan integrasi yang ketat dengan stack teknologi yang ada. Kelebihannya termasuk fleksibilitas desain dan potensi untuk inovasi. Namun, pendekatan ini juga memiliki kekurangan signifikan seperti waktu pengembangan yang lebih lama, resiko keamanan yang lebih tinggi karena kurangnya uji coba komunitas yang luas, dan tantangan dalam pemeliharaan serta skalabilitas sistem di masa depan.

@@ -1,4 +1,3 @@
-\section{Arsitektur Sistem}
 Seperti yang telah digambarkan pada \textbf{Gambar \ref{fig:gambaran-umum-arsitektur}}, arsitektur ini memiliki dua komponen utama yang menjadi dasar dari sistem. Yaitu \textit{dashboard} dan \textit{service}. Dashboard memiliki dua modul yaitu modul untuk menampilkan halaman halaman yang bersesuaian dan modul untuk melakukan koneksi dengan \textit{service}.
 
 Service memiliki tiga module yaitu server, database, serta kubernetes. Server akan menjadi pusat kontrol dari \textit{request} yang dikirimkan melalui \textit{dashboard}. Masing masing perangkat akan di \textit{manage} oleh modul kubernetes yang telah memiliki sistem cluster terpisah. Penjelasan arsitektur secara detail akan dijelaskan pada dua subbab yaitu arsitektur struktural serta arsitektur behavioural.
