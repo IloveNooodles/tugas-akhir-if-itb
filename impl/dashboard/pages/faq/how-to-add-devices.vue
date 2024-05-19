@@ -6,24 +6,26 @@
       <h2>Master</h2>
       <UDivider />
       <p>
-        Bagian ini digunakan apabila pengguna belum terdaftar sehingga belum
-        memiliki kubernetes cluster.
+        This section is used if the user is not yet registered and therefore
+        does not have a Kubernetes cluster.
       </p>
       <ol>
-        <li>Persiapkan sebuah server ataupun device yang memiliki</li>
-        <li>Jalankan sebuah terminal lalu execute script ini.</li>
+        <li>
+          Prepare a server or a device that capabale to connect to internet
+        </li>
+        <li>Run a terminal and execute this script.</li>
         <pre><code>curl -sfL https://get.k3s.io | sh -</code></pre>
         <p>
-          Untuk detail lebih lengkapnya dapat dilihat
+          For more detailed information, please refer to the
           <a href="https://k3s.io/"> k3s official page </a>
         </p>
         <li>
-          Setelah mengeksekusi perintah, node master akan secara otomatis
-          berjalan di background
+          After executing the command, the master node will automatically run in
+          the background.
         </li>
         <li>
-          Pastikan server ataupun device dapat diakses secara publik oleh user
-          ataupun perangkat lainnya.
+          Ensure the server or device can be publicly accessed by users or other
+          devices.
         </li>
       </ol>
     </section>
@@ -31,35 +33,32 @@
       <h2>Node</h2>
       <UDivider />
       <p>
-        Bagian ini digunakan apabila pengguna sudah memiliki kubernetes cluster
-        yang terhubung.
+        This section is used if the user already has a connected Kubernetes
+        cluster.
       </p>
       <ol>
-        <li>Persiapkan sebuah device untuk didaftarkan</li>
-        <li>Jalankan perintah ini pada terminal</li>
-        <pre><code>ping IP_PUBLIK_SERVER</code></pre>
+        <li>Prepare a device to be registered</li>
+        <li>Run this command in the terminal</li>
+        <pre><code>ping PUBLIC_SERVER_IP</code></pre>
         <p>
-          Jika perintah memberikan reply, maka server sudah dapat diakses secara
-          publik.
+          If the command returns a reply, the server is already publicly
+          accessible.
         </p>
-        <li>
-          Daftarkan sebagai node pada kubernetes cluster dengan menggunakan
-          perintah ini
-        </li>
+        <li>Register as a node in the Kubernetes cluster using this command</li>
         <pre><code>curl -sfL https://get.k3s.io | K3S_URL=https://ipserver:6443 K3S_TOKEN=mynodetoken K3S_NODE_NAME=mynodename sh -</code></pre>
         <div>
-          dengan penjelasan:
+          with the explanation:
           <ul>
-            <li>K3S_URL: Alamat server</li>
-            <li>K3S_TOKEN: Token yang didapat dari server</li>
-            <li>K3S_NODE_NAME: Nama Node</li>
+            <li>K3S_URL: Server address</li>
+            <li>K3S_TOKEN: Token obtained from the server</li>
+            <li>K3S_NODE_NAME: Node name</li>
           </ul>
-          Untuk detail lebih lengkapnya dapat dilihat
+          For more detailed information, please refer to the
           <a href="https://k3s.io/"> k3s official page </a>
         </div>
         <li>
-          Setelah mengeksekusi perintah, node akan terdaftar pada cluster secara
-          otomatis
+          After executing the command, the node will be automatically registered
+          to the cluster.
         </li>
       </ol>
     </section>
