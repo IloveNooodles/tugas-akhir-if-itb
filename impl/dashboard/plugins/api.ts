@@ -3,7 +3,7 @@ import { refresh } from '~/api/auth';
 
 export default defineNuxtPlugin(async (nuxtApp) => {
   const config = useRuntimeConfig();
-  const nxtApp = useNuxtApp()
+  const nxtApp = useNuxtApp();
 
   async function createApiClient() {
     const {
@@ -16,11 +16,14 @@ export default defineNuxtPlugin(async (nuxtApp) => {
         ['X-API-Key']: apiKey,
         ['X-Admin-API-Key']: adminApiKey ?? '',
       },
-      onResponseError({ error, request, response }) {
+      async onResponseError({ error, request, response }) {
         if (response.status === 401) {
           try {
-            refresh(nxtApp);
+            await refresh(nxtApp);
           } catch (err) {
+            useLocalStorage('accessToken', '').value = '';
+            useLocalStorage('refreshToken', '').value = '';
+
             callWithNuxt(nxtApp, () =>
               navigateTo('/login', { redirectCode: 301 }),
             );

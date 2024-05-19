@@ -23,6 +23,10 @@ const columns = computed(() => {
     'company_id',
   ]);
 });
+
+definePageMeta({
+  middleware: ['auth'],
+});
 </script>
 
 <template>

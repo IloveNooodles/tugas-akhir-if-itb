@@ -1,23 +1,16 @@
-const isAuthenticated = () => {
-  const accessToken = useCookie('accessToken');
-  const refreshToken = useCookie('refreshToken');
+import { useStorage } from '@vueuse/core';
 
-  if (!accessToken.value || !refreshToken.value) return false;
+const isAuthenticated = () => {
+  const at = useStorage('accessToken', '');
+  const rt = useStorage('refreshToken', '');
+
+  if (!at.value || !rt.value) return false;
 
   return true;
 };
 
 export default defineNuxtRouteMiddleware((to, from) => {
-  const nuxtApp = useNuxtApp();
-
-  if (
-    import.meta.client &&
-    nuxtApp.isHydrating &&
-    nuxtApp.payload.serverRendered
-  )
-    return;
-
-  // if (!isAuthenticated()) {
-  //   return navigateTo('/login');
-  // }
+  if (!isAuthenticated() && to.path !== '/login') {
+    return navigateTo('/login');
+  }
 });

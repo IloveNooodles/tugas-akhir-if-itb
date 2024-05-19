@@ -4,10 +4,10 @@ import {
   type UserLoginSchema as Schema,
   userLoginSchema as schema,
 } from '@/types/user';
+import { useStorage } from '@vueuse/core';
 import { FetchError } from 'ofetch';
 import { login } from '~/api/auth';
 
-const { set } = useAuthStore();
 const nuxtApp = useNuxtApp();
 const toast = useToast();
 
@@ -17,7 +17,6 @@ const state = ref({
 });
 
 const disabled = ref(false);
-
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const body = event.data;
   try {
@@ -26,7 +25,10 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
       title: 'Success Login, redirecting',
     });
     const { access_token, refresh_token } = response.data;
-    set(access_token, refresh_token);
+
+    useStorage('accessToken', access_token);
+    useStorage('refreshToken', refresh_token);
+
     disabled.value = true;
 
     await navigateTo('/');

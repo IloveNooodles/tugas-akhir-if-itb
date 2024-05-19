@@ -6,7 +6,7 @@ export default defineNuxtConfig({
       enabled: true,
     },
   },
-  modules: ['@nuxt/ui', '@pinia/nuxt'],
+  modules: ['@nuxt/ui', '@pinia/nuxt', '@vueuse/nuxt'],
   runtimeConfig: {
     public: {
       baseURL: 'http://localhost:8000/api/v1',
