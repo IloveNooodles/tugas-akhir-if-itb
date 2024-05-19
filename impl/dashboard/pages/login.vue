@@ -26,8 +26,8 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     });
     const { access_token, refresh_token } = response.data;
 
-    useStorage('accessToken', access_token);
-    useStorage('refreshToken', refresh_token);
+    useStorage('accessToken', '').value = access_token;
+    useStorage('refreshToken', '').value = refresh_token;
 
     disabled.value = true;
 
