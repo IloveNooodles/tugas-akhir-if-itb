@@ -30,8 +30,7 @@ func New(l *logrus.Logger, cfg config.Config) Server {
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		AllowCredentials: true,
 		AllowOrigins:     []string{cfg.FEURL},
-		AllowMethods:     []string{"GET", "POST", "PATCH", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{""},
+		AllowMethods:     []string{"GET", "POST", "PATCH", "DELETE", "OPTIONS", "HEAD"},
 	}))
 
 	e.Use(middleware.Recover())

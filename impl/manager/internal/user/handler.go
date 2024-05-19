@@ -9,7 +9,7 @@ import (
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/auth"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
-	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/dto"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -37,20 +37,20 @@ func (h *Handler) V1Create(c echo.Context) error {
 	if err := c.Bind(&req); err != nil {
 		err := fmt.Errorf("error when receiving request err: %s", err)
 		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	v := validator.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
 		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
 		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	if _, err := h.CompanyUsecase.GetByID(ctx, req.CompanyID); err != nil {
 		err := fmt.Errorf("invalid companyID %s, err: %s", req.CompanyID, err)
 		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	userReq := User{
@@ -63,10 +63,10 @@ func (h *Handler) V1Create(c echo.Context) error {
 	user, err := h.Usecase.Create(ctx, userReq)
 	if err != nil {
 		h.Logger.Errorf("error when creating users err: %s", err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: user})
+	return c.JSON(http.StatusCreated, handler.SuccessResponse{Data: user})
 }
 
 func (h *Handler) V1GetByID(c echo.Context) error {
@@ -76,21 +76,21 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 	id, err := uuid.Parse(idParam)
 	if err != nil {
 		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	user, err := h.Usecase.GetByID(ctx, id)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
-		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
 		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: user})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: user})
 }
 
 func (h *Handler) V1Login(c echo.Context) error {
@@ -100,20 +100,20 @@ func (h *Handler) V1Login(c echo.Context) error {
 	if err := c.Bind(&req); err != nil {
 		err := fmt.Errorf("error when receiving request err: %s", err)
 		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	v := validator.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
 		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
 		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	user, err := h.Usecase.Login(ctx, req.Email, req.Password)
 	if err != nil {
 		h.Logger.Errorf("error when login users with email: %s, err: %s", req.Email, err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	myClaims := auth.MyClaims{
@@ -126,7 +126,7 @@ func (h *Handler) V1Login(c echo.Context) error {
 	accessToken, refreshToken, err := auth.CreateAndSignToken(myClaims, auth.Authentication)
 	if err != nil {
 		h.Logger.Errorf("error when creating token err: %s", err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "server error"})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "server error"})
 	}
 
 	expiredAt := time.Now().Add(auth.LoginExpiration)
@@ -136,7 +136,7 @@ func (h *Handler) V1Login(c echo.Context) error {
 	c.SetCookie(atCookie)
 	c.SetCookie(rtCookie)
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: LoginResponse{
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: LoginResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		ExpiredAt:    expiredAt,
@@ -154,25 +154,25 @@ func (h *Handler) V1Refresh(c echo.Context) error {
 	}
 
 	if refreshToken == "" {
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: "invalid token"})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "invalid token"})
 	}
 
 	rt, err := auth.ValidateToken(refreshToken)
 	if err != nil {
 		h.Logger.Errorf("error when validating refresh token: %v, err: %s", rt, err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: "invalid token"})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "invalid token"})
 	}
 
 	claims, ok := rt.Claims.(*auth.JwtClaims)
 	if !ok {
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "server error"})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "server error"})
 
 	}
 
 	accessToken, refreshToken, err := auth.GeneratePairToken(*claims)
 	if err != nil {
 		h.Logger.Errorf("error when creating token err: %s", err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "server error"})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "server error"})
 	}
 
 	expiredAt := time.Now().Add(auth.LoginExpiration)
@@ -182,7 +182,7 @@ func (h *Handler) V1Refresh(c echo.Context) error {
 	c.SetCookie(atCookie)
 	c.SetCookie(rtCookie)
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: LoginResponse{
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: LoginResponse{
 		AccessToken:  accessToken,
 		RefreshToken: refreshToken,
 		ExpiredAt:    expiredAt,
@@ -195,21 +195,21 @@ func (h *Handler) V1GetAll(c echo.Context) error {
 
 	if !ok {
 		h.Logger.Errorf("error when converting company id to string")
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
 	user, err := h.Usecase.GetAllByCompanyID(ctx, companyID)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
-		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
 		h.Logger.Errorf("error when getting users with err: %s", err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: user})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: user})
 }
 
 func (h *Handler) V1AdminGetAll(c echo.Context) error {
@@ -217,15 +217,15 @@ func (h *Handler) V1AdminGetAll(c echo.Context) error {
 	user, err := h.Usecase.GetAll(ctx)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
-		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
 		h.Logger.Errorf("error when getting users with err: %s", err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: user})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: user})
 }
 
 func (h *Handler) V1Delete(c echo.Context) error {
@@ -235,19 +235,19 @@ func (h *Handler) V1Delete(c echo.Context) error {
 	id, err := uuid.Parse(idParam)
 	if err != nil {
 		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	err = h.Usecase.Delete(ctx, id)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
-		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
 		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusNoContent, dto.SuccessResponse{})
+	return c.JSON(http.StatusNoContent, handler.SuccessResponse{})
 }

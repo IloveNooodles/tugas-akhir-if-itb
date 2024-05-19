@@ -1,4 +1,4 @@
-package dto
+package handler
 
 type SuccessResponse struct {
 	Data any `json:"data"`

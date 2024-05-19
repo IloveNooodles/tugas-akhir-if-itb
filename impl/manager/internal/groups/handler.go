@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
-	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/dto"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
 	"github.com/go-playground/validator/v10"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -35,26 +35,26 @@ func (h *Handler) V1Create(c echo.Context) error {
 
 	if !ok {
 		h.Logger.Errorf("error when converting company id to string")
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
 	if err := c.Bind(&req); err != nil {
 		err := fmt.Errorf("error when receiving request err: %s", err)
 		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	v := validator.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
 		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
 		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	if _, err := h.CompanyUsecase.GetByID(ctx, companyID); err != nil {
 		err := fmt.Errorf("invalid companyID %s, err: %s", companyID, err)
 		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	groupRequest := Group{
@@ -65,10 +65,10 @@ func (h *Handler) V1Create(c echo.Context) error {
 	user, err := h.Usecase.Create(ctx, groupRequest)
 	if err != nil {
 		h.Logger.Errorf("error when creating users err: %s", err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusCreated, dto.SuccessResponse{Data: user})
+	return c.JSON(http.StatusCreated, handler.SuccessResponse{Data: user})
 }
 
 func (h *Handler) V1GetByID(c echo.Context) error {
@@ -78,21 +78,21 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 	id, err := uuid.Parse(idParam)
 	if err != nil {
 		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	group, err := h.Usecase.GetByID(ctx, id)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
-		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
 		h.Logger.Errorf("error when getting groups with id: %s, err: %s", id, err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: group})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: group})
 }
 
 func (h *Handler) V1AdminGetAll(c echo.Context) error {
@@ -100,15 +100,15 @@ func (h *Handler) V1AdminGetAll(c echo.Context) error {
 	groups, err := h.Usecase.GetAll(ctx)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
-		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
 		h.Logger.Errorf("error when getting groups with err: %s", err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: groups})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: groups})
 }
 
 func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
@@ -117,22 +117,22 @@ func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
 
 	if !ok {
 		h.Logger.Errorf("error when converting company id to string")
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
 	groups, err := h.Usecase.GetAllByCompanyID(ctx, companyID)
 
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
-		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
 		h.Logger.Errorf("error when getting groups with err: %s", err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: groups})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: groups})
 }
 
 func (h *Handler) V1GetByDeviceID(c echo.Context) error {
@@ -143,26 +143,26 @@ func (h *Handler) V1GetByDeviceID(c echo.Context) error {
 	id, err := uuid.Parse(idParam)
 	if err != nil {
 		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	if !ok {
 		h.Logger.Errorf("error when converting company id to string")
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: "internal server error"})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
 	devices, err := h.Usecase.GetDevices(ctx, companyID, id)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
-		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
 		h.Logger.Errorf("error when getting devices with err: %s", err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, dto.SuccessResponse{Data: devices})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: devices})
 }
 
 func (h *Handler) V1Delete(c echo.Context) error {
@@ -172,19 +172,19 @@ func (h *Handler) V1Delete(c echo.Context) error {
 	id, err := uuid.Parse(idParam)
 	if err != nil {
 		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
-		return c.JSON(http.StatusBadRequest, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	err = h.Usecase.Delete(ctx, id)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
-		return c.JSON(http.StatusNotFound, dto.ErrorResponse{Message: "Not found"})
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
 		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
-		return c.JSON(http.StatusInternalServerError, dto.ErrorResponse{Message: err.Error()})
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusNoContent, dto.SuccessResponse{})
+	return c.JSON(http.StatusNoContent, handler.SuccessResponse{})
 }

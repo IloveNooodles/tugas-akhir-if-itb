@@ -20,6 +20,7 @@ type Config struct {
 	FEURL            string
 }
 
+// Craete new config for the applications
 func New() Config {
 	v := viper.New()
 	v.SetConfigFile(".env")

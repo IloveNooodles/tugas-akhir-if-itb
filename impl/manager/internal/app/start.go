@@ -7,6 +7,7 @@ import (
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/device"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/groupdevice"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/groups"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/history"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/repositories"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/server"
@@ -27,6 +28,9 @@ func NewStartCmd(dep *Dep) *StartCmd {
 	if err != nil {
 		panic(err)
 	}
+
+	commonRoute := handler.New()
+	handler.RegisterRoute(app, commonRoute)
 
 	companyRepo := company.NewRepository(dep.DB, dep.Logger)
 	companyUsecase := company.NewUsecase(dep.Logger, companyRepo)

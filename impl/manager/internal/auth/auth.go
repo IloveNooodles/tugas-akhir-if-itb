@@ -10,15 +10,10 @@ import (
 	"github.com/google/uuid"
 )
 
-// TODO Kalo cookie anti csrf, + secure + http only
-// TODO Add csp protection biar gakena xss
-// TODO Protect the kubernetes API
-// TODO Refresh token
-
 var (
 	JWTSigningMethod  = jwt.SigningMethodHS256
-	LoginExpiration   = time.Duration(1) * time.Minute
-	RefreshExpiration = time.Duration(1) * time.Hour
+	LoginExpiration   = time.Duration(1) * time.Hour
+	RefreshExpiration = time.Duration(24) * time.Hour
 	cfg               = config.Config{}
 )
 
@@ -63,6 +58,7 @@ func jwtSecretHelper(t *jwt.Token) (interface{}, error) {
 	return []byte(cfg.JWTKey), nil
 }
 
+// Given claims and subject it will create the access and refresh token
 func CreateAndSignToken(mc MyClaims, subject string) (string, string, error) {
 	usedSecret := []byte(cfg.JWTKey)
 	claims := createClaims(mc, subject, LoginExpiration)
@@ -82,6 +78,7 @@ func CreateAndSignToken(mc MyClaims, subject string) (string, string, error) {
 	return signedToken, refreshToken, nil
 }
 
+// This function will be called by the create and sign token.
 func GeneratePairToken(claims JwtClaims) (string, string, error) {
 	subject := claims.Subject
 	mc := MyClaims{
@@ -94,6 +91,7 @@ func GeneratePairToken(claims JwtClaims) (string, string, error) {
 	return CreateAndSignToken(mc, subject)
 }
 
+// Validate the given JWTStringToken and return the parsed version of it.
 func ValidateToken(signedToken string) (*jwt.Token, error) {
 	token, err := jwt.ParseWithClaims(signedToken, &JwtClaims{}, jwtSecretHelper)
 
@@ -108,6 +106,7 @@ func ValidateToken(signedToken string) (*jwt.Token, error) {
 	return token, nil
 }
 
+// Create http cookie based on key, val and age
 func CreateCookie(key, val string, age int) *http.Cookie {
 	return &http.Cookie{
 		Name:     key,

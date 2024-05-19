@@ -42,6 +42,7 @@ func NewMigrateCmd(dep *Dep) *MigrateCmd {
 	}
 }
 
+// This functions will do the migrations until latest version
 func (m *MigrateCmd) Up() error {
 	err := m.Migrate.Up()
 
@@ -52,6 +53,7 @@ func (m *MigrateCmd) Up() error {
 	return nil
 }
 
+// This functions will do the migrations until the the very first version
 func (m *MigrateCmd) Down() error {
 	var err error
 	v, d, err := m.Migrate.Version()
