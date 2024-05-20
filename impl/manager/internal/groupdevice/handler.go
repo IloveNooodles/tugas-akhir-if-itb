@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/errx"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/validatorx"
 	"github.com/google/uuid"
@@ -63,13 +64,19 @@ func (h *Handler) V1Create(c echo.Context) error {
 		CompanyID: companyID,
 	}
 
-	user, err := h.Usecase.Create(ctx, groupDevices)
+	gd, err := h.Usecase.Create(ctx, groupDevices)
+
+	if errx.IsDuplicateDatabase(err) {
+		h.Logger.Errorf("device: error when creating devices err: %s", err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "group or device relation already exists"})
+	}
+
 	if err != nil {
-		h.Logger.Errorf("error when creating users err: %s", err)
+		h.Logger.Errorf("error when creating gds err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusCreated, handler.SuccessResponse{Data: user})
+	return c.JSON(http.StatusCreated, handler.SuccessResponse{Data: gd})
 }
 
 func (h *Handler) V1GetByID(c echo.Context) error {
@@ -82,18 +89,18 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	user, err := h.Usecase.GetByID(ctx, id)
+	gd, err := h.Usecase.GetByID(ctx, id)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
+		h.Logger.Errorf("error when getting gd with id: %s, err: %s", id, err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: user})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: gd})
 }
 
 func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
@@ -105,18 +112,18 @@ func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
-	user, err := h.Usecase.GetAllByCompanyID(ctx, companyID)
+	gd, err := h.Usecase.GetAllByCompanyID(ctx, companyID)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found companyID: %s, err: %s", companyID, err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting user with id: %s, err: %s", companyID, err)
+		h.Logger.Errorf("error when getting gd with id: %s, err: %s", companyID, err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: user})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: gd})
 }
 
 func (h *Handler) V1AdminGetAll(c echo.Context) error {
@@ -152,7 +159,7 @@ func (h *Handler) V1Delete(c echo.Context) error {
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
+		h.Logger.Errorf("error when getting gd with id: %s, err: %s", id, err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 

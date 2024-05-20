@@ -74,7 +74,7 @@ func (r *Repository) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID)
 
 func (r *Repository) GetDevices(ctx context.Context, companyID, groupID uuid.UUID) ([]DeviceDetail, error) {
 	groups := make([]DeviceDetail, 0)
-	q := `select gd.id, d.id device_id, d."name", d.type, d."Labels"
+	q := `select gd.id, d.id device_id, d."name", d.type, d."labels"
   from groupdevices gd 
   join devices d on gd.device_id = d.id 
   where gd.group_id = $1 AND gd.company_id = $2`
