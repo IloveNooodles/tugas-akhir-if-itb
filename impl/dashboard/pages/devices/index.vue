@@ -28,7 +28,7 @@ const isOpen = ref(false);
 const disabled = ref(false);
 const state = ref({
   name: '',
-  attributes: '',
+  labels: '',
   node_name: '',
   type: '',
 });
@@ -103,8 +103,8 @@ async function onDelete() {
               <UInput v-model="state.type" type="text" />
             </UFormGroup>
 
-            <UFormGroup label="Attributes" name="attributes">
-              <UInput v-model="state.attributes" type="text" />
+            <UFormGroup label="Labels" name="labels">
+              <UInput v-model="state.labels" type="text" />
             </UFormGroup>
             <UButton type="submit" :disabled="disabled"> Submit </UButton>
           </UForm>

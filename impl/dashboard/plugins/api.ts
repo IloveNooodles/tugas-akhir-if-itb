@@ -19,14 +19,16 @@ export default defineNuxtPlugin(async (nuxtApp) => {
       async onResponseError({ error, request, response }) {
         if (response.status === 401) {
           try {
-            await refresh(nxtApp);
+            const response = await refresh(nxtApp);
+            useLocalStorage('accessToken', '').value =
+              response.data.access_token;
+            useLocalStorage('refreshToken', '').value =
+              response.data.refresh_token;
           } catch (err) {
             useLocalStorage('accessToken', '').value = '';
             useLocalStorage('refreshToken', '').value = '';
 
-            callWithNuxt(nxtApp, () =>
-              navigateTo('/login', { redirectCode: 301 }),
-            );
+            callWithNuxt(nxtApp, () => navigateTo('/login'));
           }
         }
       },

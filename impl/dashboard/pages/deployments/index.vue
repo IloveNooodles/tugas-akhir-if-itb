@@ -130,6 +130,16 @@ async function onDeleteDeployments() {
   <UContainer>
     <h1 class="text-center">Deployments</h1>
     <UDivider />
+    <UCard>
+      <h2>Available Actions</h2>
+      <UButton
+        label="Remote Deployment"
+        icon="i-heroicons-document-plus"
+        class="mt-2 max-w-fit self-end"
+        to="/remote-deployment"
+        size="xl"
+      />
+    </UCard>
     <div class="wrap">
       <h2>Deployments</h2>
       <DeploymentList

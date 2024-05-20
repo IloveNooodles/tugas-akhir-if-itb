@@ -20,7 +20,7 @@ export interface GroupDeviceG {
   device_id: string;
   name: string;
   type: string;
-  attributes: string;
+  labels: string;
 }
 
 export const createGroupDeviceSchema = z.object({

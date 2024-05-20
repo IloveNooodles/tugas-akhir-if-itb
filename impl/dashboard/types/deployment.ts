@@ -10,15 +10,17 @@ export interface Deployment {
   updated_at: string;
 }
 
-// TODO: benerin definisi target -> bisa deploy ke group / deviceId
-// harus ditambahin logicnya di backend
 export const createDeploymentSchema = z.object({
-  repository_id: z.string().uuid({ message: 'Must be valid uuid' }),
+  repository_id: z
+    .string({ message: 'Required' })
+    .uuid({ message: 'Must be valid uuid' }),
   name: z
-    .string()
-    .min(8, { message: 'Must be higher or equal to 8 characters' }),
-  version: z.string(),
-  target: z.string(),
+    .string({ message: 'required' })
+    .min(8, { message: 'Must be at least 8 characters' }),
+  version: z.string().startsWith('v'),
+  target: z
+    .string({ message: 'Required' })
+    .includes('=', { message: 'Must be a key value separated by =' }),
 });
 
 export type CreateDeploymentSchema = z.infer<typeof createDeploymentSchema>;

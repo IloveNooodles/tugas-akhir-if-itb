@@ -5,23 +5,23 @@ export interface Device {
   name: string;
   type: string;
   company_id: string;
-  attributes: string;
+  labels: string;
   node_name: string;
   created_at: string;
   updated_at: string;
 }
 
-// TODO add backend validation minimal name 8
-// TODO attribute don't know what for
-// TODO type yang bakal jadi label?
-// TODO attributes kayaknya extra aja
-// TODO node name gaboleh duplicate
-// type=attribute? attribute -> x=y
 export const createDeviceSchema = z.object({
-  name: z.string().min(8, { message: 'Must be at least 8 characters' }),
-  node_name: z.string().min(8, { message: 'Must be at least 8 characters' }),
+  name: z
+    .string({ message: 'Required' })
+    .min(8, { message: 'Must be at least 8 characters' }),
+  node_name: z
+    .string({ message: 'Required' })
+    .min(8, { message: 'Must be at least 8 characters' }),
   type: z.string({ message: 'Required' }),
-  attributes: z.string({ message: 'Required' }),
+  labels: z
+    .string({ message: 'Required' })
+    .includes('=', { message: 'Must be a key value separated by =' }),
 });
 
 export type CreateDeviceSchema = z.infer<typeof createDeviceSchema>;
