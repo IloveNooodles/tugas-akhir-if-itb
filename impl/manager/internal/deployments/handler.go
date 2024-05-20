@@ -241,19 +241,19 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 		}
 
 		go func() {
-			goCtx, cancel := context.WithTimeout(context.Background(), 180*time.Second)
+			goCtx, cancel := context.WithTimeout(context.TODO(), 180*time.Second)
 			defer cancel()
 			for {
 				select {
 				case <-goCtx.Done():
 					h.Logger.Errorf("timeout reached: deleting deployment %s", d.Name)
-					h.Usecase.DeleteDeploy(context.Background(), req.DeploymentIDs)
-					h.HistoryUsecase.UpdateStatusById(context.Background(), hist.ID, "FAILED")
+					h.Usecase.DeleteDeploy(context.TODO(), req.DeploymentIDs)
+					h.HistoryUsecase.UpdateStatusById(context.TODO(), hist.ID, "FAILED")
 					return
 				case <-time.After(10 * time.Second):
 					h.Logger.Infof("checking status deployment %s", d.Name)
-					if h.Usecase.CheckDeploymentStatus(context.Background(), d.Name) {
-						h.HistoryUsecase.UpdateStatusById(context.Background(), hist.ID, "SUCCESS")
+					if h.Usecase.CheckDeploymentStatus(context.TODO(), d.Name) {
+						h.HistoryUsecase.UpdateStatusById(context.TODO(), hist.ID, "SUCCESS")
 						return
 					}
 				}
@@ -265,7 +265,7 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 }
 
 func (h *Handler) V1DeleteDeploy(c echo.Context) error {
-	req := DeploymentRequest{}
+	req := DeleteDeploymentRequest{}
 	ctx := c.Request().Context()
 	companyID, ok := c.Get("companyID").(uuid.UUID)
 

@@ -19,3 +19,7 @@ type CustomDeploymentRequest struct {
 	Kind   string     `json:"kind" validate:"required,oneof=GROUP DEVICE"`
 	ListId uuid.UUIDs `json:"list_id" validate:"required,dive"`
 }
+
+type DeleteDeploymentRequest struct {
+	DeploymentIDs uuid.UUIDs `json:"deployment_ids" validate:"required,dive,printascii"`
+}

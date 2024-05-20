@@ -2,10 +2,25 @@ import { z } from 'zod';
 
 export interface Deployment {
   id: string;
+  company_id: string;
   repository_id: string;
   name: string;
   version: string;
   target: string;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface DeploymentWithRepository {
+  id: string;
+  company_id: string;
+  repository_id: string;
+  name: string;
+  version: string;
+  target: string;
+  repository_name: string;
+  repository_description: string;
+  repository_image: string;
   created_at: string;
   updated_at: string;
 }
@@ -24,3 +39,7 @@ export const createDeploymentSchema = z.object({
 });
 
 export type CreateDeploymentSchema = z.infer<typeof createDeploymentSchema>;
+
+export type DeployResponse = {
+  data: DeploymentWithRepository[];
+};

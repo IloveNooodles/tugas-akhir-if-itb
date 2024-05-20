@@ -70,7 +70,7 @@ definePageMeta({
         <UInput v-model="state.password" type="password" />
       </UFormGroup>
 
-      <UButton type="submit" :disabled="disabled"> Submit </UButton>
+      <UButton type="submit" :disabled="disabled"> Login </UButton>
     </UForm>
   </UContainer>
 </template>
