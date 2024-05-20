@@ -155,7 +155,7 @@ func (k *KubernetesController) GetNodeInterface() v1.NodeInterface {
 
 func (k *KubernetesController) LabelNodes(ctx context.Context, nodeName, key, val string) error {
 	patch := []PatchObject{{
-		Op:    PatchAddOP,
+		Op:    PatchReplaceOP,
 		Path:  "/metadata/labels/" + key,
 		Value: val,
 	}}

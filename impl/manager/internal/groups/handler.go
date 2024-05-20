@@ -87,6 +87,17 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
+	companyID, ok := c.Get("companyID").(uuid.UUID)
+
+	if !ok {
+		h.Logger.Errorf("error when converting company id to string")
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
+	}
+
+	if group.CompanyID != companyID {
+		return c.JSON(http.StatusForbidden, handler.ErrorResponse{Message: "forbidden"})
+	}
+
 	if err != nil {
 		h.Logger.Errorf("error when getting groups with id: %s, err: %s", id, err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})

@@ -98,6 +98,12 @@ func (h *Handler) V1Create(c echo.Context) error {
 func (h *Handler) V1GetByID(c echo.Context) error {
 	ctx := c.Request().Context()
 	idParam := c.Param("id")
+	companyID, ok := c.Get("companyID").(uuid.UUID)
+
+	if !ok {
+		h.Logger.Errorf("error when converting company id to string")
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
+	}
 
 	id, err := uuid.Parse(idParam)
 	if err != nil {
@@ -109,6 +115,10 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
+	}
+
+	if device.CompanyID != companyID {
+		return c.JSON(http.StatusForbidden, handler.ErrorResponse{Message: "forbidden"})
 	}
 
 	if err != nil {

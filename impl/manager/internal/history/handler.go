@@ -57,14 +57,14 @@ func (h *Handler) V1Create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	groupRequest := Histories{
+	historyRequest := Histories{
 		DeviceID:     req.DeviceID,
 		RepositoryID: req.RepositoryID,
 		DeploymentID: req.DeploymentID,
 		Status:       req.Status,
 	}
 
-	user, err := h.Usecase.Create(ctx, groupRequest)
+	user, err := h.Usecase.Create(ctx, historyRequest)
 	if err != nil {
 		h.Logger.Errorf("error when creating users err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
@@ -84,34 +84,45 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	group, err := h.Usecase.GetByID(ctx, id)
+	history, err := h.Usecase.GetByID(ctx, id)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
+	companyID, ok := c.Get("companyID").(uuid.UUID)
+
+	if !ok {
+		h.Logger.Errorf("error when converting company id to string")
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
+	}
+
+	if history.CompanyID != companyID {
+		return c.JSON(http.StatusForbidden, handler.ErrorResponse{Message: "forbidden"})
+	}
+
 	if err != nil {
-		h.Logger.Errorf("error when getting groups with id: %s, err: %s", id, err)
+		h.Logger.Errorf("error when getting histories with id: %s, err: %s", id, err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: group})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: history})
 }
 
 func (h *Handler) V1AdminGetAll(c echo.Context) error {
 	ctx := c.Request().Context()
-	groups, err := h.Usecase.GetAll(ctx)
+	histories, err := h.Usecase.GetAll(ctx)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting groups with err: %s", err)
+		h.Logger.Errorf("error when getting histories with err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: groups})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: histories})
 }
 
 func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
@@ -122,16 +133,16 @@ func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
-	groups, err := h.Usecase.GetAllByCompanyID(ctx, companyID)
+	histories, err := h.Usecase.GetAllByCompanyID(ctx, companyID)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting groups with err: %s", err)
+		h.Logger.Errorf("error when getting histories with err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: groups})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: histories})
 }

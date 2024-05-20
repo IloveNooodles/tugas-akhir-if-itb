@@ -57,14 +57,14 @@ func (h *Handler) V1Create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	groupRequest := Deployment{
+	deploymentRequest := Deployment{
 		Name:         req.Name,
 		RepositoryID: req.RepositoryID,
 		Version:      req.Version,
 		Target:       req.Target,
 	}
 
-	user, err := h.Usecase.Create(ctx, groupRequest)
+	user, err := h.Usecase.Create(ctx, deploymentRequest)
 	if err != nil {
 		h.Logger.Errorf("error when creating users err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
@@ -83,50 +83,61 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	group, err := h.Usecase.GetByID(ctx, id)
+	deployment, err := h.Usecase.GetByID(ctx, id)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
+	companyID, ok := c.Get("companyID").(uuid.UUID)
+
+	if !ok {
+		h.Logger.Errorf("error when converting company id to string")
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
+	}
+
+	if deployment.CompanyID != companyID {
+		return c.JSON(http.StatusForbidden, handler.ErrorResponse{Message: "forbidden"})
+	}
+
 	if err != nil {
-		h.Logger.Errorf("error when getting groups with id: %s, err: %s", id, err)
+		h.Logger.Errorf("error when getting deployments with id: %s, err: %s", id, err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: group})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: deployment})
 }
 
 func (h *Handler) V1AdminGetAll(c echo.Context) error {
 	ctx := c.Request().Context()
-	groups, err := h.Usecase.GetAll(ctx)
+	deployments, err := h.Usecase.GetAll(ctx)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting groups with err: %s", err)
+		h.Logger.Errorf("error when getting deployments with err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: groups})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: deployments})
 }
 
 func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
 	ctx := c.Request().Context()
-	groups, err := h.Usecase.GetAll(ctx)
+	deployments, err := h.Usecase.GetAll(ctx)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting groups with err: %s", err)
+		h.Logger.Errorf("error when getting deployments with err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: groups})
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: deployments})
 }
 
 func (h *Handler) V1Deploy(c echo.Context) error {

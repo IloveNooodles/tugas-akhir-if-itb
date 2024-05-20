@@ -2,8 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
-	"log"
 
 	"github.com/ilovenooodles/poc-remote-deployment/controller"
 	"github.com/sirupsen/logrus"
@@ -22,51 +20,57 @@ func main() {
 		panic(err)
 	}
 
-	kc.SwitchCluster("kind-cluster-multi-node")
+	kc.SwitchCluster("prod-cluster-example")
 
-	// Labeling all nodes
+	// // Labeling all nodes
 	// nodeInterface := kc.GetNodeInterface()
 	// nodes, err := nodeInterface.List(context.TODO(), v1.ListOptions{})
 	// if err != nil {
 	// 	panic(err)
 	// }
 
+	err = kc.LabelNodes(ctx, "test-cluster-1-worker", "bismillah", "sukses")
+	if err != nil {
+		kc.Logger.Errorf("error when labelling nodes err: %s", err)
+		panic(err)
+	}
+
 	// for idx, node := range nodes.Items {
 	// 	fmt.Printf("[%d] Current Node: %s\n", idx, node.Name)
-	// 	key := fmt.Sprintf("node-%d", idx)
-	// 	val := fmt.Sprintf("node-worker-value-%d", idx)
-	// 	err := kc.LabelNodes(ctx, node.Name, key, val)
-	// 	if err != nil {
-	// 		kc.Logger.Errorf("error when labelling nodes err: %s", err)
-	// 		panic(err)
-	// 	}
+	// key := fmt.Sprintf("node-%d", idx)
+	// val := fmt.Sprintf("node-worker-value-%d", idx)
+	// err := kc.LabelNodes(ctx, node.Name, key, val)
+	// if err != nil {
+	// 	kc.Logger.Errorf("error when labelling nodes err: %s", err)
+	// 	panic(err)
+	// }
 	// }
 
-	labels := make(map[string]string)
-	labels["app"] = "demo"
+	// labels := make(map[string]string)
+	// labels["app"] = "demo"
 
-	target := make(map[string]string)
-	target["contoh"] = "inideployment"
+	// target := make(map[string]string)
+	// target["contoh"] = "inideployment"
 
-	params := controller.DeployParams{
-		Replica: 3,
-		Name:    "web2",
-		Image:   "nginx:latest",
-		Labels:  labels,
-		Targets: target,
-	}
+	// params := controller.DeployParams{
+	// 	Replica: 3,
+	// 	Name:    "web2",
+	// 	Image:   "nginx:latest",
+	// 	Labels:  labels,
+	// 	Targets: target,
+	// }
 
-	res, err := kc.Deploy(ctx, params)
-	if err != nil {
-		fmt.Println("SUDAH ADA KAH")
-	}
+	// res, err := kc.Deploy(ctx, params)
+	// if err != nil {
+	// 	fmt.Println("SUDAH ADA KAH")
+	// }
 
-	logDetail(res)
+	// logDetail(res)
 
-	err = kc.Delete(ctx, params)
-	logDetail(err)
+	// err = kc.Delete(ctx, params)
+	// logDetail(err)
 }
 
 func logDetail(v any) {
-	log.Printf("%#v\n", v)
+	// log.Printf("%#v\n", v)
 }
