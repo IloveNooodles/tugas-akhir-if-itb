@@ -22,8 +22,8 @@ func NewRepository(db *sqlx.DB, logger *logrus.Logger) *Repository {
 
 func (r *Repository) Create(ctx context.Context, d Deployment) (Deployment, error) {
 	Deployment := Deployment{}
-	q := `INSERT INTO deployments (repository_id, name, version, target) VALUES ($1, $2, $3, $4) RETURNING *`
-	err := r.DB.GetContext(ctx, &Deployment, q, d.RepositoryID, d.Name, d.Version, d.Target)
+	q := `INSERT INTO deployments (repository_id, name, version, target, company_id) VALUES ($1, $2, $3, $4, $5) RETURNING *`
+	err := r.DB.GetContext(ctx, &Deployment, q, d.RepositoryID, d.Name, d.Version, d.Target, d.CompanyID)
 
 	if err != nil {
 		r.Logger.Errorf("error when creating deployment %v, err: %s", Deployment, err)

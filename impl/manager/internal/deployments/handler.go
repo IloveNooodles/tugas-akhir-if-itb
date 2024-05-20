@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/errx"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/validatorx"
 	"github.com/google/uuid"
@@ -62,9 +63,15 @@ func (h *Handler) V1Create(c echo.Context) error {
 		RepositoryID: req.RepositoryID,
 		Version:      req.Version,
 		Target:       req.Target,
+		CompanyID:    companyID,
 	}
 
 	user, err := h.Usecase.Create(ctx, deploymentRequest)
+	if errx.IsDuplicateDatabase(err) {
+		h.Logger.Errorf("device: error when creating deployments err: %s", err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "duplicate deployments"})
+	}
+
 	if err != nil {
 		h.Logger.Errorf("error when creating users err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
@@ -126,7 +133,14 @@ func (h *Handler) V1AdminGetAll(c echo.Context) error {
 
 func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
 	ctx := c.Request().Context()
-	deployments, err := h.Usecase.GetAll(ctx)
+	companyID, ok := c.Get("companyID").(uuid.UUID)
+
+	if !ok {
+		h.Logger.Errorf("error when converting company id to string")
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
+	}
+
+	deployments, err := h.Usecase.Repo.GetAllByCompanyID(ctx, companyID)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
