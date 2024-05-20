@@ -19,6 +19,8 @@ import (
 	"k8s.io/client-go/util/retry"
 )
 
+var ()
+
 type KubernetesController struct {
 	Logger    *logrus.Logger
 	Config    clientcmd.ClientConfig
@@ -162,7 +164,7 @@ func (k *KubernetesController) CheckAvailableContext(ctx string) bool {
 	}
 
 	_, ok := rawConfig.Clusters[ctx]
-  return ok
+	return ok
 }
 
 // Labeling nodes with given nodeName, key, and value
@@ -296,5 +298,12 @@ func (k *KubernetesController) Delete(ctx context.Context, params DeployParams) 
 		fmt.Println("INI ERROR NOT FOUND")
 	}
 
+	return err
+}
+
+// Check status cluster
+func (k *KubernetesController) HealthCheck(ctx context.Context) error {
+	podInterface := k.ClientSet.CoreV1().Pods(apiv1.NamespaceDefault)
+	_, err := podInterface.List(ctx, apimetav1.ListOptions{})
 	return err
 }

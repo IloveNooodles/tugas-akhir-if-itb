@@ -43,7 +43,7 @@ func NewStartCmd(dep *Dep) *StartCmd {
 	user.RegisterRoute(userHandler, app)
 
 	deviceRepo := device.NewRepository(dep.DB, dep.Logger)
-	deviceUsecase := device.NewUsecase(dep.Logger, deviceRepo)
+	deviceUsecase := device.NewUsecase(dep.Logger, deviceRepo, kc)
 	deviceHandler := device.NewHandler(dep.Logger, deviceUsecase, companyUsecase)
 	device.RegisterRoute(deviceHandler, app)
 

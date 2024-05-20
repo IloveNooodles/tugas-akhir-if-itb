@@ -7,7 +7,9 @@ import (
 
 func RegisterRoute(h Handler, e *echo.Echo) {
 	companiesRoute := e.Group("/api/v1/companies")
-	companiesRoute.GET("", h.V1GetCompanyAndLoggedInUser, middleware.ValidateJWT)
+	companiesRoute.Use(middleware.ValidateJWT)
+	companiesRoute.GET("", h.V1GetCompanyAndLoggedInUser)
+	companiesRoute.GET("/server/health", h.V1CheckClusterStatus)
 
 	adminCompaniesRoute := e.Group("/admin-api/v1/companies")
 	adminCompaniesRoute.Use(middleware.ValidateAdminAPIKey)

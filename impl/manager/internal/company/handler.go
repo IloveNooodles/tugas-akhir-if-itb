@@ -153,3 +153,15 @@ func (h *Handler) V1Delete(c echo.Context) error {
 
 	return c.JSON(http.StatusNoContent, handler.SuccessResponse{})
 }
+
+func (h *Handler) V1CheckClusterStatus(c echo.Context) error {
+	ctx := c.Request().Context()
+
+	err := h.Usecase.CheckClusterStatus(ctx)
+	if err != nil {
+		h.Logger.Errorf("company: cluster server check: %s", err)
+		return c.JSON(http.StatusOK, handler.SuccessResponse{Data: "Server is down, please try again later"})
+	}
+
+	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: "Server is healthy"})
+}

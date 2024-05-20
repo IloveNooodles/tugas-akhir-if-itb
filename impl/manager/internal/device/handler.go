@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/errx"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/validatorx"
 	"github.com/google/uuid"
@@ -70,9 +71,12 @@ func (h *Handler) V1Create(c echo.Context) error {
 		NodeName:  nodeName,
 	}
 
-	// TODO: VALIDATE IF NODE NAME EXISTS
-
 	device, err := h.Usecase.Create(ctx, deviceReq)
+	if errx.IsDuplicateDatabase(err) {
+		h.Logger.Errorf("device: error when creating err: %s", err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "duplicate node name"})
+	}
+
 	if err != nil {
 		h.Logger.Errorf("error when creating devices err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
