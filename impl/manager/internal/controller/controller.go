@@ -169,11 +169,11 @@ func (k *KubernetesController) CheckAvailableContext(ctx string) bool {
 
 // Labeling nodes with given nodeName, key, and value
 func (k *KubernetesController) LabelNodes(ctx context.Context, nodeName, key, val string) error {
-	patch := PatchObject{
-		Op:    PatchAddOP,
+	patch := []PatchObject{{
+		Op:    PatchReplaceOP,
 		Path:  "/metadata/labels/" + key,
 		Value: val,
-	}
+	}}
 
 	patchAsByte, err := json.Marshal(patch)
 	if err != nil {

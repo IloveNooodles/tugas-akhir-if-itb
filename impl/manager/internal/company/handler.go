@@ -160,7 +160,7 @@ func (h *Handler) V1CheckClusterStatus(c echo.Context) error {
 	err := h.Usecase.CheckClusterStatus(ctx)
 	if err != nil {
 		h.Logger.Errorf("company: cluster server check: %s", err)
-		return c.JSON(http.StatusOK, handler.SuccessResponse{Data: "Server is down, please try again later"})
+		return c.JSON(http.StatusOK, handler.SuccessResponse{Data: errx.ErrClusterDown.Error()})
 	}
 
 	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: "Server is healthy"})

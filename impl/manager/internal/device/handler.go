@@ -72,13 +72,23 @@ func (h *Handler) V1Create(c echo.Context) error {
 	}
 
 	device, err := h.Usecase.Create(ctx, deviceReq)
+	if errx.IsNodeNotFound(err) {
+		h.Logger.Errorf("device: error when creating devices err: %s", err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "node not found"})
+	}
+
+	if errx.IsClusterDown(err) {
+		h.Logger.Errorf("device: error when creating devices err: %s", errx.ErrClusterDown)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: errx.ErrClusterDown.Error()})
+	}
+
 	if errx.IsDuplicateDatabase(err) {
-		h.Logger.Errorf("device: error when creating err: %s", err)
+		h.Logger.Errorf("device: error when creating devices err: %s", err)
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "duplicate node name"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when creating devices err: %s", err)
+		h.Logger.Errorf("device: error when creating devices err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 

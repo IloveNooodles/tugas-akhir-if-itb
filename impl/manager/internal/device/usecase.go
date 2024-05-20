@@ -26,16 +26,17 @@ func NewUsecase(l *logrus.Logger, r *Repository, kc *controller.KubernetesContro
 func (u *Usecase) Create(ctx context.Context, d Device) (Device, error) {
 	k, v, err := util.SplitByEqual(d.Labels)
 	if err != nil {
+		u.Logger.Errorf("error when splitting by labels device k, v, err: %s %s %s", k, v, err)
 		return Device{}, err
 	}
 
 	err = u.KubeController.LabelNodes(ctx, d.NodeName, k, v)
 	if err != nil {
+		u.Logger.Errorf("error when labels device device: %v, %s, %s, err:  %s", d, k, v, err)
 		return Device{}, err
 	}
 
-	return Device{}, nil
-	// return u.Repo.Create(ctx, d)
+	return u.Repo.Create(ctx, d)
 }
 
 func (u *Usecase) GetByID(ctx context.Context, id uuid.UUID) (Device, error) {
