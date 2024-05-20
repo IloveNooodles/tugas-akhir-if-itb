@@ -29,33 +29,33 @@ type KubernetesController struct {
 func New(l *logrus.Logger) (*KubernetesController, error) {
 	cfg, err := generateKubeConfig()
 	if err != nil {
-		err := fmt.Errorf("error when config path err: %s", err)
+		err := fmt.Errorf("kube: error when config path err: %s", err)
 		l.Error(err)
 		return nil, err
 	}
 
 	rawCfg, err := cfg.RawConfig()
 	if err != nil {
-		err := fmt.Errorf("error when reading raw cfg err: %s", err)
+		err := fmt.Errorf("kube: error when reading raw cfg err: %s", err)
 		l.Error(err)
 		return nil, err
 	}
 
 	restCfg, err := cfg.ClientConfig()
 	if err != nil {
-		err := fmt.Errorf("error when reading rest cfg err: %s", err)
+		err := fmt.Errorf("kube: error when reading rest cfg err: %s", err)
 		l.Error(err)
 		return nil, err
 	}
 
 	clienset, err := kubernetes.NewForConfig(restCfg)
 	if err != nil {
-		err := fmt.Errorf("error when creating clientset err: %s", err)
+		err := fmt.Errorf("kube: error when creating clientset err: %s", err)
 		l.Error(err)
 		return nil, err
 	}
 
-	l.Infof("success connected to context: %s", rawCfg.CurrentContext)
+	l.Infof("kube: success connected to context: %s", rawCfg.CurrentContext)
 	return &KubernetesController{
 		Logger:    l,
 		Config:    cfg,
@@ -72,7 +72,7 @@ func (k *KubernetesController) GetConfig() clientcmd.ClientConfig {
 func (k *KubernetesController) GetRawConfig() (api.Config, error) {
 	rawCfg, err := k.Config.RawConfig()
 	if err != nil {
-		k.Logger.Errorf("error when getting raw config err: %s", err)
+		k.Logger.Errorf("kube: error when getting raw config err: %s", err)
 		return rawCfg, err
 	}
 	return rawCfg, nil
@@ -82,7 +82,7 @@ func (k *KubernetesController) GetRawConfig() (api.Config, error) {
 func (k *KubernetesController) GetRestConfig() (*rest.Config, error) {
 	restCfg, err := k.Config.ClientConfig()
 	if err != nil {
-		k.Logger.Errorf("error when getting rest config err: %s", err)
+		k.Logger.Errorf("kube: error when getting rest config err: %s", err)
 		return restCfg, err
 	}
 
@@ -150,6 +150,19 @@ func (k *KubernetesController) SwitchContext(ctx string) error {
 	k.Logger.Infof("context switched to: %s", ctx)
 
 	return nil
+}
+
+// Will return list of available context
+func (k *KubernetesController) CheckAvailableContext(ctx string) bool {
+	rawConfig, err := k.Config.RawConfig()
+	if err != nil {
+		err := fmt.Errorf("error %s, getting starting config", err.Error())
+		k.Logger.Error(err)
+		return false
+	}
+
+	_, ok := rawConfig.Clusters[ctx]
+  return ok
 }
 
 // Labeling nodes with given nodeName, key, and value

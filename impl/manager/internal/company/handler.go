@@ -7,7 +7,7 @@ import (
 	"net/http"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
-	"github.com/go-playground/validator/v10"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/validatorx"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
@@ -30,14 +30,14 @@ func (h *Handler) V1Create(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	if err := c.Bind(&req); err != nil {
-		err := fmt.Errorf("error when receiving request err: %s", err)
+		err := fmt.Errorf("company: invalid request err: %s", err)
 		h.Logger.Error(err)
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	v := validator.New()
+	v := validatorx.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
-		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
+		err := fmt.Errorf("company: error when validating request: %v, err: %s", req, err)
 		h.Logger.Error(err)
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
@@ -49,8 +49,8 @@ func (h *Handler) V1Create(c echo.Context) error {
 
 	user, err := h.Usecase.Create(ctx, userReq)
 	if err != nil {
-		h.Logger.Errorf("error when creating users err: %s", err)
-		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("company: error when creating err: %s", err)
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
 	return c.JSON(http.StatusCreated, handler.SuccessResponse{Data: user})
@@ -61,18 +61,18 @@ func (h *Handler) V1GetByID(c echo.Context) error {
 	companyID, ok := c.Get("companyID").(uuid.UUID)
 
 	if !ok {
-		h.Logger.Errorf("error when converting company id to string")
+		h.Logger.Errorf("company: error when converting company id to string")
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
 	user, err := h.Usecase.GetByID(ctx, companyID)
 	if errors.Is(err, sql.ErrNoRows) {
-		h.Logger.Errorf("no rows found id: %s, err: %s", companyID, err)
-		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
+		h.Logger.Errorf("company: no rows found id: %s, err: %s", companyID, err)
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "not found"})
 	}
 
 	if err != nil {
-		h.Logger.Errorf("error when getting user with id: %s, err: %s", companyID, err)
+		h.Logger.Errorf("company: error when getting user with id: %s, err: %s", companyID, err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 

@@ -33,7 +33,7 @@ func NewStartCmd(dep *Dep) *StartCmd {
 	handler.RegisterRoute(app, commonRoute)
 
 	companyRepo := company.NewRepository(dep.DB, dep.Logger)
-	companyUsecase := company.NewUsecase(dep.Logger, companyRepo)
+	companyUsecase := company.NewUsecase(dep.Logger, companyRepo, kc)
 	companyHandler := company.NewHandler(dep.Logger, companyUsecase)
 	company.RegisterRoute(companyHandler, app)
 

@@ -2,24 +2,38 @@ package company
 
 import (
 	"context"
+	"errors"
 
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/controller"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
 )
 
+var (
+	ErrClusterNotAvailable = errors.New("company: cluster name is not available")
+)
+
 type Usecase struct {
-	Logger *logrus.Logger
-	Repo   *Repository
+	Logger         *logrus.Logger
+	Repo           *Repository
+	KubeController *controller.KubernetesController
 }
 
-func NewUsecase(l *logrus.Logger, r *Repository) Usecase {
+func NewUsecase(l *logrus.Logger, r *Repository, kc *controller.KubernetesController) Usecase {
 	return Usecase{
-		Logger: l,
-		Repo:   r,
+		Logger:         l,
+		Repo:           r,
+		KubeController: kc,
 	}
 }
 
 func (u *Usecase) Create(ctx context.Context, c Company) (Company, error) {
+	isCtxAvailable := u.KubeController.CheckAvailableContext(c.ClusterName)
+	if !isCtxAvailable {
+		u.Logger.Errorf("kube: cluster is not available from kube config %s", ErrClusterNotAvailable)
+		return Company{}, ErrClusterNotAvailable
+	}
+
 	return u.Repo.Create(ctx, c)
 }
 

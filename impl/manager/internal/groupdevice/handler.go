@@ -8,7 +8,7 @@ import (
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
-	"github.com/go-playground/validator/v10"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/validatorx"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
@@ -44,7 +44,7 @@ func (h *Handler) V1Create(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	v := validator.New()
+	v := validatorx.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
 		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
 		h.Logger.Error(err)
