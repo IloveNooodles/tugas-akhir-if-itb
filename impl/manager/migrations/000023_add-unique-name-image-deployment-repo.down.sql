@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS deployment_repositories
+DROP CONSTRAINT IF EXISTS deployments_repositories_name_image_unique;

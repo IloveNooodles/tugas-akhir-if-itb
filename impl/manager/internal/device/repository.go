@@ -22,8 +22,8 @@ func NewRepository(db *sqlx.DB, logger *logrus.Logger) *Repository {
 
 func (r *Repository) Create(ctx context.Context, d Device) (Device, error) {
 	device := Device{}
-	q := `INSERT INTO devices (name, type, company_id, attributes, node_name) VALUES ($1, $2, $3, $4, $5) RETURNING *`
-	err := r.DB.GetContext(ctx, &device, q, d.Name, d.Type, d.CompanyID, d.Attributes, d.NodeName)
+	q := `INSERT INTO devices (name, type, company_id, labels, node_name) VALUES ($1, $2, $3, $4, $5) RETURNING *`
+	err := r.DB.GetContext(ctx, &device, q, d.Name, d.Type, d.CompanyID, d.Labels, d.NodeName)
 
 	if err != nil {
 		r.Logger.Errorf("error when creating devices %v, err: %s", device, err)

@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS deployments
+DROP CONSTRAINT IF EXISTS deployments_company_id_name_version_unique;

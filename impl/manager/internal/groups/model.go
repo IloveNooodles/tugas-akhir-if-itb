@@ -15,9 +15,9 @@ type Group struct {
 }
 
 type DeviceDetail struct {
-	ID         uuid.UUID `json:"id" db:"id"`
-	DeviceID   uuid.UUID `json:"device_id" db:"device_id"`
-	Name       string    `json:"name" db:"name"`
-	Type       string    `json:"type" db:"type"`
-	Attributes string    `json:"attributes" db:"attributes"`
+	ID       uuid.UUID `json:"id" db:"id"`
+	DeviceID uuid.UUID `json:"device_id" db:"device_id"`
+	Name     string    `json:"name" db:"name"`
+	Type     string    `json:"type" db:"type"`
+	Labels   string    `json:"labels" db:"labels"`
 }

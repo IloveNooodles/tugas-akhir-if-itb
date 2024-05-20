@@ -1,0 +1,2 @@
+ALTER TABLE IF EXISTS groupdevices
+DROP CONSTRAINT IF EXISTS groupdevices_group_id_device_id_unique;

@@ -63,11 +63,11 @@ func (h *Handler) V1Create(c echo.Context) error {
 	}
 
 	deviceReq := Device{
-		Name:       req.Name,
-		Type:       req.Type,
-		Attributes: req.Attributes,
-		CompanyID:  companyID,
-		NodeName:   nodeName,
+		Name:      req.Name,
+		Type:      req.Type,
+		Labels:    req.Labels,
+		CompanyID: companyID,
+		NodeName:  nodeName,
 	}
 
 	// TODO: VALIDATE IF NODE NAME EXISTS
