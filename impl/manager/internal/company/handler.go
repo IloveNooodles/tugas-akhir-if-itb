@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/errx"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/validatorx"
 	"github.com/google/uuid"
@@ -48,6 +49,16 @@ func (h *Handler) V1Create(c echo.Context) error {
 	}
 
 	user, err := h.Usecase.Create(ctx, userReq)
+	if errors.Is(err, ErrClusterNotAvailable) {
+		h.Logger.Errorf("company: error when creating err: %s", err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+	}
+
+	if errx.IsDuplicateDatabase(err) {
+		h.Logger.Errorf("company: error when creating err: %s", err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "duplicate combination name and cluster_name"})
+	}
+
 	if err != nil {
 		h.Logger.Errorf("company: error when creating err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})

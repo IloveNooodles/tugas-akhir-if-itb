@@ -9,6 +9,7 @@ import (
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/auth"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/errx"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/validatorx"
 	"github.com/google/uuid"
@@ -61,6 +62,11 @@ func (h *Handler) V1Create(c echo.Context) error {
 	}
 
 	user, err := h.Usecase.Create(ctx, userReq)
+	if errx.IsDuplicateDatabase(err) {
+		h.Logger.Errorf("users: error when creating err: %s", err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "duplicate combination user email"})
+	}
+
 	if err != nil {
 		h.Logger.Errorf("error when creating users err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
@@ -146,7 +152,7 @@ func (h *Handler) V1Login(c echo.Context) error {
 func (h *Handler) V1Refresh(c echo.Context) error {
 	rtFromCookie, err := c.Cookie("refreshToken")
 	if err != nil {
-    h.Logger.Errorf("auth: refresh token not found err: %s", err)
+		h.Logger.Errorf("auth: refresh token not found err: %s", err)
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "invalid token"})
 	}
 
