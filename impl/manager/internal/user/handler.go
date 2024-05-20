@@ -144,20 +144,13 @@ func (h *Handler) V1Login(c echo.Context) error {
 }
 
 func (h *Handler) V1Refresh(c echo.Context) error {
-	var refreshToken = ""
-	cookies := c.Cookies()
-
-	for _, ck := range cookies {
-		if ck.Name == "refreshToken" {
-			refreshToken = ck.Value
-		}
-	}
-
-	if refreshToken == "" {
+	rtFromCookie, err := c.Cookie("refreshToken")
+	if err != nil {
+    h.Logger.Errorf("auth: refresh token not found err: %s", err)
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "invalid token"})
 	}
 
-	rt, err := auth.ValidateToken(refreshToken)
+	rt, err := auth.ValidateToken(rtFromCookie.Value)
 	if err != nil {
 		h.Logger.Errorf("error when validating refresh token: %v, err: %s", rt, err)
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "invalid token"})
