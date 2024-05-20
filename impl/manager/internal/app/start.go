@@ -62,15 +62,15 @@ func NewStartCmd(dep *Dep) *StartCmd {
 	repositoriesHandler := repositories.NewHandler(dep.Logger, repositoriesUsecase, companyUsecase)
 	repositories.RegisterRoute(repositoriesHandler, app)
 
-	deploymentRepo := deployments.NewRepository(dep.DB, dep.Logger)
-	deploymentUsecase := deployments.NewUsecase(dep.Logger, deploymentRepo, kc)
-	deploymentHandler := deployments.NewHandler(dep.Logger, deploymentUsecase, companyUsecase)
-	deployments.RegisterRoute(deploymentHandler, app)
-
 	historyRepo := history.NewRepository(dep.DB, dep.Logger)
 	historyUsecase := history.NewUsecase(dep.Logger, historyRepo)
 	historyHandler := history.NewHandler(dep.Logger, historyUsecase, companyUsecase)
 	history.RegisterRoute(historyHandler, app)
+
+	deploymentRepo := deployments.NewRepository(dep.DB, dep.Logger)
+	deploymentUsecase := deployments.NewUsecase(dep.Logger, deploymentRepo, kc)
+	deploymentHandler := deployments.NewHandler(dep.Logger, deploymentUsecase, companyUsecase, historyUsecase)
+	deployments.RegisterRoute(deploymentHandler, app)
 
 	return &StartCmd{
 		Server: svr,

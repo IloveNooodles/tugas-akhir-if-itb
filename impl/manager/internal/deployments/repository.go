@@ -76,10 +76,12 @@ func (r *Repository) GetDeploymentWithRepository(ctx context.Context, id uuid.UU
 	dr := DeploymentWithRepository{}
 	q := `select 
     d.id, d."name", 
+    d.company_id,
     d."version", 
     d.created_at, 
     d.updated_at, 
-    d.target,  
+    d.target, 
+    dr.id repository_id, 
     dr."name" repository_name,
     dr.description repository_description,
     dr.image repository_image

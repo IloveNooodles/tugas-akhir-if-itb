@@ -10,5 +10,12 @@ type CreateRequest struct {
 }
 
 type DeploymentRequest struct {
-	DeploymentIDs uuid.UUIDs `json:"deployment_ids" validate:"required,dive,printascii"`
+	DeploymentIDs uuid.UUIDs              `json:"deployment_ids" validate:"required,dive,printascii"`
+	Type          string                  `json:"type" validate:"required,oneof=TARGET CUSTOM"`
+	Custom        CustomDeploymentRequest `json:"custom" validate:"omitempty,dive"`
+}
+
+type CustomDeploymentRequest struct {
+	Kind   string     `json:"kind" validate:"required,oneof=GROUP DEVICE"`
+	ListId uuid.UUIDs `json:"list_id" validate:"required,dive"`
 }

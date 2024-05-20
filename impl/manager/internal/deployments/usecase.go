@@ -7,7 +7,6 @@ import (
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/controller"
 	"github.com/google/uuid"
 	"github.com/sirupsen/logrus"
-	v1 "k8s.io/api/apps/v1"
 )
 
 type Usecase struct {
@@ -40,9 +39,9 @@ func (u *Usecase) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([
 	return u.Repo.GetAllByCompanyID(ctx, companyID)
 }
 
-func (u *Usecase) Deploy(ctx context.Context, deploymentIds uuid.UUIDs) ([]*v1.Deployment, []error) {
+func (u *Usecase) Deploy(ctx context.Context, deploymentIds uuid.UUIDs) ([]DeploymentWithRepository, []error) {
 	var listError = make([]error, 0)
-	var listRes = make([]*v1.Deployment, 0)
+	var listRes = make([]DeploymentWithRepository, 0)
 
 	for _, deploymentId := range deploymentIds {
 		deployment, err := u.Repo.GetDeploymentWithRepository(ctx, deploymentId)
@@ -68,14 +67,14 @@ func (u *Usecase) Deploy(ctx context.Context, deploymentIds uuid.UUIDs) ([]*v1.D
 			Targets: labels,
 		}
 
-		res, err := u.kc.Deploy(ctx, p)
+		_, err = u.kc.Deploy(ctx, p)
 		if err != nil {
-			err := fmt.Errorf("error when deploying deployments with id: %s, err: %s", deploymentId, err)
+			err := fmt.Errorf("remote deploy: error when deploying deployments with id: %s, err: %s", deploymentId, err)
 			u.Logger.Error(err)
 			listError = append(listError, err)
 		}
 
-		listRes = append(listRes, res)
+		listRes = append(listRes, deployment)
 	}
 
 	return listRes, listError
@@ -122,4 +121,8 @@ func (u *Usecase) DeleteDeploy(ctx context.Context, deploymentIds uuid.UUIDs) []
 
 func (u *Usecase) Delete(ctx context.Context, id uuid.UUID) error {
 	return u.Repo.Delete(ctx, id)
+}
+
+func (u *Usecase) CheckDeploymentStatus(ctx context.Context, deploymentName string) bool {
+	return u.kc.CheckDeploymentStatus(ctx, deploymentName)
 }

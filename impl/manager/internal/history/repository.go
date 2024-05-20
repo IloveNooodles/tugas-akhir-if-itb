@@ -22,11 +22,11 @@ func NewRepository(db *sqlx.DB, logger *logrus.Logger) *Repository {
 
 func (r *Repository) Create(ctx context.Context, d Histories) (Histories, error) {
 	Histories := Histories{}
-	q := `INSERT INTO deployment_histories (device_id, image_id, deployment_id, status) VALUES ($1, $2, $3, $4) RETURNING *`
-	err := r.DB.GetContext(ctx, &Histories, q, d.DeviceID, d.RepositoryID, d.DeploymentID, d.Status)
+	q := `INSERT INTO deployment_histories (device_id, repository_id, deployment_id, company_id, status) VALUES ($1, $2, $3, $4, 'DEPLOYING') RETURNING *`
+	err := r.DB.GetContext(ctx, &Histories, q, d.DeviceID, d.RepositoryID, d.DeploymentID, d.CompanyID)
 
 	if err != nil {
-		r.Logger.Errorf("error when creating Histories %v, err: %s", Histories, err)
+		r.Logger.Errorf("error when creating histories %#v, err: %s", d, err)
 		return Histories, err
 	}
 
@@ -70,4 +70,16 @@ func (r *Repository) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID)
 	}
 
 	return listHistories, nil
+}
+
+func (r *Repository) UpdateStatusById(ctx context.Context, ID uuid.UUID, status string) (Histories, error) {
+	history := Histories{}
+	q := `UPDATE deployment_histories SET status = $1 WHERE id = $2 RETURNING *`
+	err := r.DB.GetContext(ctx, &history, q, status, ID)
+	if err != nil {
+		r.Logger.Errorf("error when updating histories status err: %s", err)
+		return history, err
+	}
+
+	return history, nil
 }

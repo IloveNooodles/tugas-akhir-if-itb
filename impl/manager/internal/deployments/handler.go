@@ -1,14 +1,17 @@
 package deployments
 
 import (
+	"context"
 	"database/sql"
 	"errors"
 	"fmt"
 	"net/http"
+	"time"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/errx"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/history"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/validatorx"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -19,13 +22,15 @@ type Handler struct {
 	Logger         *logrus.Logger
 	Usecase        Usecase
 	CompanyUsecase company.Usecase
+	HistoryUsecase history.Usecase
 }
 
-func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase) Handler {
+func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase, h history.Usecase) Handler {
 	return Handler{
 		Logger:         l,
 		Usecase:        u,
 		CompanyUsecase: cu,
+		HistoryUsecase: h,
 	}
 }
 
@@ -154,6 +159,30 @@ func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
 	return c.JSON(http.StatusOK, handler.SuccessResponse{Data: deployments})
 }
 
+func (h *Handler) V1Delete(c echo.Context) error {
+	ctx := c.Request().Context()
+	idParam := c.Param("id")
+
+	id, err := uuid.Parse(idParam)
+	if err != nil {
+		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+	}
+
+	err = h.Usecase.Delete(ctx, id)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
+	}
+
+	if err != nil {
+		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
+	}
+
+	return c.JSON(http.StatusNoContent, handler.SuccessResponse{})
+}
+
 func (h *Handler) V1Deploy(c echo.Context) error {
 	req := DeploymentRequest{}
 	ctx := c.Request().Context()
@@ -191,6 +220,45 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 		}
 		h.Logger.Errorf("error when deploying deployment err: %s", errStr)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: errStr})
+	}
+
+	devId := uuid.MustParse("31a485dd-693a-400d-b129-afe28828ace7")
+	// DeviceID: uuid.
+	// 				"31a485dd-693a-400d-b129-afe28828ace7",
+	// 			},
+	for _, d := range listDeployment {
+		hist := history.Histories{
+			DeviceID:     devId,
+			DeploymentID: d.ID,
+			CompanyID:    d.CompanyID,
+			RepositoryID: d.RepositoryID,
+		}
+
+		hist, err := h.HistoryUsecase.Create(ctx, hist)
+		if err != nil {
+			h.Logger.Errorf("history: error when creating deployment histories err: %s", err)
+			return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
+		}
+
+		go func() {
+			goCtx, cancel := context.WithTimeout(context.Background(), 180*time.Second)
+			defer cancel()
+			for {
+				select {
+				case <-goCtx.Done():
+					h.Logger.Errorf("timeout reached: deleting deployment %s", d.Name)
+					h.Usecase.DeleteDeploy(context.Background(), req.DeploymentIDs)
+					h.HistoryUsecase.UpdateStatusById(context.Background(), hist.ID, "FAILED")
+					return
+				case <-time.After(10 * time.Second):
+					h.Logger.Infof("checking status deployment %s", d.Name)
+					if h.Usecase.CheckDeploymentStatus(context.Background(), d.Name) {
+						h.HistoryUsecase.UpdateStatusById(context.Background(), hist.ID, "SUCCESS")
+						return
+					}
+				}
+			}
+		}()
 	}
 
 	return c.JSON(http.StatusCreated, handler.SuccessResponse{Data: listDeployment})
@@ -231,33 +299,9 @@ func (h *Handler) V1DeleteDeploy(c echo.Context) error {
 		for _, e := range errs {
 			errStr += e.Error() + ","
 		}
-		h.Logger.Errorf("error when deploying deployment err: %s", errStr)
+		h.Logger.Errorf("error when removing deployment err: %s", errStr)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: errStr})
 	}
 
 	return c.JSON(http.StatusNoContent, handler.SuccessResponse{Data: "success deleting all deployment"})
-}
-
-func (h *Handler) V1Delete(c echo.Context) error {
-	ctx := c.Request().Context()
-	idParam := c.Param("id")
-
-	id, err := uuid.Parse(idParam)
-	if err != nil {
-		h.Logger.Errorf("error when parsing id: %s, err: %s", idParam, err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
-	}
-
-	err = h.Usecase.Delete(ctx, id)
-	if errors.Is(err, sql.ErrNoRows) {
-		h.Logger.Errorf("no rows found id: %s, err: %s", id, err)
-		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
-	}
-
-	if err != nil {
-		h.Logger.Errorf("error when getting user with id: %s, err: %s", id, err)
-		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
-	}
-
-	return c.JSON(http.StatusNoContent, handler.SuccessResponse{})
 }

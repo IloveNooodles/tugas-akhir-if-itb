@@ -307,3 +307,17 @@ func (k *KubernetesController) HealthCheck(ctx context.Context) error {
 	_, err := podInterface.List(ctx, apimetav1.ListOptions{})
 	return err
 }
+
+func (k *KubernetesController) CheckDeploymentStatus(ctx context.Context, deploymentName string) bool {
+	deployment, err := k.ClientSet.AppsV1().Deployments(apimetav1.NamespaceDefault).Get(ctx, deploymentName, apimetav1.GetOptions{})
+	if err != nil {
+		k.Logger.Errorf("deployment: error when getting deployment client err: %s", err)
+		return false
+	}
+
+	if deployment.Status.AvailableReplicas == *deployment.Spec.Replicas {
+		return true
+	}
+
+	return false
+}
