@@ -96,7 +96,7 @@ func (r *Repository) Delete(ctx context.Context, id uuid.UUID) error {
 
 func (r *Repository) GetAllByLabels(ctx context.Context, companyID uuid.UUID, label string) ([]Device, error) {
 	devices := make([]Device, 0)
-	q := `SELECT * FROM devices WHERE company_id = $1 AND label ilike '%' || $2 || '%'`
+	q := `SELECT * FROM devices WHERE company_id = $1 AND labels ilike '%' || $2 || '%'`
 	err := r.DB.SelectContext(ctx, &devices, q, companyID, label)
 
 	if err != nil {

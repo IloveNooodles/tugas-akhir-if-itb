@@ -292,6 +292,11 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 		}
 	}
 
+	if len(devices) == 0 {
+		h.Logger.Errorf("no devices match target, err: %s", err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "no devices match target"})
+	}
+
 	listDeployment, errs := h.Usecase.Deploy(ctx, deployments, clusterName)
 	err = errors.Join(errs...)
 	if errors.Is(err, sql.ErrNoRows) {
@@ -320,8 +325,8 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 			}
 
 			go func(d DeploymentWithRepository, clusterName string) {
+				timeoutDuration := time.Duration(h.Config.RequestTimeout) * time.Second
 				pollingDuration := time.Duration(h.Config.PollingTimeout) * time.Second
-				timeoutDuration := time.Duration(h.Config.PollingTimeout) * time.Second
 
 				goCtx, cancel := context.WithTimeout(context.Background(), timeoutDuration)
 				defer cancel()

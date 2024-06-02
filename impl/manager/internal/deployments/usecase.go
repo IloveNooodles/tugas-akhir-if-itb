@@ -100,5 +100,5 @@ func (u *Usecase) CheckDeploymentStatus(ctx context.Context, deploymentName, clu
 }
 
 func (u *Usecase) GetDeploymentWithRepositoryByIDs(ctx context.Context, companyID uuid.UUID, deploymentIds uuid.UUIDs) ([]DeploymentWithRepository, error) {
-	return u.GetDeploymentWithRepositoryByIDs(ctx, companyID, deploymentIds)
+	return u.Repo.GetDeploymentWithRepositoryByIDs(ctx, companyID, deploymentIds)
 }
