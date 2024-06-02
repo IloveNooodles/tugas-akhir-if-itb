@@ -3,9 +3,12 @@ package server
 import (
 	"context"
 	"fmt"
+	"net/http"
+	"time"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/config"
 	m "github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/middleware"
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
@@ -23,6 +26,43 @@ type server struct {
 	echo   *echo.Echo
 }
 
+func errorHandler(err error, c echo.Context) {
+	report, ok := err.(*echo.HTTPError)
+	if !ok {
+		report = echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+
+	if castedErr, ok := err.(validator.ValidationErrors); ok {
+		for _, err := range castedErr {
+			switch err.Tag() {
+			case "required":
+				report.Message = fmt.Sprintf("%s is required",
+					err.Field())
+			case "email":
+				report.Message = fmt.Sprintf("%s is not valid email",
+					err.Field())
+			case "gte":
+				report.Message = fmt.Sprintf("%s value must be greater than %s",
+					err.Field(), err.Param())
+			case "lte":
+				report.Message = fmt.Sprintf("%s value must be lower than %s",
+					err.Field(), err.Param())
+			case "min":
+				report.Message = fmt.Sprintf("%s value must have %s characters or more", err.Field(), err.Param())
+			case "contains":
+				report.Message = fmt.Sprintf("%s value must include %s character", err.Field(), err.Param())
+			case "startswith":
+				report.Message = fmt.Sprintf("%s value must startswith %s character", err.Field(), err.Param())
+			case "oneof":
+				report.Message = fmt.Sprintf("%s value must be one of %s", err.Field(), err.Param())
+			}
+		}
+	}
+
+	c.Logger().Error(report)
+	c.JSON(http.StatusBadRequest, report)
+}
+
 func New(l *logrus.Logger, cfg config.Config) Server {
 	e := echo.New()
 	e.Logger.SetOutput(l.Writer())
@@ -35,6 +75,16 @@ func New(l *logrus.Logger, cfg config.Config) Server {
 
 	e.Use(middleware.Recover())
 	e.Use(m.ValidateAPIKey)
+	e.Use(middleware.TimeoutWithConfig(middleware.TimeoutConfig{
+		Skipper:      middleware.DefaultSkipper,
+		ErrorMessage: "request timeout, please try again",
+		OnTimeoutRouteErrorHandler: func(err error, c echo.Context) {
+			e.Logger.Infof("request timeout when hiting: %s", c.Path())
+		},
+		Timeout: time.Duration(cfg.RequestTimeout) * time.Second,
+	}))
+
+	e.HTTPErrorHandler = errorHandler
 
 	return &server{
 		config: cfg,

@@ -1,6 +1,13 @@
 package app
 
 import (
+	"context"
+	"errors"
+	"net/http"
+	"os"
+	"os/signal"
+	"time"
+
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/controller"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/deployments"
@@ -79,8 +86,26 @@ func NewStartCmd(dep *Dep) *StartCmd {
 }
 
 func (s *StartCmd) Start() {
-	err := s.Server.Start()
-	if err != nil {
-		s.Logger.Fatalf("error when starting server err: %s", err)
+	sigs := make(chan os.Signal, 1)
+
+	go func() {
+		if err := s.Server.Start(); err != nil && errors.Is(err, http.ErrServerClosed) {
+			s.Logger.Errorf("error when starting server err: %s", err)
+		}
+	}()
+
+	signal.Notify(sigs, os.Interrupt)
+	<-sigs
+
+	s.Logger.Info("attempting graceful shutdown")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+
+	if err := s.Server.Stop(ctx); err != nil {
+		s.Logger.Error(err)
 	}
+
+	s.Logger.Info("graceful shutdown completed")
+
 }

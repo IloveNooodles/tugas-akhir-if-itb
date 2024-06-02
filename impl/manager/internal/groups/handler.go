@@ -40,16 +40,14 @@ func (h *Handler) V1Create(c echo.Context) error {
 	}
 
 	if err := c.Bind(&req); err != nil {
-		err := fmt.Errorf("error when receiving request err: %s", err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("error when receiving request err: %s", err)
+		return err
 	}
 
 	v := validatorx.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
-		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("error when validating request: %v, err: %s", req, err)
+		return err
 	}
 
 	if _, err := h.CompanyUsecase.GetByID(ctx, companyID); err != nil {

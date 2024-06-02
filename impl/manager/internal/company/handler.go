@@ -3,7 +3,6 @@ package company
 import (
 	"database/sql"
 	"errors"
-	"fmt"
 	"net/http"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/errx"
@@ -31,16 +30,14 @@ func (h *Handler) V1Create(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	if err := c.Bind(&req); err != nil {
-		err := fmt.Errorf("company: invalid request err: %s", err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("company: invalid request err: %s", err)
+		return err
 	}
 
 	v := validatorx.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
-		err := fmt.Errorf("company: error when validating request: %v, err: %s", req, err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("company: error when validating request: %v, err: %s", req, err)
+		return err
 	}
 
 	userReq := Company{

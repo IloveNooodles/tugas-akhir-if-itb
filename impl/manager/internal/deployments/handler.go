@@ -45,16 +45,14 @@ func (h *Handler) V1Create(c echo.Context) error {
 	}
 
 	if err := c.Bind(&req); err != nil {
-		err := fmt.Errorf("error when receiving request err: %s", err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("error when receiving request err: %s", err)
+		return err
 	}
 
 	v := validatorx.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
-		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("error when validating request: %v, err: %s", req, err)
+		return err
 	}
 
 	if _, err := h.CompanyUsecase.GetByID(ctx, companyID); err != nil {
@@ -194,16 +192,14 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 	}
 
 	if err := c.Bind(&req); err != nil {
-		err := fmt.Errorf("error when receiving request err: %s", err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("error when receiving request err: %s", err)
+		return err
 	}
 
 	v := validatorx.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
-		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("error when validating request: %v, err: %s", req, err)
+		return err
 	}
 
 	if _, err := h.CompanyUsecase.GetByID(ctx, companyID); err != nil {
@@ -213,19 +209,13 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 	}
 
 	listDeployment, errs := h.Usecase.Deploy(ctx, req.DeploymentIDs)
-	if len(errs) != 0 {
-		errStr := ""
-		for _, e := range errs {
-			errStr += e.Error() + ","
-		}
-		h.Logger.Errorf("error when deploying deployment err: %s", errStr)
-		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: errStr})
+	err := errors.Join(errs...)
+	if err != nil {
+		h.Logger.Errorf("error when deploying deployment err: %s", err)
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	devId := uuid.MustParse("31a485dd-693a-400d-b129-afe28828ace7")
-	// DeviceID: uuid.
-	// 				"31a485dd-693a-400d-b129-afe28828ace7",
-	// 			},
+	devId := uuid.MustParse("10ce05bd-d219-466d-9370-f60b3cc61eb4")
 	for _, d := range listDeployment {
 		hist := history.Histories{
 			DeviceID:     devId,
@@ -241,7 +231,7 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 		}
 
 		go func() {
-			goCtx, cancel := context.WithTimeout(context.TODO(), 180*time.Second)
+			goCtx, cancel := context.WithTimeout(context.TODO(), 20*time.Second)
 			defer cancel()
 			for {
 				select {
@@ -250,7 +240,7 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 					h.Usecase.DeleteDeploy(context.TODO(), req.DeploymentIDs)
 					h.HistoryUsecase.UpdateStatusById(context.TODO(), hist.ID, "FAILED")
 					return
-				case <-time.After(10 * time.Second):
+				case <-time.After(5 * time.Second):
 					h.Logger.Infof("checking status deployment %s", d.Name)
 					if h.Usecase.CheckDeploymentStatus(context.TODO(), d.Name) {
 						h.HistoryUsecase.UpdateStatusById(context.TODO(), hist.ID, "SUCCESS")
@@ -275,15 +265,13 @@ func (h *Handler) V1DeleteDeploy(c echo.Context) error {
 	}
 
 	if err := c.Bind(&req); err != nil {
-		err := fmt.Errorf("error when receiving request err: %s", err)
-		h.Logger.Error(err)
+		h.Logger.Errorf("error when receiving request err: %s", err)
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	v := validatorx.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
-		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
-		h.Logger.Error(err)
+		h.Logger.Errorf("error when validating request: %v, err: %s", req, err)
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 

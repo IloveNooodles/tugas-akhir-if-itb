@@ -18,6 +18,8 @@ type Config struct {
 	Port             int
 	JWTKey           string
 	FEURL            string
+	RequestTimeout   int
+	PollingTimeout   int
 }
 
 // Craete new config for the applications
@@ -48,6 +50,8 @@ func New() Config {
 		JWTKey:           v.GetString("APP_JWT_KEY"),
 		AdminAPIKey:      v.GetString("APP_ADMIN_API_KEY"),
 		FEURL:            v.GetString("APP_FE_URL"),
+		RequestTimeout:   v.GetInt("APP_REQUEST_TIMEOUT"),
+		PollingTimeout:   v.GetInt("APP_POLLING_TIMEOUT"),
 	}
 
 	return cfg

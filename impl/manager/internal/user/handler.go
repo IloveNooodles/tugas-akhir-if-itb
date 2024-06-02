@@ -36,16 +36,14 @@ func (h *Handler) V1Create(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	if err := c.Bind(&req); err != nil {
-		err := fmt.Errorf("error when receiving request err: %s", err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("error when receiving request err: %s", err)
+		return err
 	}
 
 	v := validatorx.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
-		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("error when validating request: %v, err: %s", req, err)
+		return err
 	}
 
 	if _, err := h.CompanyUsecase.GetByID(ctx, req.CompanyID); err != nil {
@@ -114,16 +112,14 @@ func (h *Handler) V1Login(c echo.Context) error {
 	ctx := c.Request().Context()
 
 	if err := c.Bind(&req); err != nil {
-		err := fmt.Errorf("error when receiving request err: %s", err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("error when receiving request err: %s", err)
+		return err
 	}
 
 	v := validatorx.New()
 	if err := v.StructCtx(ctx, &req); err != nil {
-		err := fmt.Errorf("error when validating request: %v, err: %s", req, err)
-		h.Logger.Error(err)
-		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+		h.Logger.Errorf("error when validating request: %v, err: %s", req, err)
+		return err
 	}
 
 	user, err := h.Usecase.Login(ctx, req.Email, req.Password)
