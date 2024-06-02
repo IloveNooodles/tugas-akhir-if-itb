@@ -22,10 +22,11 @@ const (
 )
 
 type MyClaims struct {
-	UserID    uuid.UUID `json:"id"`
-	CompanyID uuid.UUID `json:"company_id"`
-	Email     string    `json:"email"`
-	Name      string    `json:"name"`
+	UserID      uuid.UUID `json:"id"`
+	CompanyID   uuid.UUID `json:"company_id"`
+	Email       string    `json:"email"`
+	Name        string    `json:"name"`
+	ClusterName string    `json:"cluster_name"`
 }
 
 type JwtClaims struct {
@@ -51,6 +52,8 @@ func createClaims(mc MyClaims, subject string, expDate time.Duration) JwtClaims 
 	j.Email = mc.Email
 	j.Name = mc.Name
 	j.CompanyID = mc.CompanyID
+	j.ClusterName = mc.ClusterName
+
 	return j
 }
 
@@ -82,10 +85,11 @@ func CreateAndSignToken(mc MyClaims, subject string) (string, string, error) {
 func GeneratePairToken(claims JwtClaims) (string, string, error) {
 	subject := claims.Subject
 	mc := MyClaims{
-		UserID:    claims.UserID,
-		CompanyID: claims.CompanyID,
-		Email:     claims.Email,
-		Name:      claims.Name,
+		UserID:      claims.UserID,
+		CompanyID:   claims.CompanyID,
+		Email:       claims.Email,
+		Name:        claims.Name,
+		ClusterName: claims.ClusterName,
 	}
 
 	return CreateAndSignToken(mc, subject)

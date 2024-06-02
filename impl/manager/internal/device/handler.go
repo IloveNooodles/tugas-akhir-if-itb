@@ -39,6 +39,12 @@ func (h *Handler) V1Create(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
+	clusterName, ok := c.Get("clusterName").(string)
+	if !ok {
+		h.Logger.Errorf("company: cluster name not found %s", clusterName)
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "invalid cluster name"})
+	}
+
 	if err := c.Bind(&req); err != nil {
 		h.Logger.Errorf("error when receiving request err: %s", err)
 		return err
@@ -69,7 +75,7 @@ func (h *Handler) V1Create(c echo.Context) error {
 		NodeName:  nodeName,
 	}
 
-	device, err := h.Usecase.Create(ctx, deviceReq)
+	device, err := h.Usecase.Create(ctx, deviceReq, clusterName)
 	if errx.IsNodeNotFound(err) {
 		h.Logger.Errorf("device: error when creating devices err: %s", err)
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "node not found"})

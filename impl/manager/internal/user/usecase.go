@@ -35,7 +35,7 @@ func (u *Usecase) GetByID(ctx context.Context, id uuid.UUID) (User, error) {
 	return u.Repo.GetByID(ctx, id)
 }
 
-func (u *Usecase) Login(ctx context.Context, email, password string) (User, error) {
+func (u *Usecase) Login(ctx context.Context, email, password string) (UserWithCluster, error) {
 	user, err := u.Repo.GetByEmail(ctx, email)
 	if err != nil {
 		return user, err
@@ -44,7 +44,7 @@ func (u *Usecase) Login(ctx context.Context, email, password string) (User, erro
 	err = bcrypt.CompareHashAndPassword([]byte(user.Password), []byte(password))
 	if err != nil {
 		u.Logger.Errorf("error when comparing password err: %s", err)
-		return User{}, errx.ErrInvalidPassword
+		return UserWithCluster{}, errx.ErrInvalidPassword
 	}
 
 	return user, err
@@ -59,5 +59,5 @@ func (u *Usecase) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([
 }
 
 func (u *Usecase) Delete(ctx context.Context, id uuid.UUID) error {
-  return u.Repo.Delete(ctx, id)
+	return u.Repo.Delete(ctx, id)
 }

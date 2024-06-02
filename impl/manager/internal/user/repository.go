@@ -46,9 +46,9 @@ func (r *Repository) GetByID(ctx context.Context, id uuid.UUID) (User, error) {
 	return user, nil
 }
 
-func (r *Repository) GetByEmail(ctx context.Context, email string) (User, error) {
-	user := User{}
-	q := `SELECT * FROM users WHERE email = $1`
+func (r *Repository) GetByEmail(ctx context.Context, email string) (UserWithCluster, error) {
+	user := UserWithCluster{}
+	q := `SELECT u.*, cluster_name FROM users u join companies c on c.id = u.company_id  WHERE email = $1`
 	err := r.DB.GetContext(ctx, &user, q, email)
 
 	if err != nil {

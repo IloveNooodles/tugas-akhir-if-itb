@@ -70,6 +70,7 @@ func ValidateJWT(next echo.HandlerFunc) echo.HandlerFunc {
 		c.Set("name", claims.Name)
 		c.Set("email", claims.Email)
 		c.Set("companyID", claims.CompanyID)
+		c.Set("clusterName", claims.ClusterName)
 		return next(c)
 	}
 }

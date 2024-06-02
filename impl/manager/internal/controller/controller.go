@@ -168,7 +168,14 @@ func (k *KubernetesController) CheckAvailableContext(ctx string) bool {
 }
 
 // Labeling nodes with given nodeName, key, and value
-func (k *KubernetesController) LabelNodes(ctx context.Context, nodeName, key, val string) error {
+func (k *KubernetesController) LabelNodes(ctx context.Context, clusterName, nodeName, key, val string) error {
+	err := k.SwitchContext(clusterName)
+	if err != nil {
+		err := fmt.Errorf("error when switching context to %s, err: %s", clusterName, err)
+		k.Logger.Error(err)
+		return err
+	}
+
 	patch := []PatchObject{{
 		Op:    PatchReplaceOP,
 		Path:  "/metadata/labels/" + key,
@@ -199,8 +206,14 @@ func (k *KubernetesController) LabelNodes(ctx context.Context, nodeName, key, va
 
 // Deploying to image to the nodes
 func (k *KubernetesController) Deploy(ctx context.Context, params DeployParams) (*apiappsv1.Deployment, error) {
-	deployClient := k.ClientSet.AppsV1().Deployments(apiv1.NamespaceDefault)
+	err := k.SwitchContext(params.ClusterName)
+	if err != nil {
+		err := fmt.Errorf("error when switching context to %s, err: %s", params.ClusterName, err)
+		k.Logger.Error(err)
+		return &apiappsv1.Deployment{}, err
+	}
 
+	deployClient := k.ClientSet.AppsV1().Deployments(apiv1.NamespaceDefault)
 	deployment := &apiappsv1.Deployment{
 		ObjectMeta: apimetav1.ObjectMeta{
 			Name: params.Name,
@@ -235,10 +248,10 @@ func (k *KubernetesController) Deploy(ctx context.Context, params DeployParams) 
 	}
 
 	res, err := deployClient.Create(ctx, deployment, apimetav1.CreateOptions{})
-
-	// TODO Handle error
 	if kubeerror.IsNotFound(err) {
-		fmt.Println("INI ERR GAKETEMU YA ADIK")
+		err := fmt.Errorf("error when creating deployment %v, err: %s", deployment, err)
+		k.Logger.Error(err)
+		return &apiappsv1.Deployment{}, err
 	}
 
 	if err != nil {
@@ -285,30 +298,50 @@ func (k *KubernetesController) Patch(ctx context.Context, params DeployParams) {
 
 // Delete deployments
 func (k *KubernetesController) Delete(ctx context.Context, params DeployParams) error {
-	deploymentsClient := k.ClientSet.AppsV1().Deployments(apiv1.NamespaceDefault)
+	err := k.SwitchContext(params.ClusterName)
+	if err != nil {
+		err := fmt.Errorf("error when switching context to %s, err: %s", params.ClusterName, err)
+		k.Logger.Error(err)
+		return err
+	}
 
+	deploymentsClient := k.ClientSet.AppsV1().Deployments(apiv1.NamespaceDefault)
 	deletePolicy := apimetav1.DeletePropagationForeground
-	err := deploymentsClient.Delete(ctx, params.Name, apimetav1.DeleteOptions{
+	err = deploymentsClient.Delete(ctx, params.Name, apimetav1.DeleteOptions{
 		PropagationPolicy: &deletePolicy,
 	})
 
-	// TODO Handle Error
-
 	if kubeerror.IsNotFound(err) {
-		fmt.Println("INI ERROR NOT FOUND")
+		err := fmt.Errorf("error when creating deployment %v, err: %s", deletePolicy, err)
+		k.Logger.Error(err)
+		return err
 	}
 
 	return err
 }
 
 // Check status cluster
-func (k *KubernetesController) HealthCheck(ctx context.Context) error {
+func (k *KubernetesController) HealthCheck(ctx context.Context, clusterName string) error {
+	err := k.SwitchContext(clusterName)
+	if err != nil {
+		err := fmt.Errorf("error when switching context to %s, err: %s", clusterName, err)
+		k.Logger.Error(err)
+		return err
+	}
+
 	podInterface := k.ClientSet.CoreV1().Pods(apiv1.NamespaceDefault)
-	_, err := podInterface.List(ctx, apimetav1.ListOptions{})
+	_, err = podInterface.List(ctx, apimetav1.ListOptions{})
 	return err
 }
 
-func (k *KubernetesController) CheckDeploymentStatus(ctx context.Context, deploymentName string) bool {
+func (k *KubernetesController) CheckDeploymentStatus(ctx context.Context, deploymentName, clusterName string) bool {
+	err := k.SwitchContext(clusterName)
+	if err != nil {
+		err := fmt.Errorf("error when switching context to %s, err: %s", clusterName, err)
+		k.Logger.Error(err)
+		return false
+	}
+
 	deployment, err := k.ClientSet.AppsV1().Deployments(apimetav1.NamespaceDefault).Get(ctx, deploymentName, apimetav1.GetOptions{})
 	if err != nil {
 		k.Logger.Errorf("deployment: error when getting deployment client err: %s", err)

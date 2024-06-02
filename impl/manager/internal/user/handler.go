@@ -123,16 +123,22 @@ func (h *Handler) V1Login(c echo.Context) error {
 	}
 
 	user, err := h.Usecase.Login(ctx, req.Email, req.Password)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("error email not found %s, err: %s", req.Email, err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "invalid combination of email and password"})
+	}
+
 	if err != nil {
 		h.Logger.Errorf("error when login users with email: %s, err: %s", req.Email, err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
 	myClaims := auth.MyClaims{
-		UserID:    user.ID,
-		Email:     user.Email,
-		Name:      user.Name,
-		CompanyID: user.CompanyID,
+		UserID:      user.ID,
+		Email:       user.Email,
+		Name:        user.Name,
+		CompanyID:   user.CompanyID,
+		ClusterName: user.ClusterName,
 	}
 
 	accessToken, refreshToken, err := auth.CreateAndSignToken(myClaims, auth.Authentication)

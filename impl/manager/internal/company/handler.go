@@ -153,8 +153,13 @@ func (h *Handler) V1Delete(c echo.Context) error {
 
 func (h *Handler) V1CheckClusterStatus(c echo.Context) error {
 	ctx := c.Request().Context()
+	clusterName, ok := c.Get("clusterName").(string)
+	if !ok {
+		h.Logger.Errorf("company: cluster name not found %s", clusterName)
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "invalid cluster name"})
+	}
 
-	err := h.Usecase.CheckClusterStatus(ctx)
+	err := h.Usecase.CheckClusterStatus(ctx, clusterName)
 	if err != nil {
 		h.Logger.Errorf("company: cluster server check: %s", err)
 		return c.JSON(http.StatusOK, handler.SuccessResponse{Data: errx.ErrClusterDown.Error()})

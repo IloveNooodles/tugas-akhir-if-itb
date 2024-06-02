@@ -53,6 +53,6 @@ func (u *Usecase) Delete(ctx context.Context, id uuid.UUID) error {
 	return u.Repo.Delete(ctx, id)
 }
 
-func (u *Usecase) CheckClusterStatus(ctx context.Context) error {
-	return u.KubeController.HealthCheck(ctx)
+func (u *Usecase) CheckClusterStatus(ctx context.Context, clusterName string) error {
+	return u.KubeController.HealthCheck(ctx, clusterName)
 }

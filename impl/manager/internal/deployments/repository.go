@@ -2,7 +2,9 @@ package deployments
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/util"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
@@ -97,11 +99,65 @@ func (r *Repository) GetDeploymentWithRepository(ctx context.Context, id uuid.UU
 	}
 
 	return dr, nil
-
 }
 
 func (r *Repository) Delete(ctx context.Context, id uuid.UUID) error {
 	q := `DELETE FROM deployments WHERE id = $1`
 	_, err := r.DB.ExecContext(ctx, q, id)
 	return err
+}
+
+func (r *Repository) GetDeploymentWithRepositoryByIDs(ctx context.Context, companyID uuid.UUID, ids uuid.UUIDs) ([]DeploymentWithRepository, error) {
+	dr := make([]DeploymentWithRepository, 0)
+	q := fmt.Sprintf(`select 
+    d.id, d."name", 
+    d.company_id,
+    d."version", 
+    d.created_at, 
+    d.updated_at, 
+    d.target, 
+    dr.id repository_id, 
+    dr."name" repository_name,
+    dr.description repository_description,
+    dr.image repository_image
+  from deployments d 
+  join deployment_repositories dr 
+  on d.repository_id = dr.id
+  WHERE
+    d.company_id = $1
+  AND
+    d.id IN (%s)
+  `, util.GenerateQuerySQL(ids.Strings(), 2))
+
+	args := []any{companyID}
+	for _, i := range ids {
+		args = append(args, i)
+	}
+
+	if len(ids) == 0 {
+		q = `select 
+    d.id, d."name", 
+    d.company_id,
+    d."version", 
+    d.created_at, 
+    d.updated_at, 
+    d.target, 
+    dr.id repository_id, 
+    dr."name" repository_name,
+    dr.description repository_description,
+    dr.image repository_image
+  from deployments d 
+  join deployment_repositories dr 
+  on d.repository_id = dr.id
+  WHERE
+    d.company_id = $1`
+	}
+
+	err := r.DB.SelectContext(ctx, &dr, q, args...)
+	if err != nil {
+		r.Logger.Errorf("error when getting list of groups err: %s", err)
+		return dr, err
+	}
+
+	return dr, nil
 }

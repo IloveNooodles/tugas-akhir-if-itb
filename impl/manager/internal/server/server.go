@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/config"
 	m "github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/middleware"
@@ -36,25 +35,27 @@ func errorHandler(err error, c echo.Context) {
 		for _, err := range castedErr {
 			switch err.Tag() {
 			case "required":
-				report.Message = fmt.Sprintf("%s is required",
-					err.Field())
+				report.Message = fmt.Sprintf("%s field is required", err.Field())
+			case "required_if":
+				report.Message = fmt.Sprintf("%s field is required when %s", err.Field(), err.Param())
 			case "email":
-				report.Message = fmt.Sprintf("%s is not valid email",
-					err.Field())
+				report.Message = fmt.Sprintf("%s is not valid email", err.Field())
 			case "gte":
-				report.Message = fmt.Sprintf("%s value must be greater than %s",
-					err.Field(), err.Param())
+				report.Message = fmt.Sprintf("%s field value must be greater than '%s'", err.Field(), err.Param())
 			case "lte":
-				report.Message = fmt.Sprintf("%s value must be lower than %s",
-					err.Field(), err.Param())
+				report.Message = fmt.Sprintf("%s field value must be lower than '%s'", err.Field(), err.Param())
 			case "min":
-				report.Message = fmt.Sprintf("%s value must have %s characters or more", err.Field(), err.Param())
+				report.Message = fmt.Sprintf("%s field value must have '%s' characters or more", err.Field(), err.Param())
 			case "contains":
-				report.Message = fmt.Sprintf("%s value must include %s character", err.Field(), err.Param())
+				report.Message = fmt.Sprintf("%s field value must include '%s' character", err.Field(), err.Param())
 			case "startswith":
-				report.Message = fmt.Sprintf("%s value must startswith %s character", err.Field(), err.Param())
+				report.Message = fmt.Sprintf("%s field value must startswith '%s' character", err.Field(), err.Param())
 			case "oneof":
-				report.Message = fmt.Sprintf("%s value must be one of %s", err.Field(), err.Param())
+				report.Message = fmt.Sprintf("%s field value must be one of '%s'", err.Field(), err.Param())
+			case "excludes":
+				report.Message = fmt.Sprintf("%s field value must excludes '%s' characters", err.Field(), err.Param())
+			case "dive":
+				report.Message = fmt.Sprintf("%s field value must not be empty", err.Field())
 			}
 		}
 	}
@@ -75,14 +76,6 @@ func New(l *logrus.Logger, cfg config.Config) Server {
 
 	e.Use(middleware.Recover())
 	e.Use(m.ValidateAPIKey)
-	e.Use(middleware.TimeoutWithConfig(middleware.TimeoutConfig{
-		Skipper:      middleware.DefaultSkipper,
-		ErrorMessage: "request timeout, please try again",
-		OnTimeoutRouteErrorHandler: func(err error, c echo.Context) {
-			e.Logger.Infof("request timeout when hiting: %s", c.Path())
-		},
-		Timeout: time.Duration(cfg.RequestTimeout) * time.Second,
-	}))
 
 	e.HTTPErrorHandler = errorHandler
 

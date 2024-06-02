@@ -9,9 +9,13 @@ import (
 	"time"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/config"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/device"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/errx"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/groups"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/history"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/util"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/validatorx"
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
@@ -23,14 +27,20 @@ type Handler struct {
 	Usecase        Usecase
 	CompanyUsecase company.Usecase
 	HistoryUsecase history.Usecase
+	DeviceUsecase  device.Usecase
+	GroupUsecase   groups.Usecase
+	Config         config.Config
 }
 
-func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase, h history.Usecase) Handler {
+func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase, h history.Usecase, du device.Usecase, gu groups.Usecase, cfg config.Config) Handler {
 	return Handler{
 		Logger:         l,
 		Usecase:        u,
 		CompanyUsecase: cu,
 		HistoryUsecase: h,
+		DeviceUsecase:  du,
+		GroupUsecase:   gu,
+		Config:         cfg,
 	}
 }
 
@@ -191,6 +201,13 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
+	clusterName, ok := c.Get("clusterName").(string)
+
+	if !ok {
+		h.Logger.Errorf("company: cluster name not found %s", clusterName)
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "invalid cluster name"})
+	}
+
 	if err := c.Bind(&req); err != nil {
 		h.Logger.Errorf("error when receiving request err: %s", err)
 		return err
@@ -208,47 +225,123 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	listDeployment, errs := h.Usecase.Deploy(ctx, req.DeploymentIDs)
-	err := errors.Join(errs...)
+	// Get all available deployments from IDS
+	deployments, err := h.Usecase.GetDeploymentWithRepositoryByIDs(ctx, companyID, req.DeploymentIDs)
+	if errors.Is(err, sql.ErrNoRows) {
+		err := fmt.Errorf("deployments with ids %v not found, err: %s", req.DeploymentIDs, err)
+		h.Logger.Error(err)
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "not found"})
+	}
+
+	if err != nil {
+		err := fmt.Errorf("error when getting deployments with ids %v, err: %s", req.DeploymentIDs, err)
+		h.Logger.Error(err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+	}
+
+	devices := make([]device.Device, 0)
+	switch req.Type {
+	case "CUSTOM":
+		switch req.Custom.Kind {
+		case "DEVICE":
+			deviceList, err := h.DeviceUsecase.GetAllByIDs(ctx, companyID, req.Custom.ListId)
+			if err != nil {
+				h.Logger.Errorf("error when getting deployment ids %v, err: %s", req.Custom.ListId.Strings(), err)
+				return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
+			}
+
+			devices = append(devices, deviceList...)
+		case "GROUP":
+			deviceList, err := h.DeviceUsecase.GetAllByGroupIDs(ctx, companyID, req.Custom.ListId)
+			if err != nil {
+				h.Logger.Errorf("error when getting deployment ids %v, err: %s", req.Custom.ListId.Strings(), err)
+				return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
+			}
+
+			devices = append(devices, deviceList...)
+		}
+
+		// Label nodes after get all possible from devicesList for custom type
+		for _, deployment := range deployments {
+			for _, device := range devices {
+				labels := util.SplitByComma(deployment.Target)
+				for _, label := range labels {
+					k, v, err := util.SplitByEqual(label)
+					if err != nil {
+						h.Logger.Errorf("error when splitting by labels device k, v, err: %s %s %s", k, v, err)
+						return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
+					}
+
+					err = h.Usecase.kc.LabelNodes(ctx, clusterName, device.NodeName, k, v)
+					if err != nil {
+						h.Logger.Errorf("error when labels device device: %v, %s, %s, err:  %s", device, k, v, err)
+						return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
+					}
+				}
+			}
+		}
+	case "TARGET":
+		for _, d := range deployments {
+			devicesList, err := h.DeviceUsecase.GetAllByLabels(ctx, companyID, d.Target)
+			if err != nil {
+				h.Logger.Errorf("error when getting target %s, err: %s", d.Target, err)
+				return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
+			}
+
+			devices = append(devices, devicesList...)
+		}
+	}
+
+	listDeployment, errs := h.Usecase.Deploy(ctx, deployments, clusterName)
+	err = errors.Join(errs...)
+	if errors.Is(err, sql.ErrNoRows) {
+		h.Logger.Errorf("no rows found ids %v, err: %s", req.DeploymentIDs, err)
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})
+	}
+
 	if err != nil {
 		h.Logger.Errorf("error when deploying deployment err: %s", err)
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	devId := uuid.MustParse("10ce05bd-d219-466d-9370-f60b3cc61eb4")
 	for _, d := range listDeployment {
-		hist := history.Histories{
-			DeviceID:     devId,
-			DeploymentID: d.ID,
-			CompanyID:    d.CompanyID,
-			RepositoryID: d.RepositoryID,
-		}
+		for _, dev := range devices {
+			hist := history.Histories{
+				DeviceID:     dev.ID,
+				DeploymentID: d.ID,
+				CompanyID:    d.CompanyID,
+				RepositoryID: d.RepositoryID,
+			}
 
-		hist, err := h.HistoryUsecase.Create(ctx, hist)
-		if err != nil {
-			h.Logger.Errorf("history: error when creating deployment histories err: %s", err)
-			return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
-		}
+			hist, err := h.HistoryUsecase.Create(ctx, hist)
+			if err != nil {
+				h.Logger.Errorf("history: error when creating deployment histories err: %s", err)
+				return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
+			}
 
-		go func() {
-			goCtx, cancel := context.WithTimeout(context.TODO(), 20*time.Second)
-			defer cancel()
-			for {
-				select {
-				case <-goCtx.Done():
-					h.Logger.Errorf("timeout reached: deleting deployment %s", d.Name)
-					h.Usecase.DeleteDeploy(context.TODO(), req.DeploymentIDs)
-					h.HistoryUsecase.UpdateStatusById(context.TODO(), hist.ID, "FAILED")
-					return
-				case <-time.After(5 * time.Second):
-					h.Logger.Infof("checking status deployment %s", d.Name)
-					if h.Usecase.CheckDeploymentStatus(context.TODO(), d.Name) {
-						h.HistoryUsecase.UpdateStatusById(context.TODO(), hist.ID, "SUCCESS")
+			go func(d DeploymentWithRepository, clusterName string) {
+				pollingDuration := time.Duration(h.Config.PollingTimeout) * time.Second
+				timeoutDuration := time.Duration(h.Config.PollingTimeout) * time.Second
+
+				goCtx, cancel := context.WithTimeout(context.Background(), timeoutDuration)
+				defer cancel()
+				for {
+					select {
+					case <-goCtx.Done():
+						h.Logger.Errorf("timeout reached: deleting deployment %s", d.Name)
+						h.Usecase.DeleteDeploy(context.Background(), []DeploymentWithRepository{d}, clusterName)
+						h.HistoryUsecase.UpdateStatusById(context.Background(), hist.ID, "FAILED")
 						return
+					case <-time.After(pollingDuration):
+						h.Logger.Infof("checking status deployment %s", d.Name)
+						if h.Usecase.CheckDeploymentStatus(context.Background(), d.Name, clusterName) {
+							h.HistoryUsecase.UpdateStatusById(context.Background(), hist.ID, "SUCCESS")
+							return
+						}
 					}
 				}
-			}
-		}()
+			}(d, clusterName)
+		}
 	}
 
 	return c.JSON(http.StatusCreated, handler.SuccessResponse{Data: listDeployment})
@@ -264,6 +357,13 @@ func (h *Handler) V1DeleteDeploy(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
+	clusterName, ok := c.Get("clusterName").(string)
+
+	if !ok {
+		h.Logger.Errorf("company: cluster name not found %s", clusterName)
+		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "invalid cluster name"})
+	}
+
 	if err := c.Bind(&req); err != nil {
 		h.Logger.Errorf("error when receiving request err: %s", err)
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
@@ -281,7 +381,21 @@ func (h *Handler) V1DeleteDeploy(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
 	}
 
-	errs := h.Usecase.DeleteDeploy(ctx, req.DeploymentIDs)
+	// Get all available deployments from IDS
+	deployments, err := h.Usecase.GetDeploymentWithRepositoryByIDs(ctx, companyID, req.DeploymentIDs)
+	if errors.Is(err, sql.ErrNoRows) {
+		err := fmt.Errorf("deployments with ids %v not found, err: %s", req.DeploymentIDs, err)
+		h.Logger.Error(err)
+		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "not found"})
+	}
+
+	if err != nil {
+		err := fmt.Errorf("error when getting deployments with ids %v, err: %s", req.DeploymentIDs, err)
+		h.Logger.Error(err)
+		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: err.Error()})
+	}
+
+	errs := h.Usecase.DeleteDeploy(ctx, deployments, clusterName)
 	if len(errs) != 0 {
 		errStr := ""
 		for _, e := range errs {
