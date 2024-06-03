@@ -50,45 +50,26 @@ Pengujian dengan ID P04 dilakukan dengan skenario yaitu admin ingin menghapus \t
   \label{fig:pengujian-p04}
 \end{figure}
 
-Seluruh rekap pengujian pada domain \textit{company} dapat dilihat pada tabel .Berdasarkan hasil yang diperoleh, terbukti bahwa kebutuhan fungsional dengan ID tersebut telah terimplementasi dengan baik
+Seluruh rekap pengujian pada domain \textit{company} dapat dilihat pada tabel \ref{tab:pengujian-domain-company}. Berdasarkan hasil yang diperoleh, terbukti bahwa kebutuhan fungsional dengan ID F01, F02, dan F03 telah terimplementasi dengan baik.
 
 
 \bgroup
 \begin{table}[ht]
-  \def\arraystretch{1.7}
+  \def\arraystretch{1.5}
   \caption{Skenario dan Hasil Pengujian Domain \textit{Company}}
   \label{tab:pengujian-domain-company}
   \centering
-  \begin{tabular}{|p{2cm}|p{2cm}|p{3cm}|p{3cm}|p{2cm}|}
+  \begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{3cm}|p{2cm}|}
     \hline
-    ID Fungsional & ID Pengujian                               & Skenario                                                                                                                                   & Ekspektasi & Realita \\
+    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                 & \centering{Ekspektasi}                                                                             & Realita \\
     \hline
-    UC01          & Mendaftarkan perusahaan                    & Sistem memberikan akses kepada admin untuk mendaftarkan perusahaan yang ingin mendaftar ke dalam sistem                                                           \\
+    F01                       & P01                      & Admin mendaftarkan \textit{company} dengan cluster name yang tersedia                & Admin berhasil mendaftarkan \textit{company}                                                       & Sesuai  \\
     \hline
-    UC02          & Mendaftarkan \textit{user}                 & Sistem memberikan akses kepada admin untuk mendaftarkan \textit{user} ke perusahaan tertentu                                                                      \\
+    F01                       & P02                      & Admin mendaftarkan \textit{company} dengan cluster name yang tidak valid             & Admin tidak berhasil mendaftarkan karena cluster name tidak valid                                  & Sesuai  \\
     \hline
-    UC03          & Manajemen perusahaan                       & Sistem memberikan akses kepada admin untuk melakukan manajemen terhadap seluruh perusahaan yang terdaftar pada sistem                                             \\
+    F02                       & P03                      & Admin membuat \textit{request} untuk melihat seluruh \textit{company} pada sistem    & Admin dapat melihat seluruh \textit{company} pada sistem                                           & Sesuai  \\
     \hline
-    UC04          & Manajemen \textit{user}                    & Sistem memberikan akses kepada admin untuk melakukan manajemen terhadap seluruh \textit{user} yang terdaftar pada sistem                                          \\
-    \hline
-    UC05          & Login                                      & Sistem memberikan akses kepada \textit{user}                                                                                                                      \\
-    \hline
-    UC06          & Melihat detail perusahaan                  & Sistem memberikan akses kepada \textit{user} untuk melihat perusahaanya                                                                                           \\
-    \hline
-    UC07          & Melihat \textit{user} pada satu perusahaan & Sistem memberikan akses kepada \textit{user} user lainnya pada satu perusahaan                                                                                    \\
-
-    \hline
-    UC08          & Manajemen \textit{perangkat}               & Sistem memberikan akses kepada \textit{user} untuk melihat, membuat, serta menghapus \textit{perangkat} yang terdaftar pada sistem                                \\
-    \hline
-    UC09          & Manajemen \textit{groups}                  & Sistem memberikan akses kepada \textit{user} untuk melihat, membuat, serta menghapus \textit{groups} yang terdaftar pada sistem                                   \\
-    \hline
-    UC10          & Manajemen \textit{deployment images}       & Sistem memberikan akses kepada \textit{user} untuk melihat, membuat, serta menghapus \textit{deployment images} yang terdaftar pada sistem                        \\
-    \hline
-    UC11          & Manajemen \textit{deployment plan}         & Sistem memberikan akses kepada \textit{user} untuk melihat, membuat, serta menghapus \textit{deployment plan} yang terdaftar pada sistem                          \\
-    \hline
-    UC12          & Melakukan \textit{Remote deployment}       & Sistem memberikan akses kepada \textit{user} untuk melakukan \textit{deployment} kepada target perangakt ataupun \textit{groups}                                  \\
-    \hline
-    UC13          & Melihat riwayat \textit{deployment}        & Sistem memberikan akses kepada \textit{user} untuk melihat riwayat \textit{deployment} yang telah dilakukan                                                       \\
+    F03                       & P04                      & Admin melakukan DELETE \textit{request} untuk menghapus \textit{company} pada sistem & Admin dapat menghapus \textit{company} pada sistem dengan memberikan id company yang ingin dihapus & Sesuai  \\
     \hline
   \end{tabular}
 \end{table}
