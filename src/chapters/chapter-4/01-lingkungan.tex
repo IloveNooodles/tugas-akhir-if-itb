@@ -1,5 +1,5 @@
 \section{Lingkungan}
-
+\label{sec:lingkungan-implementasi}
 Pengembangan sistem \textit{remote deployment} akan diimplementasikan di lingkungan komputer lokal. Berikut merupakan penjelasan implementasi dari masing masing bagian secara terperinci yang terbagi menjadi dua bagian yaitu perangkat lunak dan perangkat keras.
 
 Implementasi sistem tugas akhir dilakukan dengan mengimplementasikan dengan bantuan beberapa kakas pada bahasa \textit{golang},\textit{vue}, dan \textit{typescript}. Sistem akan hidup di luar \textit{kubernetes cluster} dan mengakses Kubernetes beserta \textit{pods}-nya melalui \textit{Kubernetes Client} dan \textit{dashboard} yang dapat diakses dari luar \textit{cluster} oleh pengguna. \textit{kubernetes cluster} dibuat dengan menggunakan \textit{kind}. Cluster disimulasikan memiliki 4 \textit{node} dengan spesifikasi 1 \textit{master node} dan 3 \textit{worker node}. Adapun spesifikasi dari komputer yang dipakai untuk pengembangan adalah sebagai berikut.

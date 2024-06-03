@@ -1,0 +1,17 @@
+\subsection{Batasan Pengujian}
+Berikut adalah batasan yang ditetapkan dalam melakukan pengujian \textit{sistem remote deployment}.
+
+\begin{enumerate}
+  \item Pengujian dilakukan di tiga kluster yang berbeda
+        \begin{enumerate}
+          \item Kubernetes lokal \textit{cluster} dengan jumlah 4 nodes
+          \item \textit{Google Cloud Platform Compute Engine} Kubernetes \textit{cluster} dengan jumlah 2 nodes
+          \item RaspberryPi Cluster dengan jumlah 2 nodes
+        \end{enumerate}
+  \item Sistem \textit{remote deployment} dijalankan pada komputer lokal yang memilki spesifikasi yang telah dijelaskan pada bagian \ref{sec:lingkungan-implementasi}.
+  \item Untuk beberapa fungsionalitas admin digunakan \textit{HTTP Client} yaitu Postman untuk membuat \textit{request} kepada \textit{service}
+  \item Cluster sudah tersedia dan siap diakses
+  \item Setiap \textit{request} akan memiliki header X-Api-Key.
+  \item Setiap \textit{request} yang mengarah ke /admin-api/ akan memiliki \textit{header} berupa X-Admin-API-Key.
+  \item Database sudah terisi sebagian untuk memudahkan proses pengujian
+\end{enumerate}
