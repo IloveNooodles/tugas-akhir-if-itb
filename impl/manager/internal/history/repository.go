@@ -2,7 +2,9 @@ package history
 
 import (
 	"context"
+	"fmt"
 
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/util"
 	"github.com/google/uuid"
 	"github.com/jmoiron/sqlx"
 	"github.com/sirupsen/logrus"
@@ -59,11 +61,25 @@ func (r *Repository) GetAll(ctx context.Context) ([]Histories, error) {
 	return listHistories, nil
 }
 
-func (r *Repository) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]Histories, error) {
+func (r *Repository) GetAllByCompanyID(ctx context.Context, p GetAllParams) ([]Histories, error) {
 	listHistories := make([]Histories, 0)
-	q := `SELECT * FROM deployment_histories WHERE company_id = $1`
-	err := r.DB.SelectContext(ctx, &listHistories, q, companyID)
+	args := []any{p.CompanyID}
+	queries := make([]string, 0)
 
+	q := `SELECT * FROM deployment_histories WHERE company_id = $1`
+	if len(p.DeviceID) > 0 {
+		queries = append(queries, fmt.Sprintf(" AND device_id IN (%s)", util.GenerateQuerySQL(p.DeviceID.Strings(), 2)))
+	}
+
+	for _, d := range p.DeviceID {
+		args = append(args, d)
+	}
+
+	for _, x := range queries {
+		q += x
+	}
+
+	err := r.DB.SelectContext(ctx, &listHistories, q, args...)
 	if err != nil {
 		r.Logger.Errorf("error when getting list of groups err: %s", err)
 		return listHistories, err

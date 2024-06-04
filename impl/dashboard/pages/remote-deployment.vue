@@ -2,6 +2,8 @@
 import type { FormSubmitEvent } from '#ui/types';
 import { FetchError } from 'ofetch';
 import { getDeploymentList } from '~/api/deployment';
+import { getDeviceList } from '~/api/device';
+import { getGroupList } from '~/api/group';
 import { DeleteDeploy, Deploy } from '~/api/remote';
 import {
   doRemoteDeploySchema,
@@ -18,26 +20,54 @@ const {
   refresh: deployRefresh,
 } = await getDeploymentList(nuxtApp);
 
+const {
+  data: devicesData,
+  error: devicesError,
+  pending: devicesPending,
+  refresh: devicesRefresh,
+} = await getDeviceList(nuxtApp);
+
+const {
+  data: groupData,
+  error: groupError,
+  pending: groupPending,
+  refresh: groupRefresh,
+} = await getGroupList(nuxtApp);
+
 const stateDeleteDeployment = ref([]);
 const stateDeployment = ref({
   deployment_ids: [],
   type: 'TARGET',
+  custom: {
+    kind: '',
+    list_id: [],
+  },
 });
 
-const selectedTypeDeployment = ref('TARGET');
 const selectedDeploymentIds = ref([]);
+const selectedListIds = ref([]);
 
 const selectRepoOpts = computed(() => {
   return genereateSelectFromArray(deployData.value, 'name', 'id', []);
 });
 
+const selectGrouDataOpts = computed(() => {
+  return genereateSelectFromArray(groupData.value, 'name', 'id', []);
+});
+
+const SelectDeviceDataOpts = computed(() => {
+  return genereateSelectFromArray(devicesData.value, 'name', 'id', []);
+});
+
 const isButtonDeploymentDisabled = ref(false);
 const isButtonDeleteDeploymentDisabled = ref(false);
 const availableTypeDeploy = ['TARGET', 'CUSTOM'];
+const availableTypeCustom = ['GROUP', 'DEVICE'];
 
 async function addDeployments(event: FormSubmitEvent<DoRemoteDeploySchema>) {
   const body = event.data;
   body.deployment_ids = selectedDeploymentIds.value.map((x) => x.value);
+  body.custom.list_id = selectedListIds.value.map((x) => x.value);
   try {
     const response = await Deploy(body, nuxtApp);
     toast.add({
@@ -53,8 +83,14 @@ async function addDeployments(event: FormSubmitEvent<DoRemoteDeploySchema>) {
     toast.add({ title: 'Please try again', color: 'red' });
   } finally {
     isButtonDeploymentDisabled.value = false;
+
     stateDeployment.value.deployment_ids = [];
     stateDeployment.value.type = 'TARGET';
+    stateDeployment.value.custom.kind = '';
+    stateDeployment.value.custom.list_id = [];
+
+    selectedDeploymentIds.value = [];
+    selectedListIds.value = [];
   }
 }
 
@@ -80,10 +116,6 @@ async function deleteDeployments(event) {
     stateDeployment.value.type = 'TARGET';
   }
 }
-
-watch(stateDeleteDeployment, () => {
-  console.log(stateDeleteDeployment);
-});
 </script>
 
 <template>
@@ -93,17 +125,17 @@ watch(stateDeleteDeployment, () => {
     <div>
       <h2 class="font-bold">Do remote deployment</h2>
       <p>Select deployment that you want to deploy</p>
-      <UCard v-if="deployPending"> Loading </UCard>
-      <UCard v-else-if="deployError">Error</UCard>
       <UForm
         :schema="doRemoteDeploySchema"
         :state="stateDeployment"
         class="space-y-4 pt-4 mb-8"
         @submit="addDeployments"
-        v-else
       >
         <UFormGroup label="Deployment list" name="deployment_ids">
+          <UCard v-if="deployPending"> Loading </UCard>
+          <UCard v-else-if="deployError">Error</UCard>
           <USelectMenu
+            v-else
             v-model="selectedDeploymentIds"
             :options="selectRepoOpts"
             option-attribute="name"
@@ -119,6 +151,53 @@ watch(stateDeleteDeployment, () => {
             placeholder="Type"
           />
         </UFormGroup>
+
+        <UFormGroup
+          label="Kind"
+          name="kind"
+          v-if="stateDeployment.type === 'CUSTOM'"
+        >
+          <USelectMenu
+            v-model="stateDeployment.custom.kind"
+            :options="availableTypeCustom"
+            placeholder="Kind"
+          />
+        </UFormGroup>
+
+        <UFormGroup
+          v-if="stateDeployment.custom.kind === 'GROUP'"
+          label="Available Items"
+          name="list_id"
+        >
+          <UCard v-if="groupPending"> Loading </UCard>
+          <UCard v-else-if="groupError">Error</UCard>
+          <USelectMenu
+            v-else
+            v-model="selectedListIds"
+            :options="selectGrouDataOpts"
+            option-attribute="name"
+            multiple
+            placeholder="Available Items"
+          />
+        </UFormGroup>
+
+        <UFormGroup
+          v-if="stateDeployment.custom.kind === 'DEVICE'"
+          label="Available Items"
+          name="list_id"
+        >
+          <UCard v-if="devicesPending"> Loading </UCard>
+          <UCard v-else-if="devicesError">Error</UCard>
+          <USelectMenu
+            v-else
+            v-model="selectedListIds"
+            :options="SelectDeviceDataOpts"
+            option-attribute="name"
+            multiple
+            placeholder="Available Items"
+          />
+        </UFormGroup>
+
         <UButton type="submit" :disabled="isButtonDeploymentDisabled">
           Deploy
         </UButton>

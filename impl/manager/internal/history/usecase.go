@@ -31,10 +31,10 @@ func (u *Usecase) GetAll(ctx context.Context) ([]Histories, error) {
 	return u.Repo.GetAll(ctx)
 }
 
-func (u *Usecase) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([]Histories, error) {
-	return u.Repo.GetAllByCompanyID(ctx, companyID)
+func (u *Usecase) GetAllByCompanyID(ctx context.Context, p GetAllParams) ([]Histories, error) {
+	return u.Repo.GetAllByCompanyID(ctx, p)
 }
 
-func (u *Usecase) UpdateStatusById(ctx context.Context, ID uuid.UUID, status string) (Histories, error){
-  return u.Repo.UpdateStatusById(ctx, ID, status)
+func (u *Usecase) UpdateStatusById(ctx context.Context, ID uuid.UUID, status string) (Histories, error) {
+	return u.Repo.UpdateStatusById(ctx, ID, status)
 }

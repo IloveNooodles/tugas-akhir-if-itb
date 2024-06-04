@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/company"
+	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/groups"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/handler"
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/validatorx"
 	"github.com/google/uuid"
@@ -18,13 +19,15 @@ type Handler struct {
 	Logger         *logrus.Logger
 	Usecase        Usecase
 	CompanyUsecase company.Usecase
+	GroupUsecase   groups.Usecase
 }
 
-func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase) Handler {
+func NewHandler(l *logrus.Logger, u Usecase, cu company.Usecase, gu groups.Usecase) Handler {
 	return Handler{
 		Logger:         l,
 		Usecase:        u,
 		CompanyUsecase: cu,
+		GroupUsecase:   gu,
 	}
 }
 
@@ -71,7 +74,6 @@ func (h *Handler) V1Create(c echo.Context) error {
 	return c.JSON(http.StatusCreated, handler.SuccessResponse{Data: user})
 }
 
-// TODO: Add validation company ID when get by id and return forbidden
 func (h *Handler) V1GetByID(c echo.Context) error {
 	ctx := c.Request().Context()
 	idParam := c.Param("id")
@@ -131,7 +133,46 @@ func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, handler.ErrorResponse{Message: "internal server error"})
 	}
 
-	histories, err := h.Usecase.GetAllByCompanyID(ctx, companyID)
+	p := GetAllParams{
+		CompanyID: companyID,
+		DeviceID:  make(uuid.UUIDs, 0),
+	}
+
+	var groupID = uuid.Nil
+	var deviceID = uuid.Nil
+	var parseError error
+
+	qGroupID := c.QueryParam("group_id")
+	if qGroupID != "" {
+		groupID, parseError = uuid.Parse(qGroupID)
+		if parseError != nil {
+			h.Logger.Errorf("error when converting group id to uuid: %s, err: %s", qGroupID, parseError)
+			return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "invalid group id"})
+		}
+
+		deviceList, err := h.GroupUsecase.GetDevices(ctx, companyID, groupID)
+		if err != nil {
+			h.Logger.Errorf("error when getting devices id from groupid %s, err: %s", groupID, err)
+			return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "invalid group id"})
+		}
+
+		for _, d := range deviceList {
+			p.DeviceID = append(p.DeviceID, d.DeviceID)
+		}
+	}
+
+	qDeviceID := c.QueryParam("device_id")
+	if qDeviceID != "" {
+		deviceID, parseError = uuid.Parse(qDeviceID)
+		if parseError != nil {
+			h.Logger.Errorf("error when converting device id to uuid: %s, err: %s", qDeviceID, parseError)
+			return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "internal group id"})
+		}
+
+		p.DeviceID = append(p.DeviceID, deviceID)
+	}
+
+	histories, err := h.Usecase.GetAllByCompanyID(ctx, p)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found err: %s", err)
 		return c.JSON(http.StatusNotFound, handler.ErrorResponse{Message: "Not found"})

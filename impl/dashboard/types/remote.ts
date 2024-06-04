@@ -13,6 +13,10 @@ export const doRemoteDeploySchema = z.object({
     }),
   ),
   type: z.string({ message: 'required' }).default('TARGET'),
+  custom: z.object({
+    kind: z.string(),
+    list_id: z.array(z.string()),
+  }),
 });
 
 export type DoRemoteDeploySchema = z.infer<typeof doRemoteDeploySchema>;

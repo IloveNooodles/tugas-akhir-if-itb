@@ -71,7 +71,7 @@ func NewStartCmd(dep *Dep) *StartCmd {
 
 	historyRepo := history.NewRepository(dep.DB, dep.Logger)
 	historyUsecase := history.NewUsecase(dep.Logger, historyRepo)
-	historyHandler := history.NewHandler(dep.Logger, historyUsecase, companyUsecase)
+	historyHandler := history.NewHandler(dep.Logger, historyUsecase, companyUsecase, groupUsecase)
 	history.RegisterRoute(historyHandler, app)
 
 	deploymentRepo := deployments.NewRepository(dep.DB, dep.Logger)
