@@ -140,8 +140,10 @@ func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
 
 	var groupID = uuid.Nil
 	var deviceID = uuid.Nil
-	var parseError error
+	var deploymentID = uuid.Nil
+	var repositoryID = uuid.Nil
 
+	var parseError error
 	qGroupID := c.QueryParam("group_id")
 	if qGroupID != "" {
 		groupID, parseError = uuid.Parse(qGroupID)
@@ -166,10 +168,32 @@ func (h *Handler) V1GetAllByCompanyID(c echo.Context) error {
 		deviceID, parseError = uuid.Parse(qDeviceID)
 		if parseError != nil {
 			h.Logger.Errorf("error when converting device id to uuid: %s, err: %s", qDeviceID, parseError)
-			return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "internal group id"})
+			return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "internal device id"})
 		}
 
 		p.DeviceID = append(p.DeviceID, deviceID)
+	}
+
+	qDeploymentID := c.QueryParam("deployment_id")
+	if qDeploymentID != "" {
+		deploymentID, parseError = uuid.Parse(qDeploymentID)
+		if parseError != nil {
+			h.Logger.Errorf("error when converting device id to uuid: %s, err: %s", qDeploymentID, parseError)
+			return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "internal deployment id"})
+		}
+
+		p.DeploymentID = deploymentID
+	}
+
+	qRepositoryID := c.QueryParam("repository_id")
+	if qRepositoryID != "" {
+		repositoryID, parseError = uuid.Parse(qRepositoryID)
+		if parseError != nil {
+			h.Logger.Errorf("error when converting device id to uuid: %s, err: %s", qRepositoryID, parseError)
+			return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "internal deployment id"})
+		}
+
+		p.RepositoryID = repositoryID
 	}
 
 	histories, err := h.Usecase.GetAllByCompanyID(ctx, p)

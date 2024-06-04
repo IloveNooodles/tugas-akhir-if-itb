@@ -12,7 +12,7 @@ import {
 } from '~/api/device';
 import { getGroupList } from '~/api/group';
 import { createGroupDevice } from '~/api/groupdevice';
-import { getDeploymentHistoryList } from '~/api/history';
+import { getDeploymentHistoryListWithDevices } from '~/api/history';
 
 const route = useRoute();
 const nuxtApp = useNuxtApp();
@@ -38,7 +38,7 @@ const {
   data: deployHistoryData,
   error: deployHistoryError,
   pending: deployHistoryPending,
-} = await getDeploymentHistoryList(nuxtApp);
+} = await getDeploymentHistoryListWithDevices(nuxtApp, deviceId);
 
 const { data: groupListData } = await getGroupList(nuxtApp);
 

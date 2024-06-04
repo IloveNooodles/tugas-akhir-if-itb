@@ -10,6 +10,8 @@ type CreateRequest struct {
 }
 
 type GetAllParams struct {
-	CompanyID uuid.UUID  `json:"company_id"`
-	DeviceID  uuid.UUIDs `json:"device_id"`
+	CompanyID    uuid.UUID  `json:"company_id"`
+	DeviceID     uuid.UUIDs `json:"device_id"`
+	DeploymentID uuid.UUID  `json:"deployment_id"`
+	RepositoryID uuid.UUID  `json:"repository_id"`
 }

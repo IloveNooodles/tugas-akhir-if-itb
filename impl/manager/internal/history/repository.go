@@ -75,6 +75,16 @@ func (r *Repository) GetAllByCompanyID(ctx context.Context, p GetAllParams) ([]H
 		args = append(args, d)
 	}
 
+	if p.DeploymentID != uuid.Nil {
+		args = append(args, p.DeploymentID)
+		queries = append(queries, fmt.Sprintf(" AND deployment_id = $%d", len(args)))
+	}
+
+	if p.RepositoryID != uuid.Nil {
+		args = append(args, p.RepositoryID)
+		queries = append(queries, fmt.Sprintf(" AND repository_id = $%d", len(args)))
+	}
+
 	for _, x := range queries {
 		q += x
 	}

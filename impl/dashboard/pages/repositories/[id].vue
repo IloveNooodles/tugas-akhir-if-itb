@@ -4,7 +4,7 @@ import {
   deleteDeploymentByID,
   getDeploymentDetailByID,
 } from '~/api/deployment';
-import { getDeploymentHistoryList } from '~/api/history';
+import { getDeploymentHistoryListWithRepository } from '~/api/history';
 
 const route = useRoute();
 const nuxtApp = useNuxtApp();
@@ -18,13 +18,11 @@ const {
   refresh,
 } = await getDeploymentDetailByID(deploymentId, nuxtApp);
 
-// TODO rubah ini
-// TODO gabung sama data image juga make yg mana jadi di join
 const {
   data: deployHistoryData,
   error: deployHistoryError,
   pending: deployHistoryPending,
-} = await getDeploymentHistoryList(nuxtApp);
+} = await getDeploymentHistoryListWithRepository(nuxtApp, deploymentId);
 
 const deployHistoryColumn = computed(() => {
   return generateColumnsFromArray(deployHistoryData.value, ['company_id']);

@@ -4,7 +4,7 @@ import {
   deleteDeploymentByID,
   getDeploymentDetailByID,
 } from '~/api/deployment';
-import { getDeploymentHistoryList } from '~/api/history';
+import { getDeploymentHistoryListWithDeployments } from '~/api/history';
 
 const route = useRoute();
 const nuxtApp = useNuxtApp();
@@ -24,7 +24,7 @@ const {
   data: deployHistoryData,
   error: deployHistoryError,
   pending: deployHistoryPending,
-} = await getDeploymentHistoryList(nuxtApp);
+} = await getDeploymentHistoryListWithDeployments(nuxtApp, deploymentId);
 
 const deployHistoryColumn = computed(() => {
   return generateColumnsFromArray(deployHistoryData.value, ['company_id']);
