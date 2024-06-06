@@ -2,21 +2,21 @@
 
 Pengujian dengan ID P05 dilakukan dengan skenario yaitu admin berhasil membuat \textit{user} baru dengan nama, email, password, serta companyId yang valid. Admin akan membuat request dengan Postman kepada \textit{server} dengan request seperti berikut.
 
-% \begin{enumerate}
-%   \item Mengisi \textit{field name} dengan nilai "new user"
-%   \item Mengisi \textit{field email} dengan nilai "kind-psa-with-cluster-pss"
-%   \item Mengisi \textit{field password} dengan nilai "kind-psa-with-cluster-pss"
-%   \item Mengisi \textit{field company\textunderscore id} dengan nilai "kind-psa-with-cluster-pss"
-% \end{enumerate}
+\begin{enumerate}
+  \item Mengisi \textit{field name} dengan nilai "new user"
+  \item Mengisi \textit{field email} dengan nilai "newuser@gmail.com"
+  \item Mengisi \textit{field password} dengan nilai "inicontohpasswordges"
+  \item Mengisi \textit{field company\textunderscore id} dengan nilai "d6c03902-3758-47bd-994d-616e1917cc61"
+\end{enumerate}
 
-% \textit{Request} dibuat dengan membuat request menggunakan Postman pada url /admin-api/v1/companies dengan metode POST. \textit{Request dan response} dapat dilihat pada gambar \ref{fig:pengujian-p01}
+\textit{Request} dibuat dengan membuat request menggunakan Postman pada url /admin-api/v1/users dengan metode POST. \textit{Request dan response} dapat dilihat pada gambar \ref{fig:pengujian-p05}
 
-% \begin{figure}[ht]
-%   \centering
-%   \includegraphics[width=0.8\textwidth]{resources/chapter-4/pengujian/p01.jpg}
-%   \caption{\textit{Request dan Response Pengujian} P01}
-%   \label{fig:pengujian-p01}
-% \end{figure}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=0.8\textwidth]{resources/chapter-4/pengujian/p05.jpg}
+  \caption{\textit{Request dan Response Pengujian} P05}
+  \label{fig:pengujian-p05}
+\end{figure}
 
 % Pengujian dengan ID P02 dilakukan dengan skenario yaitu admin tidak berhasil membuat \textit{user} karena nama cluster yang tidak tersedia pada server. Tersedia berarti, konfigurasi kubernetes cluster terdapat pada kubernetes \textit{config server} Admin akan membuat request dengan Postman kepada server dengan request seperti berikut.
 

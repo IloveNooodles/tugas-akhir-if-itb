@@ -1,4 +1,5 @@
 \subsection{Persiapan \textit{kubernetes cluster}}
+\label{subsec:persiapan-kubernetes-cluster}
 
 Tahapan ini merupakan tahapan persiaspan sebelum proses \textit{development}. Pada tahapan ini akan dibuat kubernetes \textit{cluster} pada komputer lokal dengan kakas \textit{kind}. \textit{Cluster} yang dibuat akan memiliki 4 nodes dengan spesifikasi 1 \textit{master node} dan 3 \textit{worker node}. Digunakan \textit{command} \textbf{kind create cluster --config cluster.yaml} dengan file konfigurasi yang dapat dilihat pada gambar \ref{fig:konfigurasi-pembuatan-cluster}. Setelah berhasil di \textit{apply} akan muncul 4 buah kontainer yang dapat berfungsi sebagai \textit{kubernetes cluster} seperti pada gamabar \ref{fig:hasil-cluster-kind}
 
