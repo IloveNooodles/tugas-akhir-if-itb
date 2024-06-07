@@ -1,0 +1,24 @@
+\subsubsection{Pengujian Blink pada RaspberryPi}
+
+Pada pengujian sistem ini, akan dilakukan proses \textit{remote deployment} untuk menyalakan lampu blink pada RaspberryPi. Dibuat sebuah docker image yang akan berinteraksi dengan GPIO pin pada raspi. Docker image yang telah dibuat diunggah ke dockerhub dengan nama {gawrgare/led\textunderscore blink}. Isi dari dockerfile dapat dilihat pada lampiran Berikut merupakan persiapan pengujian pada lingkungan ini.
+\begin{enumerate}
+  \item Membuat \textit{company} dengan nama "raspi-company" dan \textit{cluster\textunderscore name} "cluster-raspi". Hasil dapat dilihat pada gambar
+  \item Membuat user pada \textit{company} tersebut dengan email \textit{raspi@gmail.com}. Hasil dapat dilihat pada gambar
+  \item Login dengan kredensial yang telah dibuat. Hasil dapat dilihat pada gambar
+  \item Melakukan registrasi \textit{devices} untuk kedua raspi dengan daftar nama nodes yang dapat dilihat pada gambar
+        \begin{enumerate}
+          \item \textit{Device} "raspi-master" untuk \textit{hostname masterpi} dengan nama \textit{cluster} yaitu "master-node-raspi"
+          \item  \textit{Device} "raspi-worker" untuk \textit{hostname raspberrypi} dengan nama \textit{cluster} yaitu "worker-node-raspi"
+        \end{enumerate}
+  \item Membuat groups dengan nama "raspi-group-blink". Hasil dapat dilihat pada gambar
+  \item Menambahkan kedua device ke dalam group.
+  \item Membuat repository pada halaman \textit{deployment} dengan nama "raspi-image-blink" dan image\textit{ gawrgare/led\textunderscore blink}.
+  \item Membuat deployment dengan nama "raspi-deployment-blink" dan mengisi target dengan "node=master".
+\end{enumerate}
+
+Setelah semua persiapan dilakukan, akan dilakukan pengujian dengan dua tipe \textit{deployment}.
+\begin{enumerate}
+  \item Targeted deployment dengan target "node=master". Pengujian tipe ini hanya akan melakukan deployment ke \textit{device} dengan \textit{hostname masterpi} yang memiliki nama node "master-node-raspi". Hasil dapat dilihat pada gambar
+  \item Custom deployment dengan tipe GROUP. Deployment ini akan melakukan deployment ke dua \textit{device}.
+\end{enumerate}
+

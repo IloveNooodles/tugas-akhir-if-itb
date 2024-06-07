@@ -37,7 +37,6 @@ const {
   refresh: deployRefresh,
 } = await getDeploymentList(nuxtApp);
 
-// TODO gabungin sama image biar jelas tablenya ngapain
 const deployColumn = computed(() => {
   return generateColumnsFromArray(deployData.value, []);
 });
@@ -111,9 +110,10 @@ async function addDeployments(event: FormSubmitEvent<CreateDeploymentSchema>) {
     isButtonDeployDisabled.value = false;
     isModalDeployDisabled.value = false;
 
-    repositoryState.value.name = '';
-    repositoryState.value.description = '';
-    repositoryState.value.image = '';
+    deploymentState.value.name = '';
+    deploymentState.value.repository_id = '';
+    deploymentState.value.target = '';
+    deploymentState.value.version = '';
   }
 }
 

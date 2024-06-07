@@ -68,6 +68,9 @@ async function addDeployments(event: FormSubmitEvent<DoRemoteDeploySchema>) {
   const body = event.data;
   body.deployment_ids = selectedDeploymentIds.value.map((x) => x.value);
   body.custom.list_id = selectedListIds.value.map((x) => x.value);
+
+  if (body.type === 'TARGET') body.custom = null;
+
   try {
     const response = await Deploy(body, nuxtApp);
     toast.add({

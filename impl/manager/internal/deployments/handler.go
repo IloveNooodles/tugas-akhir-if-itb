@@ -297,7 +297,7 @@ func (h *Handler) V1Deploy(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, handler.ErrorResponse{Message: "no devices match target"})
 	}
 
-	listDeployment, errs := h.Usecase.Deploy(ctx, deployments, clusterName)
+	listDeployment, errs := h.Usecase.Deploy(ctx, deployments, clusterName, req.Replica)
 	err = errors.Join(errs...)
 	if errors.Is(err, sql.ErrNoRows) {
 		h.Logger.Errorf("no rows found ids %v, err: %s", req.DeploymentIDs, err)

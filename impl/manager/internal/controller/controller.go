@@ -200,10 +200,6 @@ func (k *KubernetesController) LabelNodes(ctx context.Context, clusterName, node
 	return nil
 }
 
-// TODO IMAGE DUMMY BUAT IOT
-// smart campus raspi di beberapa titik sensornya beberapa
-//
-
 // Deploying to image to the nodes
 func (k *KubernetesController) Deploy(ctx context.Context, params DeployParams) (*apiappsv1.Deployment, error) {
 	err := k.SwitchContext(params.ClusterName)
@@ -239,8 +235,12 @@ func (k *KubernetesController) Deploy(ctx context.Context, params DeployParams) 
 									ContainerPort: 80,
 								},
 							},
+							SecurityContext: &apiv1.SecurityContext{
+								Privileged: boolPtr(true),
+							},
 						},
 					},
+
 					NodeSelector: params.Targets,
 				},
 			},
@@ -280,10 +280,8 @@ func (k *KubernetesController) Patch(ctx context.Context, params DeployParams) {
 	retryErr := retry.RetryOnConflict(retry.DefaultRetry, func() error {
 		result, getErr := deploymentsClient.Get(ctx, "demo-deployment", apimetav1.GetOptions{})
 		if getErr != nil {
-			panic(fmt.Errorf("Failed to get latest version of Deployment: %v", getErr))
+			panic(fmt.Errorf("failed to get latest version of Deployment: %v", getErr))
 		}
-
-		// TODO Logic update
 
 		result.Spec.Replicas = int32Ptr(1)
 		result.Spec.Template.Spec.Containers[0].Image = "nginx:1.13"
@@ -292,7 +290,7 @@ func (k *KubernetesController) Patch(ctx context.Context, params DeployParams) {
 	})
 
 	if retryErr != nil {
-		panic(fmt.Errorf("Update failed: %v", retryErr))
+		panic(fmt.Errorf("update failed: %v", retryErr))
 	}
 }
 

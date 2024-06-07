@@ -18,8 +18,6 @@ const {
   refresh,
 } = await getDeploymentDetailByID(deploymentId, nuxtApp);
 
-// TODO rubah ini
-// TODO gabung sama data image juga make yg mana jadi di join
 const {
   data: deployHistoryData,
   error: deployHistoryError,
@@ -28,12 +26,6 @@ const {
 
 const deployHistoryColumn = computed(() => {
   return generateColumnsFromArray(deployHistoryData.value, ['company_id']);
-});
-
-const isOpen = ref(false);
-const disabled = ref(false);
-const state = ref({
-  group_id: '',
 });
 
 const isConfirmModal = ref(false);

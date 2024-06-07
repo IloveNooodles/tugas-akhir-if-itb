@@ -35,7 +35,6 @@ const state = ref({
 
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const body = event.data;
-  console.log(body);
   try {
     await createDevice(body, nuxtApp);
     toast.add({
@@ -55,6 +54,12 @@ async function onSubmit(event: FormSubmitEvent<Schema>) {
     }
 
     toast.add({ title: 'Please try again', color: 'red' });
+  } finally {
+    disabled.value = false;
+    state.value.type = ''
+    state.value.name = ''
+    state.value.node_name = ''
+    state.value.labels = ''
   }
 }
 

@@ -12,7 +12,8 @@ type CreateRequest struct {
 type DeploymentRequest struct {
 	DeploymentIDs uuid.UUIDs              `json:"deployment_ids" validate:"required,dive,printascii"`
 	Type          string                  `json:"type" validate:"required,oneof=TARGET CUSTOM"`
-	Custom        CustomDeploymentRequest `json:"custom" validate:"required_if=Type CUSTOM"`
+	Replica       int                     `json:"replica" validate:"required,min=1"`
+	Custom        CustomDeploymentRequest `json:"custom" validate:"omitempty"`
 }
 
 type CustomDeploymentRequest struct {

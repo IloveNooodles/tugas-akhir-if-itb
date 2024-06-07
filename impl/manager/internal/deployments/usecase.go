@@ -39,14 +39,14 @@ func (u *Usecase) GetAllByCompanyID(ctx context.Context, companyID uuid.UUID) ([
 	return u.Repo.GetAllByCompanyID(ctx, companyID)
 }
 
-func (u *Usecase) Deploy(ctx context.Context, deployments []DeploymentWithRepository, clusterName string) ([]DeploymentWithRepository, []error) {
+func (u *Usecase) Deploy(ctx context.Context, deployments []DeploymentWithRepository, clusterName string, replica int) ([]DeploymentWithRepository, []error) {
 	var listError = make([]error, 0)
 	var listRes = make([]DeploymentWithRepository, 0)
 
 	for _, deployment := range deployments {
 		labels := convertTargetToMap(deployment.Target)
 		p := controller.DeployParams{
-			Replica:     1,
+			Replica:     int32(replica),
 			Name:        deployment.Name,
 			Image:       deployment.RepositoryImage,
 			Labels:      labels,

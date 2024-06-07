@@ -32,9 +32,7 @@ const {
   refresh: devicesRefresh,
 } = await getGroupDevicesById(groupId, nuxtApp);
 
-// TODO cocokin sama deployment history sononya
-// TODO belom ditambahin buttonnya buat integrasi
-// TODO REFRESH TOKEN BLM JALAN, NAVIFATE KE / BLM JALAN
+
 const {
   data: deployHistoryData,
   error: deployHistoryError,
@@ -70,7 +68,6 @@ const state = ref({
 const isConfirmModal = ref(false);
 const isButtonDisabled = ref(false);
 
-// TODO validation when creating group device
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const body = event.data;
   try {
@@ -164,8 +161,7 @@ function onDelete() {
         <div class="wrap">
           <UCard>
             <h2>Description</h2>
-            <!-- TODO description disini -->
-            <p>ini contoh description</p>
+            <p>Groups for grouping devices to make deployment easier</p>
           </UCard>
         </div>
         <div class="flex flex-col">

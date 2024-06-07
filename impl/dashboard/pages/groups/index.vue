@@ -10,7 +10,6 @@ import { createGroup, getGroupList } from '~/api/group';
 const nuxtApp = useNuxtApp();
 const toast = useToast();
 
-// TODO table bisa search tambahin max-height
 const {
   data: groupData,
   error: groupError,

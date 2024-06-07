@@ -33,7 +33,6 @@ const {
   refresh: groupRefresh,
 } = await getDeviceGroupsById(deviceId, nuxtApp);
 
-// TODO rubah ini
 const {
   data: deployHistoryData,
   error: deployHistoryError,
@@ -69,7 +68,6 @@ const listSelectGroup = computed(() => {
   );
 });
 
-// TODO validation when creating group device
 async function onSubmit(event: FormSubmitEvent<Schema>) {
   const body = event.data;
   try {

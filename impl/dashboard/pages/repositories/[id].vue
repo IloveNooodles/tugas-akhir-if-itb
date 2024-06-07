@@ -28,12 +28,6 @@ const deployHistoryColumn = computed(() => {
   return generateColumnsFromArray(deployHistoryData.value, ['company_id']);
 });
 
-const isOpen = ref(false);
-const disabled = ref(false);
-const state = ref({
-  group_id: '',
-});
-
 const isConfirmModal = ref(false);
 const isButtonDisabled = ref(false);
 
