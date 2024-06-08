@@ -20,7 +20,7 @@ Dari script tersebut, dibuat docker image yang membungkus python tersebut agar d
           \item \textit{Device} "raspi-master" untuk \textit{hostname masterpi} dengan nama \textit{cluster} yaitu "master-node-raspi"
           \item  \textit{Device} "raspi-worker" untuk \textit{hostname raspberrypi} dengan nama \textit{cluster} yaitu "worker-node-raspi"
         \end{enumerate}
-  \item Mengunjungi halaman /groups dan membuat \textit{group} dengan nama "raspi-group-blink". Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-raspi-05}
+  \item Mengunjungi halaman /groups dan membuat \textit{group} "raspi-group-blink". Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-raspi-05}
   \item Mengunjungi halaman group detail "raspi-group-blink" lalu menambahkan kedua device ke dalam group.
   \item Mengunjungi halaman \textit{deployment} lalu membuat repository dengan nama "raspi-image-blink" dan image\textit{ gawrgare/led\textunderscore blink}.
   \item Membuat deployment dengan nama "raspi-deployment-blink" dan mengisi target dengan "node=master" pada halaman \textit{deployment}.

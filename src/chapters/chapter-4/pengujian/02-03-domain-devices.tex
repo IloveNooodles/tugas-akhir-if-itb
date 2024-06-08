@@ -34,26 +34,3 @@ Pengujian dengan ID P15 dilakukan dengan skenario \textit{user} ingin menghapus 
 \end{enumerate}
 
 Setelah melakukan langkah langkah tersebut dapat dilhat bahwa tidak ada data pada tabel. Hal ini menunjukan bahwa \textit{device} berhasil dihapus dari sistem. Hasil pengujian dapat dilihat pada gambar \ref{fig:pengujian-p15}.
-
-
-\bgroup
-\begin{table}[ht]
-  \def\arraystretch{1.3}
-  \caption{Skenario dan Hasil Pengujian Domain \textit{Device}}
-  \label{tab:pengujian-domain-device}
-  \centering
-  \begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{3cm}|p{2cm}|}
-    \hline
-    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                                 & \centering{Ekspektasi}                                                    & Realita \\
-    \hline
-    F10                       & P12                      & \textit{User} membuat \textit{device} yang valid                                                     & \textit{User} berhasil mendaftarkan \textit{device} kepada sistem         & Sesuai  \\
-    \hline
-    F10                       & P13                      & {User} membuat \textit{device} yang tidak valid                                                      & \textit{User} gagal mendaftarkan \textit{device} kepada sistem            & Sesuai  \\
-    \hline
-    F11                       & P14                      & \textit{User} ingin melihat daftar \textit{device} yang tersedia dengan mengunjungi halaman /devices & User berhasil melihat daftar \textit{device} yang tersedia                & Sesuai  \\
-    \hline
-    F12                       & P15                      & \textit{User} ingin menghapus salah satu \textit{device} yang dimiliki                               & \textit{User} berhasil untuk menghapus \textit{device} yang ingin dihapus & Sesuai  \\
-    \hline
-  \end{tabular}
-\end{table}
-\egroup

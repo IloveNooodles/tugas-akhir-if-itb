@@ -42,33 +42,3 @@ Pengujian dengan ID P10, P11 dilakukan dengan skenario yaitu setelah \textit{use
 
 Seluruh rekap pengujian pada domain \textit{user} dapat dilihat pada tabel \ref{tab:pengujian-domain-user}. Berdasarkan hasil yang diperoleh, terbukti bahwa kebutuhan fungsional dengan ID F04 hingga F09 telah terimplementasi dengan baik.
 
-
-\bgroup
-\begin{table}[ht]
-  \def\arraystretch{1.3}
-  \caption{Skenario dan Hasil Pengujian Domain \textit{User}}
-  \label{tab:pengujian-domain-user}
-  \centering
-  \begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{3cm}|p{2cm}|}
-    \hline
-    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                           & \centering{Ekspektasi}                                                                                    & Realita \\
-    \hline
-    F04                       & P05                      & Admin mendaftarkan \textit{user} dengan kredensial yang valid                                  & Admin berhasil mendaftarkan \textit{user}                                                                 & Sesuai  \\
-    \hline
-    F05                       & P06                      & Admin menghapus \textit{user} dengan id yang valid                                             & Admin berhasil menghapus \textit{user} dari database                                                      & Sesuai  \\
-    \hline
-    F06                       & P07                      & \textit{User} ingin login ke dalam sistem dengan memasukan kredensial yang valid               & User berhasil login ke dalam sistem                                                                       & Sesuai  \\
-    \hline
-    F06                       & P08                      & \textit{User} ingin login ke dalam sistem dengan memasukan kredensial yang tidak valid         & User tidak berhasil login ke dalam sistem                                                                 & Sesuai  \\
-    \hline
-    F07                       & P09                      & \textit{User} ingin melakukan logout dari sistem                                               & \textit{User} berhasil melakukan logout dengan menekan tombol \textit{logout} pada \textit{sidebar}       & Sesuai  \\
-    \hline
-    F08                       & P10                      & \textit{User} mendapatkan informasi mengenai detail \textit{company} perusahaan yang ia masuki & {User} berhasil mendapatkan informasi detail \textit{company} dengan cara mengunjungi halaman /account    & Sesuai  \\
-    \hline
-    F09                       & P11                      & \textit{User} mendaptkan daftar \textit{user} lain pada \textit{company} yang sama.            & \textit{User} berhasil mendapatkan informasi datar \textit{user} dengan cara mengunjungi halaman /account & Sesuai  \\
-    \hline
-  \end{tabular}
-\end{table}
-\egroup
-
-\pagebreak

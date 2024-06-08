@@ -31,29 +31,3 @@ Pengujian dengan ID P04 dilakukan dengan skenario yaitu admin ingin menghapus \t
 Hasil pembuatan \textit{company} dapat dilihat pada gambar \ref{fig:pengujian-p04-1}. Admin menggunakan id company yang berhasil dibuat sesuai dengan gambar \ref{fig:pengujian-p04-1} sebagai parameter untuk \textit{company} yang dihapus. \textit{Request dan Response} dapat dilihat pada gambar \ref{fig:pengujian-p04}.
 
 Seluruh rekap pengujian pada domain \textit{company} dapat dilihat pada tabel \ref{tab:pengujian-domain-company}. Berdasarkan hasil yang diperoleh, terbukti bahwa kebutuhan fungsional dengan ID F01, F02, dan F03 telah terimplementasi dengan baik.
-
-
-\bgroup
-\begin{table}[ht]
-  \def\arraystretch{1.5}
-  \caption{Skenario dan Hasil Pengujian Domain \textit{Company}}
-  \label{tab:pengujian-domain-company}
-  \centering
-  \begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{3cm}|p{2cm}|}
-    \hline
-    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                 & \centering{Ekspektasi}                                                                             & Realita \\
-    \hline
-    F01                       & P01                      & Admin mendaftarkan \textit{company} dengan cluster name yang tersedia                & Admin berhasil mendaftarkan \textit{company}                                                       & Sesuai  \\
-    \hline
-    F01                       & P02                      & Admin mendaftarkan \textit{company} dengan cluster name yang tidak valid             & Admin tidak berhasil mendaftarkan karena cluster name tidak valid                                  & Sesuai  \\
-    \hline
-    F02                       & P03                      & Admin membuat \textit{request} untuk melihat seluruh \textit{company} pada sistem    & Admin dapat melihat seluruh \textit{company} pada sistem                                           & Sesuai  \\
-    \hline
-    F03                       & P04                      & Admin melakukan DELETE \textit{request} untuk menghapus \textit{company} pada sistem & Admin dapat menghapus \textit{company} pada sistem dengan memberikan id company yang ingin dihapus & Sesuai  \\
-    \hline
-  \end{tabular}
-\end{table}
-\egroup
-
-\pagebreak
-
