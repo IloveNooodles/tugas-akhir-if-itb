@@ -1,0 +1,54 @@
+\subsubsection{Fungsionalitas pada Domain \textit{Groups}}
+
+Pengujian dengan ID P16 dilakukan dengan skenario \textit{user} ingin membuat \textit{group} baru dengan nama "group-baru" pada sistem. Langkah langkah yang dilakukan:
+\begin{enumerate}
+  \item Mengunjungi halaman /groups
+  \item Menekan tombol "Add Group" pada bagian kanan bawah
+  \item Mengisi \textit{field name} dengan nilai "group-baru"
+  \item Menekan tombol "submit"
+\end{enumerate}
+
+Setelah pengujian dilakukan, tabel yang awalnya kosong terisi dengan deskripsi \textit{group} yang telah dibuat. Selain itu, terdapat modal pada bagian bawah kanan yang menunjukan bahwa pembuatan \textit{group} telah berhasil. Hasil dari pengujian dapat dilihat pada gambar \ref{fig:pengujian-p16}
+
+Pengujian dengan ID P17 dilakukan dengan skenario \textit{user} ingin membuat \textit{group} baru dengan nama yang duplikat pada sistem. Langkah langkah yang dilakukan:
+\begin{enumerate}
+  \item Mengunjungi halaman /groups
+  \item Menekan tombol "Add Group" pada bagian kanan bawah
+  \item Mengisi \textit{field name} dengan nilai "group-baru"
+  \item Menekan tombol "submit"
+\end{enumerate}
+
+Setelah pengujian dilakukan, muncul modal pada bagian bawah kanan yang menunjukan bahwa pembuatan \textit{group} gagal. Pesan yang tidunjukan yaitu "group-baru is exists please another name". Hasil dari pengujian dapat dilihat pada gambar \ref{fig:pengujian-p17}
+
+Pengujian dengan ID P18 dilakukan dengan skenario \textit{user} ingin melihat daftar \textit{group} yang tersedia pada sistem. Pengujian ini dilakukan dengan cara mengunjungi halaman /groups. Dapat dilihat dari pengujian P17 bahwa tabel \textit{groups} terisi dengan nilai yang sudah dibuat sebelumnya. Hal ini menunjukan bawha \textit{user} dapat melihat daftar \textit{groups} pada sistem.
+
+Pengujian dengan ID P19 dilakukan dengan skenario \textit{user} ingin menghapus salah satu \textit{group} yang dimiliki. Langkah langkah yang dilakukan:
+\begin{enumerate}
+  \item Mengunjungi halaman /groups
+  \item Menekan tombol "titik tiga (\textit{elipsis horizontal})" yang berada pada ujung tabel
+  \item Menekan tombol "delete" dari popup modal
+\end{enumerate}
+
+Setelah melakukan langkah langkah tersebut dapat dilhat bahwa tidak ada data pada tabel. Hal ini menunjukan bahwa \textit{device} berhasil dihapus dari sistem. Hasil pengujian dapat dilihat pada gambar \ref{fig:pengujian-p19}.
+
+\bgroup
+\begin{table}[ht]
+  \def\arraystretch{1.3}
+  \caption{Skenario dan Hasil Pengujian Domain \textit{Groups}}
+  \label{tab:pengujian-domain-groups}
+  \centering
+  \begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{3cm}|p{2cm}|}
+    \hline
+    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                               & \centering{Ekspektasi}                                                   & Realita \\
+    \hline
+    F13                       & P16                      & \textit{User} membuat \textit{group} yang dengan nama "group-baru"                                 & \textit{User} berhasil mendaftarkan \textit{group} kepada sistem         & Sesuai  \\
+    \hline
+    F13                       & P17                      & {User} membuat \textit{group} yang memiliki nama duplikat yaitu "group-baru"                       & \textit{User} gagal mendaftarkan \textit{group} kepada sistem            & Sesuai  \\
+    \hline
+    F14                       & P18                      & \textit{User} ingin melihat daftar \textit{group} yang tersedia dengan mengunjungi halaman /groups & User berhasil melihat daftar \textit{group} yang tersedia                & Sesuai  \\
+    \hline
+    F15                       & P19                      & \textit{User} ingin menghapus salah satu \textit{group} yang dimiliki                              & \textit{User} berhasil untuk menghapus \textit{group} yang ingin dihapus & Sesuai  \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup

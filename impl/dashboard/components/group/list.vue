@@ -39,8 +39,8 @@ const dropdownItems = computed(() => {
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
         click: async () => {
-          await deleteByID(row.id)
-        }
+          await deleteByID(row.id);
+        },
       },
     ],
   ];
@@ -51,7 +51,7 @@ async function deleteByID(id: string) {
     disabled.value = true;
     await deleteGroupByID(id, nuxtApp);
     emits('onDelete');
-    toast.add({ title: `Success deleting device ${id}` });
+    toast.add({ title: `Success deleting group with ${id}` });
   } catch (err: any) {
     if (err instanceof FetchError && err.data) {
       toast.add({ title: err.data.message, color: 'red' });

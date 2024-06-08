@@ -1,0 +1,59 @@
+\subsubsection{Fungsionalitas pada Domain \textit{Device}}
+
+Pengujian dengan ID P12 dilakukan dengan skenario \textit{user} yang telah terautentikasi ingin menambahkan \textit{device} yang dia miliki ke dalam sistem dengan \textit{node name} yang valid. Langkah langkah yang dilakukan:
+\begin{enumerate}
+  \item Mengunjungi halaman /devices
+  \item Menekan tombol "Add Device"
+  \item Mengisi \textit{field name} dengan "raspi-device-1"
+  \item Mengisi \textit{field node name} dengan "testing-cluster-two-nodes-control-plane"
+  \item Mengisi \textit{field type} dengan nilai "raspi"
+  \item Mengisi label dengan "testing=true"
+\end{enumerate}
+
+Setelah pengujian dilakukan, muncul deskripsi \textit{device} yang telah dibuat pada tabel yang sebelumnya kosong. Pada bagian kanan bawah juga terdapat modal yang menunjukan bahwa pembuatan \textit{device} berhasil. Hasil dapat dilihat pada gambar \ref{fig:pengujian-p12-success}.
+
+Pengujian dengan ID P13 dilakukan skenario \textit{user} yang telah terautentikasi ingin menambahkan \textit{device} yang dia miliki ke dalam sistem dengan \textit{node name} yang tidak terdapat pada \textit{cluster}. Langkah langkah yang dilakukan:
+\begin{enumerate}
+  \item Mengunjungi halaman /devices
+  \item Menekan tombol "Add Device"
+  \item Mengisi \textit{field name} dengan "raspi-device-1"
+  \item Mengisi \textit{field node name} dengan "testing-cluster-two-nodes-control-plan"
+  \item Mengisi \textit{field type} dengan nilai "raspi"
+  \item Mengisi label dengan "testing=true"
+\end{enumerate}
+
+Setelah pengujian dilakukan, muncul sebuah modal pada bagian kanan bawah juga terdapat modal yang menunjukan bahwa pembuatan \textit{device} gagal dengan pesan "node not found". Hasil dapat dilihat pada gambar \ref{fig:pengujian-p12-failed}.
+
+Pengujian dengan ID P14 dilakukan dengan skenario \textit{user} ingin melihat seluruh \textit{device} yang \textit{company} miliki. Pengujian ini dilakukan dengan cara mengunjungi halaman /devices dan melihat isi dari tabel yang tersedia. Berdasarkan pengujian P11 dapat dilihat bahwa tabel terisi dengan nilai \textit{device} yang telah dibuat, hal ini menunjukan bahwa \textit{user} dapat melihat perangkat yang \textit{company} miliki.
+
+Pengujian dengan ID P15 dilakukan dengan skenario \textit{user} ingin menghapus salah satu \textit{device} yang ia miliki. Langkah langkah yang dilakukan:
+\begin{enumerate}
+  \item Mengunjungi halaman /devices
+  \item Menekan tombol "titik tiga (\textit{elipsis horizontal})" yang berada pada ujung tabel
+  \item Menekan tombol "delete" dari popup modal
+\end{enumerate}
+
+Setelah melakukan langkah langkah tersebut dapat dilhat bahwa tidak ada data pada tabel. Hal ini menunjukan bahwa \textit{device} berhasil dihapus dari sistem. Hasil pengujian dapat dilihat pada gambar \ref{fig:pengujian-p15}.
+
+
+\bgroup
+\begin{table}[ht]
+  \def\arraystretch{1.3}
+  \caption{Skenario dan Hasil Pengujian Domain \textit{Device}}
+  \label{tab:pengujian-domain-device}
+  \centering
+  \begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{3cm}|p{2cm}|}
+    \hline
+    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                                 & \centering{Ekspektasi}                                                    & Realita \\
+    \hline
+    F10                       & P12                      & \textit{User} membuat \textit{device} yang valid                                                     & \textit{User} berhasil mendaftarkan \textit{device} kepada sistem         & Sesuai  \\
+    \hline
+    F10                       & P13                      & {User} membuat \textit{device} yang tidak valid                                                      & \textit{User} gagal mendaftarkan \textit{device} kepada sistem            & Sesuai  \\
+    \hline
+    F11                       & P14                      & \textit{User} ingin melihat daftar \textit{device} yang tersedia dengan mengunjungi halaman /devices & User berhasil melihat daftar \textit{device} yang tersedia                & Sesuai  \\
+    \hline
+    F12                       & P15                      & \textit{User} ingin menghapus salah satu \textit{device} yang dimiliki                               & \textit{User} berhasil untuk menghapus \textit{device} yang ingin dihapus & Sesuai  \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
