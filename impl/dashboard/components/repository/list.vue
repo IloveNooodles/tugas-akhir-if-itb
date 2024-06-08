@@ -29,7 +29,7 @@ async function deleteByID(id: string) {
     disabled.value = true;
     await deleteRepositoryByID(id, nuxtApp);
     emits('onDelete');
-    toast.add({ title: `Success deleting device ${id}` });
+    toast.add({ title: `Success deleting deployment images ${id}` });
   } catch (err: any) {
     if (err instanceof FetchError && err.data) {
       toast.add({ title: err.data.message, color: 'red' });

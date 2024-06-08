@@ -1,6 +1,6 @@
 \subsubsection{Pengujian LED Blink pada RaspberryPi}
 
-Pengujian sistem ini mencakup pengujian dengan ID P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, dan P30. Pada pengujian sistem ini, dilakukan proses \textit{remote deployment} untuk menyalakan lampu blink pada RaspberryPi dengan cluster "cluster-raspi". Dibuat sebuah script python yang berinteraksi dengan GPIO pada pin 2 untuk menyalakan lampu LED. Script dapat dilihat pada gambar \ref{fig:raspi-python-led-script}
+Pengujian sistem ini mencakup pengujian dengan ID P20, P21, P22, P23, P24, P25, P26, P27, P28, P29, P30 dan P31. Pada pengujian sistem ini, dilakukan proses \textit{remote deployment} untuk menyalakan lampu blink pada RaspberryPi dengan cluster "cluster-raspi". Dibuat sebuah script python yang berinteraksi dengan GPIO pada pin 2 untuk menyalakan lampu LED. Script dapat dilihat pada gambar \ref{fig:raspi-python-led-script}
 
 \begin{figure}[ht]
   \centering
@@ -32,43 +32,4 @@ Layout dari RaspberryPi serta letak kabel dan LED dapat dilihat pada gambar \ref
   \item Custom deployment mengabaikan nilai target yang terdapat pada objek deployment dan melakukan deployment sesuai jenis serta id yang diinginkan. Terdapat dua jenis yaitu \textit{group} dan \textit{device}. Dalam kasus groups, Deployment dilakukan ke dua \textit{device} yang terhubung ke \textit{group} "raspi-group-blink". Setelah deployment dilakukan, kedua LED berkedip menunjukan bahwa script berhasil dijalankan untuk setiap \textit{device} yang terhubung pada group. Hasil dapat dilihat pada gambar \ref{fig:hasil-pengujian-sistem-raspi-custom}.
 \end{enumerate}
 
-Setelah deployment berhasil dilakukan, pengujian dilanjutkan dengan mengunjungi halaman detail dari "raspi-deployment-blink" untuk melihat riwayat deployment. Hasil dapat dilhat pada gambar \ref{fig:pengujian-sistem-raspi-10}. Dapat dilihat bahwa pengujian dengan ID P20 hingga P30 menunjukan hasil yang sesuai dengan kebutuhan fungsional yang telah didefinisikan. Seluruh rekap pengujian sistem ini dapat dilihat pada tabel \ref{tab:pengujian-sistem-raspi}.
-
-\bgroup
-\begin{table}[ht]
-  \def\arraystretch{1.3}
-  \caption{Skenario dan Hasil Pengujian Sistem \textit{RaspberryPi}}
-  \label{tab:pengujian-sistem-raspi}
-  \centering
-  \begin{tabular}{|p{2cm}|p{2cm}|p{4cm}|p{3cm}|p{2cm}|}
-    \hline
-    \centering{ID Fungsional} & \centering{ID Pengujian}                            & \centering{Skenario}                                                                                                                                                                                                                  & \centering{Ekspektasi}                                                 & Realita \\
-    \hline
-    F01                       & P20                                                 & \textit{Admin} membuat \textit{company} yang dengan nama "raspi-company"                                                                                                                                                              & \textit{Admin} berhasil mendaftarkan \textit{company}                  & Sesuai  \\
-    \hline
-    F04                       & P21                                                 & \textit{Admin} membuat \textit{user} yang dengan email "raspi@gmail.com"                                                                                                                                                              & \textit{Admin} berhasil mendaftarkan \textit{user}                     & Sesuai  \\
-    \hline
-    F06                       & P22                                                 & \textit{User} ingin login dengan kredensial "raspi@gmail.com"                                                                                                                                                                         & \textit{User} berhasil login ke dalam sistem                           & Sesuai  \\
-    \hline
-    F10                       & P23                                                 & \textit{User} mendaftarkan dua \textit{devices} dengan nama "raspi-master" dan
-    raspi-worker"             & \textit{User} berhasil mendaftarkan \textit{device} & Sesuai                                                                                                                                                                                                                                                                                                                   \\
-    \hline
-    F13                       & P24                                                 & \textit{User} mendaftarkan \textit{group} dengan nama "raspi-group-blink"                                                                                                                                                             & \textit{User} berhasil mendaftarkan \textit{group}                     & Sesuai  \\
-    \hline
-    F16                       & P24                                                 & \textit{User} mendaftarkan \textit{group} dengan nama "raspi-group-blink"                                                                                                                                                             & \textit{User} berhasil mendaftarkan \textit{group}                     & Sesuai  \\
-    \hline
-    F17                       & P25                                                 & \textit{User} mendaftarkan \textit{deployment images} dengan nama "raspi-image-blink"                                                                                                                                                 & \textit{User} berhasil mendaftarkan \textit{deployment images}         & Sesuai  \\
-    \hline
-    F18                       & P26                                                 & \textit{User} melihat daftar \textit{deployment images} yang tersedia dengan mengunjungi halaman /deployments                                                                                                                         & \textit{User} berhasil melihat daftar \textit{deployment images}       & Sesuai  \\
-    \hline
-    F20                       & P27                                                 & \textit{User} membuat \textit{deployment plan} dengan nama "raspi-deployment-blink"                                                                                                                                                   & \textit{User} berhasil membuat \textit{deployment plan}                & Sesuai  \\
-    \hline
-    F21                       & P28                                                 & \textit{User} melihat daftar \textit{deployment plan} yang tersedia dengan mengunjungi halaman /deployments                                                                                                                           & \textit{User} berhasil melihat daftar \textit{deployment plan}         & Sesuai  \\
-    \hline
-    F23                       & P29                                                 & \textit{User} melakukan \textit{remote deployment} dengan menggunakan \textit{deployment plan} "raspi-deployment-blink" dengan dua tipe \textit{deployment} yaitu \textit{targeted} dan \textit{custom} dengan tujuan \textit{groups} & \textit{User} berhasil melakukan \textit{remote deployment}            & Sesuai  \\
-    \hline
-    F24                       & P29                                                 & \textit{User} ingin melihat riwayat deployment dari "raspi-blink-deployment"                                                               dengan menekan tombol elipsis dan tombol detail pada tabel                                 & \textit{User} berhasil melihat riwayat \textit{deployment} yang sesuai & Sesuai  \\
-    \hline
-  \end{tabular}
-\end{table}
-\egroup
+Setelah deployment berhasil dilakukan, pengujian dilanjutkan dengan mengunjungi halaman detail dari "raspi-deployment-blink" untuk melihat riwayat deployment. Hasil dapat dilhat pada gambar \ref{fig:pengujian-sistem-raspi-10}. Dapat dilihat bahwa pengujian dengan ID P20 hingga P31 menunjukan hasil yang sesuai dengan kebutuhan fungsional yang telah didefinisikan. Seluruh rekap pengujian sistem ini dapat dilihat pada tabel \ref{tab:pengujian-sistem-raspi}.
