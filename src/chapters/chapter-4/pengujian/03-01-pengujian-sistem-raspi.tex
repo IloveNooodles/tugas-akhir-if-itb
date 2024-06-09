@@ -9,7 +9,7 @@ Pengujian sistem ini mencakup pengujian dengan ID P20, P21, P22, P23, P24, P25, 
   \label{fig:raspi-python-led-script}
 \end{figure}
 
-Dari script tersebut, dibuat docker image yang membungkus python tersebut agar dapat berjalan di berbagai sistem, digunakan \textit{base image} armv7 untuk arsitektur ini. Docker image yang telah dibuat diunggah ke dockerhub dengan nama {gawrgare/led\textunderscore blink}. Isi dari dockerfile dapat dilihat pada lampiran \ref{fig:raspi-docker-led-script}. Setelah docker image tersedia, selanjutnya terdapat beberapa langkah yang harus disiapkan sebelum melakukan \textit{deployment} pada lingkungan raspberrypi.
+Dari script tersebut, dibuat docker image dengan base image armv7 yang membungkus python tersebut agar dapat berjalan di sistem IoT. Docker image yang telah dibuat diunggah ke dockerhub dengan nama {gawrgare/led\textunderscore blink}. Isi dari dockerfile dapat dilihat pada lampiran \ref{fig:raspi-docker-led-script}. Setelah docker image tersedia, selanjutnya terdapat beberapa langkah yang harus disiapkan sebelum melakukan \textit{deployment} pada lingkungan raspberrypi.
 
 \begin{enumerate}
   \item Membuat \textit{company} dengan nama "raspi-company" dan \textit{cluster\textunderscore name} "cluster-raspi". Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-raspi-01}
