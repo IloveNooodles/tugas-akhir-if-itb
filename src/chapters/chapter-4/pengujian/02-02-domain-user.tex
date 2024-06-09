@@ -1,6 +1,6 @@
 \subsubsection{Fungsionalitas pada Domain User}
 
-Pengujian dengan ID P05 dilakukan dengan skenario yaitu admin berhasil membuat \textit{user} baru dengan nama, email, password, serta companyId yang valid. Admin akan membuat request dengan Postman kepada \textit{server} dengan request seperti berikut.
+Pengujian dengan ID P05 dilakukan dengan skenario yaitu admin berhasil membuat \textit{user} baru dengan nama, email, password, serta companyId yang valid. Admin membuat request dengan Postman kepada \textit{server} dengan request seperti berikut.
 
 \begin{enumerate}
   \item Mengisi \textit{field name} dengan nilai "new user"
@@ -12,7 +12,7 @@ Pengujian dengan ID P05 dilakukan dengan skenario yaitu admin berhasil membuat \
 \textit{Request} dibuat dengan membuat request menggunakan Postman pada url /admin-api/v1/users dengan metode POST. \textit{Request dan response} dapat dilihat pada gambar \ref{fig:pengujian-p05}
 
 
-Pengujian dengan ID P06 dilakukan dengan skenario yaitu admin ingin menghapus \textit{user} dengan id tertentu dari daftar \textit{user} pada sistem. Admin akan membuat DELETE request dengan Postman ke url /admin-api/v1/users/:id. Admin menggunakan id user yang berhasil dibuat sesuai dengan gambar \ref{fig:pengujian-p05} sebagai parameter untuk \textit{user} yang dihapus. \textit{Request dan Response} dapat dilihat pada gambar \ref{fig:pengujian-p06}.
+Pengujian dengan ID P06 dilakukan dengan skenario yaitu admin ingin menghapus \textit{user} dengan id tertentu dari daftar \textit{user} pada sistem. Admin membuat DELETE request dengan Postman ke url /admin-api/v1/users/:id. Admin menggunakan id user yang berhasil dibuat sesuai dengan gambar \ref{fig:pengujian-p05} sebagai parameter untuk \textit{user} yang dihapus. \textit{Request dan Response} dapat dilihat pada gambar \ref{fig:pengujian-p06}.
 
 Pengujian dengan ID P07 dilakukan dengan skenario yaitu user ingin login ke dalam sistem. Langkah langkah yang dilakukan:
 
@@ -36,7 +36,7 @@ Pengujian dengan ID P08 dilakukan dengan skenario yaitu user ingin login ke dala
 
 Setelah seluruh langkah dilakukan, muncul sebuah modal pada kanan bawah dengan pesan "invalid combination email or password". Dengan adanya modal ini \textit{user} menjadi \textit{aware} bahwa proses login yang dilakukan gagal dan perlu melakukan pengecekan kembali input yang dimasukkan. Hasil dapat dilihat pada gambar \ref{fig:pengujian-p08}
 
-Pengujian dengan ID P09 dilakukan dengan skenario yaitu user ingin logout dari sistem. Pengujian dilakukan dengan cara menekan tombol logout pada bagian kiri bawah \textit{sidebar}. Setelah itu cookie akan dihapus dan sistem akan melakukan \textit{redirect} ke /login page.
+Pengujian dengan ID P09 dilakukan dengan skenario yaitu user ingin logout dari sistem. Pengujian dilakukan dengan cara menekan tombol logout pada bagian kiri bawah \textit{sidebar}. Setelah itu cookie dihapus dan dilakukan \textit{redirect} ke /login page.
 
 Pengujian dengan ID P10, P11 dilakukan dengan skenario yaitu setelah \textit{user} berhasil login, \textit{user} ingin mendapatkan informasi detail \textit{company} serta seluruh \textit{user} pada \textit{company} tersebut dengan mengunjungi halaman /account. Halaman ini dapat dikunjungi dengan cara menekan tombol "account" pada sidebar. Hasil dapat dilihat pada gambar \ref{fig:pengujian-p08-09}.
 

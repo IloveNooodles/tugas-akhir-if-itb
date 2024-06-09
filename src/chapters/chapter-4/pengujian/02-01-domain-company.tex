@@ -1,6 +1,6 @@
 \subsubsection{Fungsionalitas pada Domain Company}
 
-Pengujian dengan ID P01 dilakukan dengan skenario yaitu admin berhasil membuat \textit{company} baru dengan nama \textit{cluster} yang tersedia pada sistem. Tersedia artinya konfigurasi kubernetes \textit{cluster} terdapat pada kubernetes \textit{config server}. Daftar \textit{cluster name} yang tersedia dapat dilihat pada gambar \ref{fig:list-cluster-tersedia}. Admin akan membuat request dengan Postman kepada \textit{server} dengan request seperti berikut.
+Pengujian dengan ID P01 dilakukan dengan skenario yaitu admin berhasil membuat \textit{company} baru dengan nama \textit{cluster} yang tersedia pada sistem. Tersedia artinya konfigurasi kubernetes \textit{cluster} terdapat pada kubernetes \textit{config server}. Daftar \textit{cluster name} yang tersedia dapat dilihat pada gambar \ref{fig:list-cluster-tersedia}. Admin membuat request dengan Postman kepada \textit{server} dengan request seperti berikut.
 
 \begin{enumerate}
   \item Mengisi \textit{field name} dengan nilai "new company"
@@ -9,7 +9,7 @@ Pengujian dengan ID P01 dilakukan dengan skenario yaitu admin berhasil membuat \
 
 \textit{Request} dibuat dengan membuat request menggunakan Postman pada url /admin-api/v1/companies dengan metode POST. \textit{Request dan Response} dapat dilihat pada gambar \ref{fig:pengujian-p01}
 
-Pengujian dengan ID P02 dilakukan dengan skenario yaitu admin tidak berhasil membuat \textit{company} karena nama cluster yang tidak tersedia pada server. Tersedia berarti, konfigurasi kubernetes cluster terdapat pada kubernetes \textit{config server} Admin akan membuat request dengan Postman kepada server dengan request seperti berikut.
+Pengujian dengan ID P02 dilakukan dengan skenario yaitu admin tidak berhasil membuat \textit{company} karena nama cluster yang tidak tersedia pada server. Tersedia berarti, konfigurasi kubernetes cluster terdapat pada kubernetes \textit{config server} Admin membuat request dengan Postman kepada server dengan request seperti berikut.
 
 \begin{enumerate}
   \item Mengisi \textit{field name} dengan nilai "new company"
@@ -19,9 +19,9 @@ Pengujian dengan ID P02 dilakukan dengan skenario yaitu admin tidak berhasil mem
 \textit{Request} dibuat dengan membuat request menggunakan Postman pada url /admin-api/v1/companies dengan metode POST. \textit{request dan response} dapat dilihat pada gambar
 
 
-Pengujian dengan ID P03 dilakukan dengan skenario yaitu admin ingin mendapatkan seluruh \textit{company} yang terdaftar pada sistem. Admin akan membuat GET request dengan Postman ke url /admin-api/v1/companies. \textit{Response} balikan dari \textit{request} dapat dilihat pada gambar \ref{fig:pengujian-p03}
+Pengujian dengan ID P03 dilakukan dengan skenario yaitu admin ingin mendapatkan seluruh \textit{company} yang terdaftar pada sistem. Admin membuat GET request dengan Postman ke url /admin-api/v1/companies. \textit{Response} balikan dari \textit{request} dapat dilihat pada gambar \ref{fig:pengujian-p03}
 
-Pengujian dengan ID P04 dilakukan dengan skenario yaitu admin ingin menghapus \textit{company} dengan id tertentu dari daftar \textit{company} pada sistem. Admin akan membuat DELETE request dengan Postman ke url /admin-api/v1/companies/:id. Untuk itu dibuat sebuah \textit{company} baru dengan spesifikasi sebagai berikut.
+Pengujian dengan ID P04 dilakukan dengan skenario yaitu admin ingin menghapus \textit{company} dengan id tertentu dari daftar \textit{company} pada sistem. Admin membuat DELETE request dengan Postman ke url /admin-api/v1/companies/:id. Untuk itu dibuat sebuah \textit{company} baru dengan spesifikasi sebagai berikut.
 
 \begin{enumerate}
   \item Mengisi \textit{field name} dengan nilai "new company"

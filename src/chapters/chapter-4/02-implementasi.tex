@@ -1,6 +1,6 @@
 \section{Implementasi}
 
-Bagian ini akan menjelaskan tentang implementasi sistem \textit{remote deployment} secara terperinci. Seperti yang telah dijelaskan pada  \textbf{Bagian \ref{sec:rancangan-dashboard}} dan \textbf{\ref{sec:rancangan-service}} terdapat dua komponen utama yaitu \textit{dashboard} dan \textit{service}. Penjelasan bagian ini akan dimulai dari batasan implementasi, dilanjutkan dengan kakas yang digunakan dalam proses pembuatan sistem dan diakhiri dengan penjelasan mengenai implementasi dari \textit{dashboard} dan \textit{service}
+Bagian ini menjelaskan tentang implementasi sistem \textit{remote deployment} secara terperinci. Seperti yang telah dijelaskan pada  \textbf{Bagian \ref{sec:rancangan-dashboard}} dan \textbf{\ref{sec:rancangan-service}} terdapat dua komponen utama yaitu \textit{dashboard} dan \textit{service}. Penjelasan bagian ini dimulai dari batasan implementasi, dilanjutkan dengan kakas yang digunakan dalam proses pembuatan sistem dan diakhiri dengan penjelasan mengenai implementasi dari \textit{dashboard} dan \textit{service}
 
 \input{chapters/chapter-4/implementasi/01-batasan-implementasi.tex}
 
@@ -13,43 +13,3 @@ Bagian ini akan menjelaskan tentang implementasi sistem \textit{remote deploymen
 \pagebreak
 
 \input{chapters/chapter-4/implementasi/05-service.tex}
-
-
-
-
-% \subsection{Persiapan \textit{Pods Elastic Search}}
-
-% Sebelum melakukan implementasi, diperlukan untuk menyalakan \textit{Pods Elastic Search}. Konfigurasi ini dilakukan dengan cara membuat \textit{file deployment} untuk \textit{pods Elastic Search} serta sebuah \textit{persistent volume claim} untuk tempat penyimpanan data. Sebagai contoh dan konfigurasi yang dipakai dalam membuat tugas akhir ini dapat dilihat pada lampiran \ref{appendix:cth-konfigurasi-es-pods}.
-
-% \input{chapters/chapter-4/implementasi/01-metrics-fetcher}
-% \input{chapters/chapter-4/implementasi/02-predictor}
-% \input{chapters/chapter-4/implementasi/03-rule}
-% \input{chapters/chapter-4/implementasi/04-resource-controller}
-% % \input{chapters/chapter-4/implementasi/05-flexible-control}
-% \input{chapters/chapter-4/implementasi/06-konfigurasi}
-
-% \subsection{Penggunaan untuk \textit{Pods} dengan Aplikasi Lain}
-
-% Sistem yang diimplementasikan juga dapat digunakan untuk pods lainnya. Tentunya dengan mengubah konfigurasi serta membuat \textbf{\textit{Metrics Fetcher}} khusus untuk aplikasi tersebut. Berikut adalah \textit{requirement} untuk dapat digunakan pada \textit{pods} lain.
-
-% \begin{enumerate}
-%   \item Aplikasi tersebut harus memiliki \textit{metrics} yang dapat diambil melalui suatu API, dapat berbentuk HTTP, GRPC atau yang lainnya. \label{item:requirement-general-1}
-%   \item Aplikasi harus bisa mempunyai komponen untuk menghitung \textit{throuhgput} untuk setiap operasinya. \label{item:requirement-general-2}
-% \end{enumerate}
-
-% Ketika poin \ref{item:requirement-general-1} dan \ref{item:requirement-general-2} sudah terpenuhi, maka langkah-langkah yang harus dilakukan adalah sebagai berikut.
-
-% \begin{enumerate}
-%   \item Membuat komponen \textbf{\textit{Metrics Fetcher}} yang baru untuk aplikasi tersebut.
-
-%         Dalam melakukan hal ini, transformasi sebaiknya diusahakan disesuaikan dengan struktur data yang sudah ada. Namun, jika ingin mengubah, maka harus melakukan pengubahan ekstra pada fungsi pemetaan \textit{metrics} yang ada pada komponen \textbf{\textit{Predictor}}.
-%   \item Menyesuaikan konfigurasi dan fungsi pemetaan komponen \textbf{\textit{Predictor}}.
-
-%         Tentunya, nama operasi akan berbeda serta detil-detil utilisasi umum akan berbeda sehingga diperlukan untuk mengubah dan menyesuaikan pada file konfigurasi.
-
-%   \item Mengubah \textit{label selector kubernetes} pada komponen \textbf{\textit{Resource Controller}}
-
-%         Karena sebelumnya dispesifikan ke aplikasi \textit{Elastic Search}, akibatnya, untuk mengubah ke aplikasi lain, perlu melakukan pengubahan \textit{label selector}.
-% \end{enumerate}
-
-% Setelah melakukan pengubahan tersebut, sistem sudah dapat digunakan untuk aplikasi lainnya.

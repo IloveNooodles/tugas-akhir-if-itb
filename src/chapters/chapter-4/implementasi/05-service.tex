@@ -1,7 +1,7 @@
 \subsection{Implementasi \textit{Service}}
 \label{subsec:implementasi-service}
 
-Implementasi \textit{service} dibuat dengan menggunakan bahasa pemrogramman golang dan framework \textit{Echo} serta menggunakan \textit{REST API} sebagai gaya komunikasinya. Arsitektur kode yang dibuat memiliki tiga lapisan dimulai dari \textit{handler}, \textit{usecase}, dan \textit{repository}. Handler bertujuan membaca permintaan pengguna dan dapat disebut sebagai entrypoint. Data dari handler akan diberikan kepada \textit{usecase} untuk diproses. \textit{Usecase} merupakan lapisan yang hanya memiliki \textit{logic} proses bisnis. Setelah data berhasil melewati lapisan \textit{usecase}, data siap untuk dimasukkan ke database. Proses hubungan antara \textit{service} dengan \textit{database} diletakan pada lapisan \textit{repository}.
+Implementasi \textit{service} dibuat dengan menggunakan bahasa pemrogramman golang dan framework \textit{Echo} serta menggunakan \textit{REST API} sebagai gaya komunikasinya. Arsitektur kode yang dibuat memiliki tiga lapisan dimulai dari \textit{handler}, \textit{usecase}, dan \textit{repository}. Handler bertujuan membaca permintaan pengguna dan dapat disebut sebagai entrypoint. Data dari handler diberikan kepada \textit{usecase} untuk diproses. \textit{Usecase} merupakan lapisan yang hanya memiliki \textit{logic} proses bisnis. Setelah data berhasil melewati lapisan \textit{usecase}, data siap untuk dimasukkan ke database. Proses hubungan antara \textit{service} dengan \textit{database} diletakan pada lapisan \textit{repository}.
 
 Pemisahan lapisan ini mengikuti design pattern yaitu \textit{dependency injection}. Selain itu, pemisahan ini juga bertujuan memudahkan testing dan meningkatkan \textit{maintanability} karena mudah untuk dibaca dan dipahami. \textit{endpoint} dibuat dengan menggunakan versioning dengan base \textit{endpoint} \textbf{/v1}. Versioning digunakan untuk memudahkan penggantian endpoint jika suatu saat terdapat perubahan major yang bersifat \textit{breaking}. Selain itu base \textit{endpoint} untuk \textit{user} dan \textit{admin} memiliki perbedaan pada prefix \textbf{/api} dan \textbf{/admin-api}
 
@@ -10,11 +10,11 @@ Pada sistem ini terdapat \textit{middleware} yang digunakan untuk melakukan auto
 \begin{enumerate}
   \item ValidateAPIKey
 
-        \textit{Middleware} ini bertujuan untuk memastikan bahwa hanya \textit{client} yang sesuai lah yang dapat mengakses \textit{service}. API Key dikirimkan dengan cara meletakan pada header dengan key \textbf{X-API-Key}. Middleware ini akan dijalankan untuk seluruh \textit{endpoint} yang ada pada \textit{service}.
+        \textit{Middleware} ini bertujuan untuk memastikan bahwa hanya \textit{client} yang sesuai lah yang dapat mengakses \textit{service}. API Key dikirimkan dengan cara meletakan pada header dengan key \textbf{X-API-Key}. Middleware ini dijalankan untuk seluruh \textit{endpoint} yang ada pada \textit{service}.
 
   \item ValidateJWTKey
 
-        \textit{Middleware} ini memiliki fungsi untuk memvalidasi JWT ketika \textit{user} melakukan \textit{request}. \textit{Middleware} ini dijalankan dengan melakukan parsing \textit{accessToken} yang didapat dari cookie pada setiap \textit{request}. Cookie didapat saat \textit{user} telah melakukan login sebelumnya dan memiliki batas waktu \textit{expire}. Setelah berhasil \textit{login} \textit{user} akan memiliki dua buah cookie yaitu \textit{accessToken} dan \textit{refreshToken}.  \textit{Middleware} ini berjalan untuk seluruh \textit{endpoint user} kecuali \textit{refresh dan login}
+        \textit{Middleware} ini memiliki fungsi untuk memvalidasi JWT ketika \textit{user} melakukan \textit{request}. \textit{Middleware} ini dijalankan dengan melakukan parsing \textit{accessToken} yang didapat dari cookie pada setiap \textit{request}. Cookie didapat saat \textit{user} telah melakukan login sebelumnya dan memiliki batas waktu \textit{expire}. Setelah berhasil \textit{login} \textit{user} memiliki dua buah cookie yaitu \textit{accessToken} dan \textit{refreshToken}.  \textit{Middleware} ini berjalan untuk seluruh \textit{endpoint user} kecuali \textit{refresh dan login}
 
 
   \item ValidateAdminAPIKey
@@ -25,7 +25,7 @@ Pada sistem ini terdapat \textit{middleware} yang digunakan untuk melakukan auto
 
 \subsubsection{Domain \textit{company}}
 
-Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} dan 3 untuk \textit{admin}. \textit{middleware} ValidateJWTKey digunakan pada \textit{endpoint user}. Untuk ketiga \textit{endpoint} admin, menggunakan \textit{middleware} ValidateAdminAPIKey. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:company-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-company}
+Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} dan 3 untuk \textit{admin}. \textit{middleware} ValidateJWTKey digunakan pada \textit{endpoint user}. Untuk ketiga \textit{endpoint} admin, menggunakan \textit{middleware} ValidateAdminAPIKey. Implementasi dari domain ini dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:company-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-company}
 
 
 \bgroup
@@ -56,30 +56,30 @@ Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} d
 \begin{enumerate}
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name} dan \textit{cluster\textunderscore name} dari \textit{requester}. Kedua \textit{field} tersebut digunakan untuk mengidentifikasi cluster dari setiap \textit{company}. Terdapat validasi berupa unique (name, cluster\textunderscore name) pada \textit{databse} untuk memastikan bahwa tidak ada duplikat untuk setiap \textit{company}. Setelah semua validasi selesai \textit{server} akan memberikan \textit{response} berupa objek \textit{company} kepada \textit{requester}. Apabila gagal maka akan diberikan pesan error
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name} dan \textit{cluster\textunderscore name} dari \textit{requester}. Kedua \textit{field} tersebut digunakan untuk mengidentifikasi cluster dari setiap \textit{company}. Terdapat validasi berupa unique (name, cluster\textunderscore name) pada \textit{databse} untuk memastikan bahwa tidak ada duplikat untuk setiap \textit{company}. Setelah semua validasi selesai \textit{server} memberikan \textit{response} berupa objek \textit{company} kepada \textit{requester}. Apabila gagal maka diberikan pesan error
 
   \item GetAll
 
-        Fungsionalitas ini dapat dipanggil tanpa masukan apapun oleh admin. Fungsionalitas ini akan mengembalikan semua \textit{company} yang ada pada \textit{database} lalu mengembalikan kepada \textit{requester}.
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun oleh admin. Fungsionalitas ini mengembalikan semua \textit{company} yang ada pada \textit{database} lalu mengembalikan kepada \textit{requester}.
 
   \item GetById
 
-        Fungsionalitas ini dapat diakses oleh admin dengan cara memberikan \textit{company id} pada URL. Fungsi ini akan mencari id yang bersesuaian pada \textit{database} lalu mengembalikannya kepada \textit{requester}. Apabila id yang diberikan tidak valid maka akan dikembalikan pesan error
+        Fungsionalitas ini dapat diakses oleh admin dengan cara memberikan \textit{company id} pada URL. Fungsi ini mencari id yang bersesuaian pada \textit{database} lalu mengembalikannya kepada \textit{requester}. Apabila id yang diberikan tidak valid maka dikembalikan pesan error
 
   \item GetCompanyDetail
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan informasi \textit{company detail} miliknya. Fungsionalitas ini tidak menerima request apapun namun terdapat validasi jika \textit{companyId} dari \textit{user} tidak valid maka akan diberikan pesan error serta apabila \textit{accessToken} sudah \textit{expire} akan dikeluarkan pesan \textit{unauthorized}
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan informasi \textit{company detail} miliknya. Fungsionalitas ini tidak menerima request apapun namun terdapat validasi jika \textit{companyId} dari \textit{user} tidak valid maka diberikan pesan error serta apabila \textit{accessToken} sudah \textit{expire} dikeluarkan pesan \textit{unauthorized}
 
   \item Delete
 
-        Fungsionalitas ini dapat diakses oleh \textit{admin} untuk menghapus \textit{company} dari \textit{database}. Karena \textit{company} memiliki relasi ke banyak domain, ketika \textit{company} di delete akan mengadaptasi sistem \textit{cascade} sehingga seluruh data yang memiliki referensi ke \textit{companyId} akan terhapus secara otomatis.
+        Fungsionalitas ini dapat diakses oleh \textit{admin} untuk menghapus \textit{company} dari \textit{database}. Karena \textit{company} memiliki relasi ke banyak domain, ketika \textit{company} di delete, diadaptasi sistem \textit{cascade} sehingga seluruh data yang memiliki referensi ke \textit{companyId} terhapus secara otomatis.
 
 \end{enumerate}
 
 
 \subsubsection{Domain \textit{user}}
 
-Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{company} karena satu company bisa memiliki banyak \textit{user}. Terdapat 7 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 3 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:user-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-user}
+Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{company} karena satu company bisa memiliki banyak \textit{user}. Terdapat 7 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 3 untuk \textit{admin}. Implementasi dari domain ini dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:user-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-user}
 
 \bgroup
 \begin{table}[ht]
@@ -115,35 +115,35 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 \begin{enumerate}
   \item GetAll
 
-        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini akan memiliki pengecekan apakah user ataupun admin dan mengembalikan hasil yang sesuai. Jika \textit{user} yang memanggil fungsi ini maka akan dikembalikan user pada satu \textit{company} dan jika \textit{admin} yang memanggil ini maka akan dikembalikan seluruh user yang ada kepada \textit{requester}.
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini memiliki pengecekan apakah user ataupun admin dan mengembalikan hasil yang sesuai. Jika \textit{user} yang memanggil fungsi ini maka dikembalikan user pada satu \textit{company} dan jika \textit{admin} yang memanggil ini maka dikembalikan seluruh user yang ada kepada \textit{requester}.
 
   \item GetById
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} dengan cara memberikan \textit{user id} pada URL. Fungsi ini akan mencari id yang bersesuaian pada \textit{database} lalu mengembalikannya kepada \textit{requester}. Apabila id yang diberikan tidak valid maka akan dikembalikan pesan error
+        Fungsionalitas ini dapat diakses oleh \textit{user} dengan cara memberikan \textit{user id} pada URL. Fungsi ini mencari id yang bersesuaian pada \textit{database} lalu mengembalikannya kepada \textit{requester}. Apabila id yang diberikan tidak valid maka dikembalikan pesan error
 
   \item Login
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{email} dan \textit{password} dari \textit{requester}. Kedua field tersebut akan digunakan untuk mencari \textit{user} yang bersesuaian pada \textit{database}. Setelah data ditemukan akan dilakukan validasi password dengan cara melakukan \textit{compare hash} password dengan hash password yang tersimpan di database. Setelah semua validasi berhasil dilakukan maka, akan dikembalikan response serta cookie yang dengan "accessToken" dan "refreshToken". Apabila gagal maka akan diberikan pesan error
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{email} dan \textit{password} dari \textit{requester}. Kedua field tersebut digunakan untuk mencari \textit{user} yang bersesuaian pada \textit{database}. Setelah data ditemukan dilakukan validasi password dengan cara melakukan \textit{compare hash} password dengan hash password yang tersimpan di database. Setelah semua validasi berhasil dilakukan maka dikembalikan response serta cookie yang dengan "accessToken" dan "refreshToken". Apabila gagal maka diberikan pesan error
 
-        Kedua cookie ini nantinya akan digunakan untuk mengautorisasi setiap request. "accessToken" memiliki waktu \textit{expire} selama 1 jam dan "refreshToken" memiliki waktu \textit{expire} selama 1 hari. Untuk meningkatkan keamanan dan menghindari CSRF, Cookie di set dengan attribut "httpOnly", "sameSiteLax", serta "secure".
+        Kedua cookie ini digunakan untuk mengautorisasi setiap request. "accessToken" memiliki waktu \textit{expire} selama 1 jam dan "refreshToken" memiliki waktu \textit{expire} selama 1 hari. Untuk meningkatkan keamanan dan menghindari CSRF, Cookie di set dengan attribut "httpOnly", "sameSiteLax", serta "secure".
 
   \item Refresh
 
-        Fungsionalitas ini menerima masukan berupa "refreshToken" dan akan memberikan "accessToken" baru ketika \textit{endpoint} ini di panggil oleh \textit{requester}. "refreshToken" akan \textit{expire} secara otomatis setelah 1 hari sehingga \textit{endpoint} ini otomatis akan mengembalikan pesan error jika "refreshToken" sudah \textit{expire}.
+        Fungsionalitas ini menerima masukan berupa "refreshToken" dan memberikan "accessToken" baru ketika \textit{endpoint} ini di panggil oleh \textit{requester}. "refreshToken" \textit{expire} secara otomatis setelah 1 hari sehingga \textit{endpoint} ini otomatis mengembalikan pesan error jika "refreshToken" sudah \textit{expire}.
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{email}, \textit{password}, serta \textit{company\textunderscore id} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek user pada \textit{database}. Pada fungsi ini akan dilakukan pengecekan apakah \textit{email} valid dan \textit{unique}. Selain itu ada validasi \textit{company\textunderscore id} agar dipastikan bahwa \textit{user} benar terdaftar ke \textit{company} yang sesuai. Apabila validasi tidak berhasil maka akan dikeluarkan pesan error, namun jika semua berhasil dilewati maka akan dikembalikan \textit{response} berupa \textit{user} yang telah dibuat pada database.
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{email}, \textit{password}, serta \textit{company\textunderscore id} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek user pada \textit{database}. Pada fungsi ini dilakukan pengecekan apakah \textit{email} valid dan \textit{unique}. Selain itu ada validasi \textit{company\textunderscore id} agar dipastikan bahwa \textit{user} benar terdaftar ke \textit{company} yang sesuai. Apabila validasi tidak berhasil maka dikeluarkan pesan error, namun jika semua berhasil dilewati maka dikembalikan \textit{response} berupa \textit{user} yang telah dibuat pada database.
 
   \item Delete
 
-        Fungsionalitas ini dapat diakses oleh \textit{admin} untuk menghapus \textit{user} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{user} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{user}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+        Fungsionalitas ini dapat diakses oleh \textit{admin} untuk menghapus \textit{user} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{user} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{user}, maka diadaptasi sistem \textit{cascade} sehingga seluruh data ikut terhapus.
 
 \end{enumerate}
 
 \subsubsection{Domain \textit{devices}}
 
-Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{company} karena satu company bisa memiliki banyak \textit{devices}. Terdapat 6 \textit{endpoint} dengan detail 5 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi  domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:device-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-device}
+Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{company} karena satu company bisa memiliki banyak \textit{devices}. Terdapat 6 \textit{endpoint} dengan detail 5 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi domain ini dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:device-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-device}
 
 \bgroup
 \begin{table}[ht]
@@ -176,34 +176,34 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 \begin{enumerate}
   \item GetAll
 
-        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{device} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka akan dikembalikan daftar kosong.
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{device} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka dikembalikan daftar kosong.
 
   \item GetAllByCompanyId
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{device} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey akan mencoba untuk melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka akan dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{device} akan menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{device} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey  melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{device} menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
 
   \item GetById
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{device} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka akan mengeluarkan pesan error.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{device} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka dikeluarkan pesan error.
 
   \item GetGroupsByDeviceId
 
 
-        Fungsionalitas ini akan mengembalikan seluruh relasi \textit{groups} yang berkaitan dengan \textit{device id} terkait. Fungsi ini akan menerima \textit{device id} dan akan mencari apakah terdapat \textit{groups} yang berkaitan dengan id tersebut. Fungsi ini akan mengembalikan seluruh \textit{groups} yang ada dan jika tidak ada satupun maka akan dikeluarkan daftar kosong. Apabila \textit{device id} tidak valid maka akan diberikan pesan error.
+        Fungsionalitas ini mengembalikan seluruh relasi \textit{groups} yang berkaitan dengan \textit{device id} terkait. Fungsi ini menerima \textit{device id} dan mencari apakah terdapat \textit{groups} yang berkaitan dengan id tersebut. Fungsi ini mengembalikan seluruh \textit{groups} yang ada dan jika tidak ada satupun maka dikeluarkan daftar kosong. Apabila \textit{device id} tidak valid maka diberikan pesan error.
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{type}, \textit{attributes}, serta \textit{node\textunderscore name} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek \textit{device} pada \textit{database}. Pada fungsi ini akan dilakukan pengecekan apakah \textit{node\textunderscore name} ada pada \textit{cluster} serta merupakan nama yang valid dan \textit{unique}. Selain itu terdapat validasi \textit{attributes} yaitu merupakan list of string yang masing masing harus memiliki '=' sebagai tanda pemisah. Hal ini dilakukan karena ini merupakan label yang akan diberikan pada \textit{node} pada \textit{cluster} nantinya. Apabila validasi tidak berhasil maka akan dikeluarkan pesan error, namun jika semua berhasil dilewati maka akan dikembalikan \textit{response} berupa \textit{device} yang telah dibuat pada database serta proses \textit{node} pada \textit{cluster} yang sudah di labeli dengan \textit{attributes}.
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{type}, \textit{attributes}, serta \textit{node\textunderscore name} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek \textit{device} pada \textit{database}. Pada fungsi ini dilakukan pengecekan apakah \textit{node\textunderscore name} ada pada \textit{cluster} serta merupakan nama yang valid dan \textit{unique}. Selain itu terdapat validasi \textit{attributes} yaitu merupakan list of string yang masing masing harus memiliki '=' sebagai tanda pemisah. Hal ini dilakukan karena ini merupakan label yang diberikan pada \textit{node} pada \textit{cluster} nantinya. Apabila validasi tidak berhasil maka dikeluarkan pesan error, namun jika semua berhasil dilewati maka dikembalikan \textit{response} berupa \textit{device} yang telah dibuat pada database serta proses \textit{node} pada \textit{cluster} yang sudah di labeli dengan \textit{attributes}.
 
   \item Delete
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{device} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{device} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{device}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{device} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{device} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{device}, maka diadaptasi sistem \textit{cascade} sehingga seluruh data ikut terhapus.
 
 \end{enumerate}
 
 \subsubsection{Domain \textit{groups}}
 
-Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{company} karena satu \textit{company} bisa memiliki banyak \textit{groups}. Terdapat 6 \textit{endpoint} dengan detail 5 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:groups-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-groups}
+Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{company} karena satu \textit{company} bisa memiliki banyak \textit{groups}. Terdapat 6 \textit{endpoint} dengan detail 5 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:groups-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-groups}
 
 \bgroup
 \begin{table}[ht]
@@ -237,38 +237,38 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 \begin{enumerate}
   \item GetAll
 
-        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{groups} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka akan dikembalikan daftar kosong.
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{groups} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka dikembalikan daftar kosong.
 
   \item GetAllByCompanyId
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{groups} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey akan mencoba untuk melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka akan dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{groups} akan menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{groups} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey  melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{groups} menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
 
   \item GetById
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{groups} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka akan mengeluarkan pesan error.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{groups} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka dikeluarkan pesan error.
 
   \item GetDeviceByGroupId
 
 
-        Fungsionalitas ini akan mengembalikan seluruh relasi \textit{device} yang berkaitan dengan \textit{group id} terkait. Fungsi ini akan menerima \textit{group id} dan akan mencari apakah terdapat \textit{device} yang berkaitan dengan id tersebut. Fungsi ini akan mengembalikan seluruh \textit{device} yang ada dan jika tidak ada satupun maka akan dikeluarkan daftar kosong. Apabila \textit{group id} tidak valid maka akan diberikan pesan error.
+        Fungsionalitas ini mengembalikan seluruh relasi \textit{device} yang berkaitan dengan \textit{group id} terkait. Fungsi ini menerima \textit{group id} dan mencari apakah terdapat \textit{device} yang berkaitan dengan id tersebut. Fungsi ini mengembalikan seluruh \textit{device} yang ada dan jika tidak ada satupun maka dikeluarkan daftar kosong. Apabila \textit{group id} tidak valid maka diberikan pesan error.
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}. \textit{Field name} memiliki \textit{unique constraint} sehingga tidak mungkin ada nama \textit{groups} yang sama pada satu \textit{company}. Terdapat validasi untuk membuat nama \textit{groups} yang memiliki panjang minimal 8 characters untuk menghindari memberikan nama tanpa konteks. Apabila terdapat duplikat maka akan dikembalikan pesan error dan setelah semua validasi berhasil, \textit{service} akan mengirimkan \textit{response} berupa \textit{groups} yang berhasil dibuat kepada \textit{requester}.
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}. \textit{Field name} memiliki \textit{unique constraint} sehingga tidak mungkin ada nama \textit{groups} yang sama pada satu \textit{company}. Terdapat validasi untuk membuat nama \textit{groups} yang memiliki panjang minimal 8 characters untuk menghindari memberikan nama tanpa konteks. Apabila terdapat duplikat dikembalikan pesan error dan setelah semua validasi berhasil, \textit{service} mengirimkan \textit{response} berupa \textit{groups} yang berhasil dibuat kepada \textit{requester}.
 
   \item Delete
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{groups} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{groups} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{groups}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{groups} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{groups} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{groups}, maka diadaptasi sistem \textit{cascade} sehingga seluruh data ikut terhapus.
 
 \end{enumerate}
 
 
 \subsubsection{Domain \textit{deployment}}
 
-Domain ini memiliki relasi \textit{one} to \textit{one} dengan domain \textit{external service}. Selain itu domain ini juga memiliki relasi one to many dengan \textit{company}. Karena satu \textit{company} bisa memiliki banyak \textit{deployment}. Pada domain ini akan dibagi menjadi tiga bagian yaitu \textit{deployment images}, \textit{deployment histories} dan \textit{deployment}. Hubungan domain dapat dilihat pada gambar \ref{fig:deployment-class-diagram}
+Domain ini memiliki relasi \textit{one} to \textit{one} dengan domain \textit{external service}. Selain itu domain ini juga memiliki relasi one to many dengan \textit{company}. Karena satu \textit{company} bisa memiliki banyak \textit{deployment}. Pada domain ini dibagi menjadi tiga bagian yaitu \textit{deployment images}, \textit{deployment histories} dan \textit{deployment}. Hubungan domain dapat dilihat pada gambar \ref{fig:deployment-class-diagram}
 
 \subsubsubsection{Deployment Images}
-Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:deployment-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-deployment-images}
+Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:deployment-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-deployment-images}
 
 \bgroup
 \begin{table}[ht]
@@ -300,28 +300,28 @@ Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{
 \begin{enumerate}
   \item GetAll
 
-        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{deployment images} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka akan dikembalikan daftar kosong.
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{deployment images} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka dikembalikan daftar kosong.
 
   \item GetAllByCompanyId
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{deployment images} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey akan mencoba untuk melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka akan dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{deployment images} akan menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{deployment images} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey  melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{deployment images} menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
 
   \item GetById
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{deployment images} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka akan mengeluarkan pesan error.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{deployment images} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka dikeluarkan pesan error.
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{description}, \textit{image}. Teradapat \textit{unique constraint} pada \textit{field nama dan image} pada satu \textit{company} untuk mencegah duplikat. Apabila terdapat duplikat maka akan dikembalikan pesan error dan setelah semua validasi berhasil, \textit{service} akan mengirimkan \textit{response} berupa \textit{deployment images} yang berhasil dibuat kepada \textit{requester}.
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{description}, \textit{image}. Teradapat \textit{unique constraint} pada \textit{field nama dan image} pada satu \textit{company} untuk mencegah duplikat. Apabila terdapat duplikat maka dikembalikan pesan error dan setelah semua validasi berhasil, \textit{service} mengirimkan \textit{response} berupa \textit{deployment images} yang berhasil dibuat kepada \textit{requester}.
 
   \item Delete
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{eployment images} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{eployment images} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{eployment images}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{eployment images} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{eployment images} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{eployment images}, maka diadaptasi sistem \textit{cascade} sehingga seluruh data ikut terhapus.
 
 \end{enumerate}
 
 \subsubsubsection{Deployment Histories}
-Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:deployment-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-deployment-histories}
+Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{user} dan 1 untuk \textit{admin}. Implementasi dari domain ini dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:deployment-class-diagram} dan pemetaan \textit{endpoint} dapat dilihat pada tabel \ref{tab:api-contract-domain-deployment-histories}
 
 \bgroup
 \begin{table}[ht]
@@ -352,15 +352,15 @@ Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{
 \begin{enumerate}
   \item GetAll
 
-        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{deployment histories} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka akan dikembalikan daftar kosong.
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{deployment histories} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka dikembalikan daftar kosong.
 
   \item GetAllByCompanyId
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{deployment histories} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey akan mencoba untuk melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka akan dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{deployment histories} akan menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{deployment histories} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{deployment histories} menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
 
   \item GetById
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{deployment histories} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka akan mengeluarkan pesan error.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{deployment histories} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka dikeluarkan pesan error.
 
   \item Create
 
@@ -368,7 +368,7 @@ Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{
 
   \item Delete
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{eployment histories} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{deployment histories} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{deployment histories}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{eployment histories} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{deployment histories} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{deployment histories}, diadaptasi sistem \textit{cascade} sehingga seluruh data ikut terhapus.
 
 \end{enumerate}
 
@@ -409,37 +409,37 @@ Pada bagian ini yang terdapat 7 \textit{endpoint} dengan detail 6 untuk \textit{
 \begin{enumerate}
   \item GetAll
 
-        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{deployment plan} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka akan dikembalikan daftar kosong.
+        Fungsionalitas ini dapat dipanggil tanpa masukan apapun. Fungsi ini digunakan untuk admin untuk mendapatkan seluruh informasi \textit{deployment plan} yang terdaftar pada \textit{database}. Tidak ada validasi dan apabila data kosong maka dikembalikan daftar kosong.
 
   \item GetAllByCompanyId
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{deployment plan} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey akan mencoba untuk melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka akan dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{deployment plan} akan menjadi \textit{repsonse} dan dikembalikan kepada \textit{requester}.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan seluruh \textit{deployment plan} yang dimiliki oleh \textit{company}. Middleware ValidateJWTKey melakukan \textit{decode} "accessToken" dan mengambil informasi "companyId" dari hasil tersebut. Jika tidak valid maka dikeluarkan pesan error. Setelah semua validasi berhasil maka daftar seluruh \textit{deployment plan} menjadi hasil \textit{repsonse} untuk \textit{requester}.
 
   \item GetById
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{deployment plan} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka akan mengeluarkan pesan error.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk mendapatkan detail dari \textit{deployment plan} dengan cara memberikan \textit{id} yang sesuai. Apabila tidak ditemukan maka dikeluarkan pesan error.
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{version}, \textit{target}, dan \textit{repository\textunderscore id}. Terdapat validasi yaitu \textit{unique constraint} pada \textit{name, version, dan repository\textunderscore id} pada satu company yang sama untuk mencegah data duplikat yang membingungkan. Setelah validasi selsai maka \textit{Service} mengirimkan \textit{response} berupa \textit{deployment plan} yang berhasil dibuat kepada \textit{requester}. Apabila gagal maka akan dikirimkan pesan error.
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{version}, \textit{target}, dan \textit{repository\textunderscore id}. Terdapat validasi yaitu \textit{unique constraint} pada \textit{name, version, dan repository\textunderscore id} pada satu company yang sama untuk mencegah data duplikat yang membingungkan. Setelah validasi selsai maka \textit{Service} mengirimkan \textit{response} berupa \textit{deployment plan} yang berhasil dibuat kepada \textit{requester}. Apabila gagal maka dikirimkan pesan error.
 
   \item Delete
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{deployment plan} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{deployment plan} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{deployment plan}, maka akan mengadpdatasi sistem \textit{cascade} sehingga seluruh data akan ikut terhapus juga.
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk menghapus \textit{deployment plan} dari \textit{database}. Fungsi ini menerima parameter berupa id dari \textit{deployment plan} yang ingin dihapus. Apabila ada \textit{relasi} lain yang mengacu kepada \textit{deployment plan}, diadaptasi sistem \textit{cascade} sehingga seluruh data ikut terhapus juga.
 
   \item Deploy
 
-        Fungsionalitas ini merupakan fungsionalitas utama dalam sistem \textit{remote deployment}. Fungsionalitas ini dapat diakses oleh \textit{user} untuk melakukan \textit{remote deployment} sesuai dengan \textit{deployment plan} yang dipilih. Fungsi ini menerima \textit{argument} berupa daftar dari \textit{deployment plan} yang ingin dipilh. Apabila terdapat salah satu \textit{deployment plan} yang tidak ditemukan maka proses akan gagal. Setelah semua validasi berhasil dilakukan, fungsi ini akan melanjutkan untuk memanggil \textit{extenral service kubernetes controller} dengan data yang telah disesuaikan.
+        Fungsionalitas ini merupakan fungsionalitas utama dalam sistem \textit{remote deployment}. Fungsionalitas ini dapat diakses oleh \textit{user} untuk melakukan \textit{remote deployment} sesuai dengan \textit{deployment plan} yang dipilih. Fungsi ini menerima \textit{argument} berupa daftar dari \textit{deployment plan} yang ingin dipilh. Apabila terdapat salah satu \textit{deployment plan} yang tidak ditemukan maka proses gagal. Setelah semua validasi berhasil dilakukan, fungsi ini melanjutkan untuk memanggil \textit{extenral service kubernetes controller} dengan data yang telah disesuaikan.
 
   \item DeleteDeploy
 
-        Fungsionalitas ini dapat diakses oleh \textit{user} untuk melakukan \textit{rollback deployment} dari \textit{deployment plan} yang dipilih. Fungsi ini menerima \textit{argument} berupa daftar dari \textit{deployment plan} yang ingin dihapus atau dilakukan \textit{rollback}. Apabila terdapat salah satu \textit{deployment plan} yang tidak ditemukan maka proses akan gagal
+        Fungsionalitas ini dapat diakses oleh \textit{user} untuk melakukan \textit{rollback deployment} dari \textit{deployment plan} yang dipilih. Fungsi ini menerima \textit{argument} berupa daftar dari \textit{deployment plan} yang ingin dihapus atau dilakukan \textit{rollback}. Apabila terdapat salah satu \textit{deployment plan} yang tidak ditemukan maka proses memunculkan pesan \textit{error}
 
 \end{enumerate}
 
 \subsubsection{Domain \textit{external services}}
 
-Domain ini memiliki relasi \textit{one} to \textit{one} dengan domain \textit{deployment}. Pada \textit{domain} ini tidak terdapat endpoint karena seluruh \textit{Fungsionalitas} ini akan digunakan pada domain \textit{deployment} pada lapisan \textit{usecase}. Implementasi dari domain ini akan dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:kubernetes-controller-class-diagram}.
+Domain ini memiliki relasi \textit{one} to \textit{one} dengan domain \textit{deployment}. Pada \textit{domain} ini tidak terdapat endpoint karena seluruh \textit{Fungsionalitas} ini digunakan pada domain \textit{deployment} pada lapisan \textit{usecase}. Implementasi dari domain ini dijelaskan untuk setiap fungsi dengan acuan gambar \ref{fig:kubernetes-controller-class-diagram}.
 
 \pagebreak
 
@@ -458,11 +458,11 @@ Domain ini memiliki relasi \textit{one} to \textit{one} dengan domain \textit{de
 
   \item LabelNode
 
-        Fungsionalitas ini digunakan untuk membuat label pada \textit{node} di \textit{cluster}. Label haruslah berbentuk key value yang dipisahkan dengan tanda =. Apabila label tidak valid maka akan mengembalikan error.
+        Fungsionalitas ini digunakan untuk membuat label pada \textit{node} di \textit{cluster}. Label haruslah berbentuk key value yang dipisahkan dengan tanda =. Apabila label tidak valid maka dimunculkan pesan \textit{error}.
 
   \item Deploy
 
-        Fungsionalitas ini digunakan untuk melakukan deployment pada \textit{cluster}. Deployment dilakukan dengan menargetkan \textit{device} sesuai dengan \textit{field target} pada \textit{deployment plan}. Apabila deployment sudah pernah dibuat, maka akan mengeluarkan pesan error dan jika belum maka proses deployment akan dilaksanakan dan diberikan \textit{response} berupa hasil \textit{deployment}
+        Fungsionalitas ini digunakan untuk melakukan deployment pada \textit{cluster}. Deployment dilakukan dengan menargetkan \textit{device} sesuai dengan \textit{field target} pada \textit{deployment plan}. Apabila deployment sudah pernah dibuat, maka dikeluarkan pesan error. Jika deployment belum pernah dibuat, maka proses deployment dilaksanakan dan diberikan \textit{response} berupa hasil \textit{deployment}
 
   \item Get
 
