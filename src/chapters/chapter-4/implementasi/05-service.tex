@@ -123,7 +123,7 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 
   \item Login
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{email} dan \textit{password} dari \textit{requester}. Kedua field tersebut digunakan untuk mencari \textit{user} yang bersesuaian pada \textit{database}. Setelah data ditemukan dilakukan validasi password dengan cara melakukan \textit{compare hash} password dengan hash password yang tersimpan di database. Setelah semua validasi berhasil dilakukan maka dikembalikan response serta cookie yang dengan "accessToken" dan "refreshToken". Apabila gagal maka diberikan pesan error
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{email} dan \textit{password} dari \textit{requester}. Kedua field tersebut digunakan untuk mencari \textit{user} yang bersesuaian pada \textit{database}. Setelah data ditemukan dilakukan validasi password dengan cara melakukan \textit{compare hash} password dengan hash password yang tersimpan di \textit{database}. Setelah semua validasi berhasil dilakukan maka dikembalikan response serta cookie yang dengan "accessToken" dan "refreshToken". Apabila gagal maka diberikan pesan error
 
         Kedua cookie ini digunakan untuk mengautorisasi setiap request. "accessToken" memiliki waktu \textit{expire} selama 1 jam dan "refreshToken" memiliki waktu \textit{expire} selama 1 hari. Untuk meningkatkan keamanan dan menghindari CSRF, Cookie di set dengan attribut "httpOnly", "sameSiteLax", serta "secure".
 
@@ -133,7 +133,7 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{email}, \textit{password}, serta \textit{company\textunderscore id} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek user pada \textit{database}. Pada fungsi ini dilakukan pengecekan apakah \textit{email} valid dan \textit{unique}. Selain itu ada validasi \textit{company\textunderscore id} agar dipastikan bahwa \textit{user} benar terdaftar ke \textit{company} yang sesuai. Apabila validasi tidak berhasil maka dikeluarkan pesan error, namun jika semua berhasil dilewati maka dikembalikan \textit{response} berupa \textit{user} yang telah dibuat pada database.
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{email}, \textit{password}, serta \textit{company\textunderscore id} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek user pada \textit{database}. Pada fungsi ini dilakukan pengecekan apakah \textit{email} valid dan \textit{unique}. Selain itu ada validasi \textit{company\textunderscore id} agar dipastikan bahwa \textit{user} benar terdaftar ke \textit{company} yang sesuai. Apabila validasi tidak berhasil maka dikeluarkan pesan error, namun jika semua berhasil dilewati maka dikembalikan \textit{response} berupa \textit{user} yang telah dibuat pada \textit{database}.
 
   \item Delete
 
@@ -193,7 +193,7 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{type}, \textit{attributes}, serta \textit{node\textunderscore name} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek \textit{device} pada \textit{database}. Pada fungsi ini dilakukan pengecekan apakah \textit{node\textunderscore name} ada pada \textit{cluster} serta merupakan nama yang valid dan \textit{unique}. Selain itu terdapat validasi \textit{attributes} yaitu merupakan list of string yang masing masing harus memiliki '=' sebagai tanda pemisah. Hal ini dilakukan karena ini merupakan label yang diberikan pada \textit{node} pada \textit{cluster} nantinya. Apabila validasi tidak berhasil maka dikeluarkan pesan error, namun jika semua berhasil dilewati maka dikembalikan \textit{response} berupa \textit{device} yang telah dibuat pada database serta proses \textit{node} pada \textit{cluster} yang sudah di labeli dengan \textit{attributes}.
+        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{type}, \textit{attributes}, serta \textit{node\textunderscore name} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek \textit{device} pada \textit{database}. Pada fungsi ini dilakukan pengecekan apakah \textit{node\textunderscore name} ada pada \textit{cluster} serta merupakan nama yang valid dan \textit{unique}. Selain itu terdapat validasi \textit{attributes} yaitu merupakan list of string yang masing masing harus memiliki '=' sebagai tanda pemisah. Hal ini dilakukan karena ini merupakan label yang diberikan pada \textit{node} pada \textit{cluster} nantinya. Apabila validasi tidak berhasil maka dikeluarkan pesan error, namun jika semua berhasil dilewati maka dikembalikan \textit{response} berupa \textit{device} yang telah dibuat pada \textit{database} serta proses \textit{node} pada \textit{cluster} yang sudah di labeli dengan \textit{attributes}.
 
   \item Delete
 
