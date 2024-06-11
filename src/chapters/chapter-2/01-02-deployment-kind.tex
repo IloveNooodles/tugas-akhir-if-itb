@@ -1,0 +1,24 @@
+\subsection{Kategori}
+
+Awal mulanya \textit{deployment} dilakukan dengan membungkus \textit{software} menjadi sebuah \textit{installer}. \textit{Installer} dapat diunduh dan dijalankan oleh \textit{pengguna} untuk membuat \textit{software} tersedia pada perangkat yang digunakan. Jika terdapat \textit{update software}, pengguna harus mengunduh \textit{installer} dengan versi terbaru untuk digunakan \parencite{softwareDeploymentCarzaniga1998characterization}. 
+
+Tentunya hal ini kurang efektif karena pengguna harus melakukan pengecekan secara berkala untuk mengetahui apakah terdapat versi terbaru atau tidak. Oleh karena itu, muncul teknologi \textit{deployment} yaitu \textit{package manager}. \textit{Package Manager} dapat digunakan untuk proses \textit{installing, updating, and generally managing software} \parencite{softwareDeploymentCarzaniga1998characterization}. Namun, muncul beberapa masalah seperti \textit{dependency hell}, \textit{dependency conflict} serta \textit{platfrom-constrained} karena \textit{package manager} tidak tersedia di semua \textit{operating system}. 
+
+Pada tahun 2014, muncul teknologi baru yaitu \textit{docker, a cloud-centric platform-as-a-service} yang bersifat \textit{}, bertujuan untuk menyelesaikan masalah \textit{dependency conflict dan dependency hell} \parencite{merkel2014docker}. Docker menerapkan \textit{deployment} berbasis \textit{container} yang menggunakan namespace pada linux kernel dan \textit{cgroups} dalam melakukan manajemen \textit{resource} nya sehingga dapat dibuat sebuah sistem yang berjalan khusus untuk sebuah \textit{software} dengan minimal tanpa perlu adanya \textit{conflict} pada \textit{dependency}. 
+
+Dengan adanya docker, metode \textit{deployment} mulai beralih ke arah \textit{cloud deployment}. Pada penelitian yang dilakukan oleh \parencite{wurster2020essential}, \textit{cloud deployment} dapat dikategorikan menjadi tiga bagian yaitu \textit{General-Purpose (GP)}, \textit{Provider-Specific (ProvS)}, serta \textit{Platform-Specific (PlatS)}.
+
+\begin{enumerate}
+  \item \textit{General-Purpose (GP)}
+
+        Teknologi ini mendukung semua fitur dan mekanisme \textit{deployment} mulai dari \textit{single-cloud}, \textit{hybrid}, dan \textit{multi-cloud} serta berbagai jenis \textit{layanan cloud (XaaS)}. Beberapa teknologi yang mencakup kategori ini: Puppet, Chef, Ansible, OpenStack Heat, Terraform, SaltStack, Juju, dan Cloudify.
+
+  \item \textit{Provider-Specific (ProvS)}
+
+        Kategori ini menyediakan fitur untuk membuat \textit{reusable entity}. ProvS hanya mendukung \textit{deployment single-cloud} karena ditawarkan oleh penyedia \textit{cloud} tertentu, sehingga hanya mendukung layanan cloud yang ditawarkan oleh penyedia tersebut. Beberapa teknologi yang mencakup kategori ini: AWS CloudFormation dan Azure Resource Manager.
+
+  \item \textit{Platform-Specific (PlatS)}
+
+        Kategori ini mendukung \textit{multi-cloud} dan \textit{resuable deployment}. Kategori ini dibatasi dalam hal model pengiriman dan penggunaan bundel pada platform tertentu untuk membuat \textit{deployment}. <isalnya, Kubernetes hanya \textit{deployment} dengan \textit{container}. Beberapa teknologi yang mencakup kategori ini: Kubernetes, CFEngine, dan Docker Compose.
+
+\end{enumerate}
