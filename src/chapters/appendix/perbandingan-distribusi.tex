@@ -1,0 +1,21 @@
+\chapter{Perbandingan Distribusi Kubernetes}
+
+\bgroup
+\begin{table}[ht]
+  \def\arraystretch{1.5}
+  \caption{Perbandingan Tiga Distribusi Kubenernetes pada Lingkungan \textit{IoT}}
+  \label{tab:perbandingan-distribusi-kubernetes}
+  \centering
+  \begin{tabular}{|p{1.7cm}|p{1.7cm}|p{2.3cm}|p{2cm}|p{1.5cm}|p{2cm}|}
+    \hline
+    \centering{Nama} & \centering{Dukungan arsitektur} & \centering{Instalasi dan Penggunaan}                                                                                                                           & \centering{Komputasi \textit{resource}}                  & Ukuran Cluster                                      & Fitur                            \\
+    \hline
+    K8s              & aarch64, armv7l, x86-64, macOS  & Sangat mudah, dapat diinstal dengan satu line command, dokumentasi lengkap                                                                                     & Penggunaan \textit{resource} yang minimal                & Kecil hingga menengah                               & Tidak seluruh fitur k8s tersedia \\
+    \hline
+    Microk8s         & aarch64, x86-64, armv7l         & Instalasi cukup sulit untuk dilakukan, kustomisasi cukup sulit untuk dilakukan, dokumentasi cukup sulit untuk dimeengerti                                      & Memerlukan \textit{resource} yang cukup besar            & Hanya untuk \textit{cluster} lokal                  & Tidak seluruh fitur k8s tersedia \\
+    \hline
+    KubeEdge         & aarch64, x86-64, armv7l         & Instalasi cukup kompleks serta perlu pemahaman yang lebih untuk menggunakannya. \textit{kustomisasi} yang cukup sulit, namun memiliki dokumentasi yang lengkap & Memerlukan sumber daya yang cukup besar dibandingkan K8s & Cocok untuk lingkungan distribusi serta skala besar & Lengkap                          \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
