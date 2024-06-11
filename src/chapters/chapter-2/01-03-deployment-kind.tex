@@ -1,0 +1,17 @@
+\subsection{Kategori}
+Pada penelitian yang dilakukan oleh \parencite{wurster2020essential}, \textit{deployment} dapat dikategorikan menjadi tiga bagian yaitu \textit{General-Purpose (GP)}, \textit{Provider-Specific (ProvS)}, serta \textit{Platform-Specific (PlatS)}. Ketiga kategori ini berfokus untuk melakukan \textit{deployment} secara otomatis
+
+\begin{enumerate}
+  \item \textit{General-Purpose (GP)}
+
+        Teknologi ini mendukung semua fitur dan mekanisme \textit{deployment} mulai dari \textit{single-cloud}, \textit{hybrid}, dan \textit{multi-cloud} serta berbagai jenis \textit{layanan cloud (XaaS)}. Beberapa teknologi yang mencakup kategori ini: Puppet, Chef, Ansible, OpenStack Heat, Terraform, SaltStack, Juju, dan Cloudify.
+
+  \item \textit{Provider-Specific (ProvS)}
+
+        Kategori ini menyediakan fitur untuk membuat \textit{reusable entity}. ProvS hanya mendukung \textit{deployment single-cloud} karena ditawarkan oleh penyedia \textit{cloud} tertentu, sehingga hanya mendukung layanan cloud yang ditawarkan oleh penyedia tersebut. Beberapa teknologi yang mencakup kategori ini: AWS CloudFormation dan Azure Resource Manager.
+
+  \item \textit{Platform-Specific (PlatS)}
+
+        Kategori ini mendukung \textit{multi-cloud} dan \textit{resuable deployment}. Kategori ini dibatasi dalam hal model pengiriman dan penggunaan bundel pada platform tertentu untuk membuat \textit{deployment}. Misalnya, Kubernetes hanya \textit{deployment} dengan \textit{container}. Beberapa teknologi yang mencakup kategori ini: Kubernetes, CFEngine, dan Docker Compose.
+
+\end{enumerate}
