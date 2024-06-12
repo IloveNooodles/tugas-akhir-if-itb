@@ -10,9 +10,9 @@
     \hline
     \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                 & \centering{Ekspektasi}                                                                             & Realita \\
     \hline
-    F01                       & P01                      & Admin mendaftarkan \textit{company} dengan cluster name yang tersedia                & Admin berhasil mendaftarkan \textit{company}                                                       & Sesuai  \\
+    F01                       & P01                      & Admin ingin mendaftarkan \textit{company} dengan cluster name yang tersedia          & Admin berhasil mendaftarkan \textit{company}                                                       & Sesuai  \\
     \hline
-    F01                       & P02                      & Admin mendaftarkan \textit{company} dengan cluster name yang tidak valid             & Admin tidak berhasil mendaftarkan karena cluster name tidak valid                                  & Sesuai  \\
+    F01                       & P02                      & Admin ingin mendaftarkan \textit{company} dengan cluster name yang tidak valid       & Admin tidak berhasil mendaftarkan karena cluster name tidak valid                                  & Sesuai  \\
     \hline
     F02                       & P03                      & Admin membuat \textit{request} untuk melihat seluruh \textit{company} pada sistem    & Admin dapat melihat seluruh \textit{company} pada sistem                                           & Sesuai  \\
     \hline
@@ -104,22 +104,22 @@
   \centering
   \begin{tabular}{|p{2cm}|p{2cm}|p{3cm}|p{3cm}|p{1.5cm}|}
     \hline
-    \centering{ID Fungsional} & \centering{ID Pengujian}                            & \centering{Skenario}                                                                           & \centering{Ekspektasi}                                                                    & Realita \\
+    \centering{ID Fungsional} & \centering{ID Pengujian}                            & \centering{Skenario}                                                                                 & \centering{Ekspektasi}                                                                    & Realita \\
     \hline
-    F01                       & P20                                                 & \textit{Admin} membuat \textit{company} yang dengan nama "raspi-company"                       & \textit{Admin} berhasil mendaftarkan \textit{company}                                     & Sesuai  \\
+    F01                       & P20                                                 & \textit{Admin} membuat \textit{company} yang dengan nama "raspi-company"                             & \textit{Admin} berhasil mendaftarkan \textit{company}                                     & Sesuai  \\
     \hline
-    F04                       & P21                                                 & \textit{Admin} membuat \textit{user} yang dengan email "raspi@gmail.com"                       & \textit{Admin} berhasil mendaftarkan \textit{user}                                        & Sesuai  \\
+    F04                       & P21                                                 & \textit{Admin} membuat \textit{user} yang dengan email "raspi@gmail.com"                             & \textit{Admin} berhasil mendaftarkan \textit{user}                                        & Sesuai  \\
     \hline
-    F06                       & P22                                                 & \textit{User} ingin login dengan kredensial "raspi@gmail.com"                                  & \textit{User} berhasil login ke dalam sistem                                              & Sesuai  \\
+    F06                       & P22                                                 & \textit{User} ingin login dengan kredensial "raspi@gmail.com"                                        & \textit{User} berhasil login ke dalam sistem                                              & Sesuai  \\
     \hline
-    F10                       & P23                                                 & \textit{User} mendaftarkan dua \textit{devices} dengan nama "raspi-master" dan
-    raspi-worker"             & \textit{User} berhasil mendaftarkan \textit{device} & Sesuai                                                                                                                                                                                               \\
+    F10                       & P23                                                 & \textit{User} ingin mendaftarkan dua \textit{devices} dengan nama "raspi-master" dan
+    raspi-worker"             & \textit{User} berhasil mendaftarkan \textit{device} & Sesuai                                                                                                                                                                                                     \\
     \hline
-    F13                       & P24                                                 & \textit{User} mendaftarkan \textit{group} dengan nama "raspi-group-blink"                      & \textit{User} berhasil mendaftarkan \textit{group}                                        & Sesuai  \\
+    F13                       & P24                                                 & \textit{User} ingin mendaftarkan \textit{group} dengan nama "raspi-group-blink"                      & \textit{User} berhasil mendaftarkan \textit{group}                                        & Sesuai  \\
     \hline
-    F16                       & P25                                                 & \textit{User} mendaftarkan \textit{device} pada \textit{group} dengan nama "raspi-group-blink" & \textit{User} berhasil mendaftarkan \textit{device} ke \textit{group} "raspi-group-blink" & Sesuai  \\
+    F16                       & P25                                                 & \textit{User} ingin mendaftarkan \textit{device} pada \textit{group} dengan nama "raspi-group-blink" & \textit{User} berhasil mendaftarkan \textit{device} ke \textit{group} "raspi-group-blink" & Sesuai  \\
     \hline
-    F17                       & P26                                                 & \textit{User} mendaftarkan \textit{deployment images} dengan nama "raspi-image-blink"          & \textit{User} berhasil mendaftarkan \textit{deployment images}                            & Sesuai  \\
+    F17                       & P26                                                 & \textit{User} ingin mendaftarkan \textit{deployment images} dengan nama "raspi-image-blink"          & \textit{User} berhasil mendaftarkan \textit{deployment images}                            & Sesuai  \\
     \hline
   \end{tabular}
 \end{table}
@@ -136,7 +136,7 @@
 
     F18                       & P27                      & \textit{User} melihat daftar \textit{deployment images} yang tersedia dengan mengunjungi halaman /deployments                                                                                                                         & \textit{User} berhasil melihat daftar \textit{deployment images}       & Sesuai  \\
     \hline
-    F20                       & P28                      & \textit{User} membuat \textit{deployment plan} dengan nama "raspi-deployment-blink"                                                                                                                                                   & \textit{User} berhasil membuat \textit{deployment plan}                & Sesuai  \\
+    F20                       & P28                      & \textit{User} membuat \textit{deployment plan} dengan nama "raspi-deployment-blink"                                                                                                                                                   & \textit{User} berhasil untuk membat \textit{deployment plan}           & Sesuai  \\
     \hline
     F21                       & P29                      & \textit{User} melihat daftar \textit{deployment plan} yang tersedia dengan mengunjungi halaman /deployments                                                                                                                           & \textit{User} berhasil melihat daftar \textit{deployment plan}         & Sesuai  \\
     \hline
@@ -156,23 +156,23 @@
   \centering
   \begin{tabular}{|p{2cm}|p{2cm}|p{3cm}|p{3cm}|p{1.5cm}|}
     \hline
-    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                                          & \centering{Ekspektasi}                                                 & Realita \\
+    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                                              & \centering{Ekspektasi}                                                   & Realita \\
     \hline
-    F01                       & P32                      & \textit{Admin} membuat \textit{company} yang dengan nama "test-semhas"                                        & \textit{Admin} berhasil mendaftarkan \textit{company}                  & Sesuai  \\
+    F01                       & P32                      & \textit{Admin} membuat \textit{company} yang dengan nama "test-semhas"                                            & \textit{Admin} berhasil mendaftarkan \textit{company}                    & Sesuai  \\
     \hline
-    F04                       & P33                      & \textit{Admin} membuat \textit{user} yang dengan email  "test@gmail.com"                                      & \textit{Admin} berhasil membuat \textit{user} dengan email yang sesuai & Sesuai  \\
+    F04                       & P33                      & \textit{Admin} membuat \textit{user} yang dengan email  "test@gmail.com"                                          & \textit{Admin} berhasil membuat \textit{user} dengan email yang sesuai   & Sesuai  \\
     \hline
-    F06                       & P34                      & \textit{User} melakukan login dengan email  "test@gmail.com"                                                  & \textit{User} berhasil login                                           & Sesuai  \\
+    F06                       & P34                      & \textit{User} ingin melakukan login dengan email  "test@gmail.com"                                                & \textit{User} berhasil melakukan login                                   & Sesuai  \\
     \hline
-    F10                       & P35                      & \textit{User} mendaftarkan \textit{device} dengan nama "raspberrypi-pi-1" dengan nama node "master-cluster"   & \textit{User} berhasil mendaftarkan \textit{device}                    & Sesuai  \\
+    F10                       & P35                      & \textit{User} ingin mendaftarkan \textit{device} dengan nama "raspberrypi-pi-1" dengan nama node "master-cluster" & \textit{User} berhasil mendaftarkan \textit{device}                      & Sesuai  \\
     \hline
-    F18                       & P36                      & \textit{User} melihat daftar \textit{deployment images} yang tersedia dengan mengunjungi halaman /deployments & \textit{User} berhasil melihat daftar \textit{deployment images}       & Sesuai  \\
+    F18                       & P36                      & \textit{User} melihat daftar  \textit{deployment images} yang tersedia dengan mengunjungi halaman /deployments    & \textit{User} berhasil melihat daftar seluruh \textit{deployment images} & Sesuai  \\
     \hline
-    F20                       & P37                      & \textit{User} membuat \textit{deployment plan} dengan nama "deploy-nginx-to-system"                           & \textit{User} berhasil membuat \textit{deployment plan}                & Sesuai  \\
+    F20                       & P37                      & \textit{User} membuat \textit{deployment plan} dengan nama "deploy-nginx-to-system"                               & \textit{User} berhasil untuk membuat \textit{deployment} \textit{plan}   & Sesuai  \\
     \hline
-    F22                       & P38                      & \textit{User} menghapus \textit{deployment plan} dengan nama "deploy-nginx-to-system"                         & \textit{User} berhasil melihat menghapus \textit{deployment plan}      & Sesuai  \\
+    F22                       & P38                      & \textit{User} menghapus \textit{deployment plan} dengan nama "deploy-nginx-to-system"                             & \textit{User} berhasil melihat menghapus \textit{deployment plan}        & Sesuai  \\
     \hline
-    F19                       & P39                      & \textit{User} menghapus \textit{deployment images} dengan nama NGINX                                          & \textit{User} berhasil menghapus \textit{deployment images}            & Sesuai  \\
+    F19                       & P39                      & \textit{User} menghapus satu \textit{deployment images} dengan nama NGINX                                         & \textit{User} berhasil menghapus \textit{deployment images}              & Sesuai  \\
     \hline
   \end{tabular}
 \end{table}
