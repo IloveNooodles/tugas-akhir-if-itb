@@ -9,10 +9,9 @@ Pengujian dengan ID P05 dilakukan dengan skenario yaitu admin berhasil membuat \
   \item Mengisi \textit{field company\textunderscore id} dengan nilai yang telah didapat sebelumnya yaitu "d6c03902-3758-47bd-994d-616e1917cc61"
 \end{enumerate}
 
-\textit{Request} dibuat dengan membuat request menggunakan Postman pada url /admin-api/v1/users dengan metode POST. \textit{Request dan response} dapat dilihat pada gambar \ref{fig:pengujian-p05}
+\textit{Request} dibuat dengan membuat request menggunakan Postman pada url /admin-api/v1/users dengan metode POST. \textit{Request dan response} dapat dilihat pada lampiran \ref{fig:pengujian-p05}
 
-
-Pengujian dengan ID P06 dilakukan dengan skenario yaitu admin ingin menghapus \textit{user} dengan id tertentu dari daftar \textit{user} pada sistem. Admin membuat DELETE request dengan Postman ke url /admin-api/v1/users/:id. Admin menggunakan id user yang berhasil dibuat sesuai dengan gambar \ref{fig:pengujian-p05} sebagai parameter untuk \textit{user} yang dihapus. \textit{Request dan Response} dapat dilihat pada gambar \ref{fig:pengujian-p06}.
+Pengujian dengan ID P06 dilakukan dengan skenario yaitu admin ingin menghapus \textit{user} dengan id tertentu dari daftar \textit{user} pada sistem. Admin membuat DELETE request dengan Postman ke url /admin-api/v1/users/:id. Admin menggunakan id user yang berhasil dibuat sesuai dengan lampiran \ref{fig:pengujian-p05} sebagai parameter untuk \textit{user} yang dihapus. \textit{Request dan Response} dapat dilihat pada lampiran \ref{fig:pengujian-p06}.
 
 Pengujian dengan ID P07 dilakukan dengan skenario yaitu user ingin login ke dalam sistem. Langkah langkah yang dilakukan:
 
@@ -23,7 +22,7 @@ Pengujian dengan ID P07 dilakukan dengan skenario yaitu user ingin login ke dala
   \item Kilk tombol "login"
 \end{enumerate}
 
-Setelah seluruh langkah dilakukan, muncul sebuah modal pada kanan bawah dengan pesan "sucess login, redirecting" serta redirect ke halaman / yang menunjukan bahwa proses login telah berhasil. Hasil dapat dilihat pada gambar \ref{fig:pengujian-p07}
+Setelah seluruh langkah dilakukan, muncul sebuah modal pada kanan bawah dengan pesan "sucess login, redirecting" serta redirect ke halaman / yang menunjukan bahwa proses login telah berhasil. Hasil dapat dilihat pada lampiran \ref{fig:pengujian-p07}
 
 Pengujian dengan ID P08 dilakukan dengan skenario yaitu user ingin login ke dalam sistem dengan kredensial yang tidak valid. Langkah langkah yang dilakukan:
 
@@ -34,11 +33,10 @@ Pengujian dengan ID P08 dilakukan dengan skenario yaitu user ingin login ke dala
   \item Kilk tombol "login"
 \end{enumerate}
 
-Setelah seluruh langkah dilakukan, muncul sebuah modal pada kanan bawah dengan pesan "invalid combination email or password". Dengan adanya modal ini \textit{user} menjadi \textit{aware} bahwa proses login yang dilakukan gagal dan perlu melakukan pengecekan kembali input yang dimasukkan. Hasil dapat dilihat pada gambar \ref{fig:pengujian-p08}
+Setelah seluruh langkah dilakukan, muncul sebuah modal pada kanan bawah dengan pesan "invalid combination email or password". Dengan adanya modal ini \textit{user} menjadi \textit{aware} bahwa proses login yang dilakukan gagal dan perlu melakukan pengecekan kembali input yang dimasukkan. Hasil dapat dilihat pada lampiran \ref{fig:pengujian-p08}
 
 Pengujian dengan ID P09 dilakukan dengan skenario yaitu user ingin logout dari sistem. Pengujian dilakukan dengan cara menekan tombol logout pada bagian kiri bawah \textit{sidebar}. Setelah itu cookie dihapus dan dilakukan \textit{redirect} ke /login page.
 
-Pengujian dengan ID P10, P11 dilakukan dengan skenario yaitu setelah \textit{user} berhasil login, \textit{user} ingin mendapatkan informasi detail \textit{company} serta seluruh \textit{user} pada \textit{company} tersebut dengan mengunjungi halaman /account. Halaman ini dapat dikunjungi dengan cara menekan tombol "account" pada sidebar. Hasil dapat dilihat pada gambar \ref{fig:pengujian-p08-09}.
+Pengujian dengan ID P10, P11 dilakukan dengan skenario yaitu setelah \textit{user} berhasil login, \textit{user} ingin mendapatkan informasi detail \textit{company} serta seluruh \textit{user} pada \textit{company} tersebut dengan mengunjungi halaman /account. Halaman ini dapat dikunjungi dengan cara menekan tombol "account" pada sidebar. Hasil dapat dilihat pada lampiran \ref{fig:pengujian-p08-09}.
 
-Seluruh rekap pengujian pada domain \textit{user} dapat dilihat pada tabel \ref{tab:pengujian-domain-user}. Berdasarkan hasil yang diperoleh, terbukti bahwa kebutuhan fungsional dengan ID F04 hingga F09 telah terimplementasi dengan baik.
-
+Seluruh rekap pengujian pada domain \textit{user} dapat dilihat pada lampiran \ref{tab:pengujian-domain-user}. Berdasarkan hasil yang diperoleh, terbukti bahwa kebutuhan fungsional dengan ID F04 hingga F09 telah terimplementasi dengan baik.

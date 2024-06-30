@@ -3,6 +3,7 @@ package deployments
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/IloveNooodles/tugas-akhir-if-itb/impl/manager/internal/controller"
 	"github.com/google/uuid"
@@ -47,7 +48,7 @@ func (u *Usecase) Deploy(ctx context.Context, deployments []DeploymentWithReposi
 		labels := convertTargetToMap(deployment.Target)
 		p := controller.DeployParams{
 			Replica:     int32(replica),
-			Name:        deployment.Name,
+			Name:        strings.ToLower(deployment.Name),
 			Image:       deployment.RepositoryImage,
 			Labels:      labels,
 			Targets:     labels,
@@ -74,7 +75,7 @@ func (u *Usecase) DeleteDeploy(ctx context.Context, deployments []DeploymentWith
 		labels := convertTargetToMap(deployment.Target)
 		p := controller.DeployParams{
 			Replica:     1,
-			Name:        deployment.Name,
+			Name:        strings.ToLower(deployment.Name),
 			Image:       deployment.RepositoryImage,
 			Labels:      labels,
 			Targets:     labels,

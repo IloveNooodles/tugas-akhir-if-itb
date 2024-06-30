@@ -3,15 +3,15 @@
 Pengujian ini mencakup pengujian dengan ID P32 hingga P39. Pada pengujian sistem ini, dilakukan proses \textit{remote deployment} NGINX pada \textit{cluster GCP} dengan cluster name "prod-cluster-example". Pengujian ini dilakukan untuk membuktikan \textit{compatibility} dari sistem yang tidak terbatas pada IoT namun seluruh perangkat yang berbasis UNIX. Proses \textit{remote deployment} dilakukan dengan menggunakan image NGINX yang ada pada \textit{dockerhub}. Pengujian dilakukan dengan mengikuti langkah langkah berikut:
 
 \begin{enumerate}
-  \item Membuat \textit{company} "test-semhas" dan nama cluster "prod-cluster-example". Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-gcp-01}
-  \item Membuat \textit{user} dengan email "test@gmail.com", nama "test-user-semhas". Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-gcp-02}
-  \item Login dengan menggunakan kredensial "test@gmail.com". Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-gcp-03}
-  \item Mengunjungi halaman /devices lalu membuat \textit{device} "raspberrypi-pi-1" dan nama \textit{node} "master-cluster" serta memiliki label "sukses=aamiin". Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-gcp-04}
-  \item Mengunjungi halaman /deployments lalu membuat \textit{deployment plan v1} dengan mengambil repository "nginx" serta memiliki nama "deploy-nginx-to-system". Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-gcp-05}
-  \item Mengunjungi halaman /remote-deployment lalu melakukan \textit{deployment} dengan tipe "TARGET". Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-gcp-06}
-  \item Setelah deployment berhasil dilakukan, hapus \textit{deployment} yang telah dibuat. Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-gcp-07}.
-  \item Mengunjungi halaman /deployments lalu menghapus \textit{deployment plan} dengan nama "deploy-nginx-to-system". Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-gcp-08}
-  \item Mengunjungi halaman /deployments lalu menghapus \textit{deployment image} dengan nama NGINX. Hasil dapat dilihat pada gambar \ref{fig:pengujian-sistem-gcp-09}
+  \item Membuat \textit{company} "test-semhas" dan nama cluster "prod-cluster-example". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gcp-01}
+  \item Membuat \textit{user} dengan email "test@gmail.com", nama "test-user-semhas". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gcp-02}
+  \item Login dengan menggunakan kredensial "test@gmail.com". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gcp-03}
+  \item Mengunjungi halaman /devices lalu membuat \textit{device} "raspberrypi-pi-1" dan nama \textit{node} "master-cluster" serta memiliki label "sukses=aamiin". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gcp-04}
+  \item Mengunjungi halaman /deployments lalu membuat \textit{deployment plan v1} dengan mengambil repository "nginx" serta memiliki nama "deploy-nginx-to-system". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gcp-05}
+  \item Mengunjungi halaman /remote-deployment lalu melakukan \textit{deployment} dengan tipe "TARGET". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gcp-06}
+  \item Setelah deployment berhasil dilakukan, hapus \textit{deployment} yang telah dibuat. Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gcp-07}.
+  \item Mengunjungi halaman /deployments lalu menghapus \textit{deployment plan} dengan nama "deploy-nginx-to-system". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gcp-08}
+  \item Mengunjungi halaman /deployments lalu menghapus \textit{deployment image} dengan nama NGINX. Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gcp-09}
 \end{enumerate}
 
-Setelah seluruh langkah dilakukan, pengujian dengan ID P32 hingga P39 berhasil diimplementasikan. Seluruh rekap pengujian dapat dilihat pada tabel \ref{tab:pengujian-sistem-gcp}.
+Setelah seluruh langkah dilakukan, pengujian dengan ID P32 hingga P39 berhasil diimplementasikan. Seluruh rekap pengujian dapat dilihat pada lampiran \ref{tab:pengujian-sistem-gcp}.
