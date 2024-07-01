@@ -5,9 +5,8 @@ Bab Kesimpulan dan Saran akan menjadi bagian akhir dan penutup dari penelitian t
 \section{Kesimpulan}
 Penelitian tugas akhir ini mengimplementasikan cara untuk melakukan \textit{remote deployment} pada lingkungan IoT dengan menggunakan kubernetes. Setelah dilakukan analisis, implementasi, dan pengujian, dapat diambil kesimpulan sebagai berikut.
 \begin{enumerate}
-  \item Sistem \textit{remote deployment} dengan Kubernetes berhasil dibuat dengan arsitektur yang tersentralisasi untuk mengatur proses \textit{remote deployment} pada lingkungan IoT maupun non IoT. Sistem sudah dibuat dengan baik dan berhasil untuk memenuhi kebutuhan fungsional yang telah didefinisikan sebelumnya, namun memiliki \textit{single point of failure} karena arsitektur yang terpusat.
-  \item Dengan sistem \textit{remote deployment}, perusahaan dapat dengan mudah untuk melakaukan manajemen perangkat IoT dan melakukan \textit{deployment} dengan mudah.
-  \item Kubernetes sudah cocok sebagai \textit{resource manager} yang dipakai untuk proses \textit{remote deployment} pada sistem ini. Dengan seluruh fungsionalitasnya, kubernetes dapat memudahkan dalam proses manajemen perangkat, group, serta \textit{deployment plan}.
+  \item  Penelitian ini berhasil merancang dan mengimplementasikan arsitektur sistem \textit{remote deployment} yang bersifat \textit{platform agnostic} menggunakan Kubernetes. Sistem ini memungkinkan untuk melakukan proses \textit{deployment} dengan metode tanpa kabel (non-serial) terbukti dari implementasi pada Raspberry Pi dengan dua node serta pada lingkungan \textit{virtual machine} dengan konfigurasi node yang sama. Pengujian fungsional dan \textit{end-to-end} mengkonfirmasi bahwa sistem berjalan dengan baik dan memenuhi semua kebutuhan fungsional yang telah didefinisikan.
+  \item Sistem \textit{remote deployment} berbasis Kubernetes dapat beroperasi dengan baik pada perangkat dengan keterbatasan sumber daya hardware, seperti Raspberry Pi. Implementasi dengan menggunakan K3s, distribusi Kubernetes yang ringan, memungkinkan deployment pada perangkat low-resource, membuktikan bahwa solusi ini dapat diadaptasi untuk lingkungan IoT dengan sumber daya terbatas.
 \end{enumerate}
 
 \section{Saran}
