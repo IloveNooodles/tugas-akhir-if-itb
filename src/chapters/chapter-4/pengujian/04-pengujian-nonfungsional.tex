@@ -1,0 +1,45 @@
+\subsection{Pengujian Non Fungsional}
+Pada bagian ini, dilakukan pengujian terhadap kebutuhan non-fungsional sistem. Terdapat tiga kebutuhan nonfungsional mulai dari \textit{Security dan Portability}.
+
+\subsubsection{Security}
+Pengujian kebutuhan non-fungsional ini dilakukan dengan cara mencoba mengakses \textit{dashboard} dan \textit{service} tanpa meletakan token authentikasi. Bilang yang mau diuji dua aspek ini muali dari auth dan authorization
+
+\begin{enumerate}
+  \item Mengakses \textit{dashboard} tanpa kredensial
+
+        Ketika mengakses \textit{dashboard} tanpa memiliki kredensial, \textit{dashboard} memiliki \textit{middleware} yang akan mengecek token yang disimpan pada \textit{client}. Jika token tidak valid maka sistem akan langsung melakukan \textit{redirect} ke halaman login.
+
+  \item Mengakses user \textit{service} tanpa kredensial
+
+        Ketika mencoba untuk mengakses \textit{service} pada endpoint apapun, \textit{service} memiliki \textit{middleware}
+        yang akan mengecek header authentikasi yang dikirimkan oleh client. Jika kredensial pada header tidak dicantumkan maka akan mengembalikan \textit{401 Unauthorized} \ref{fig:akses-service-user}
+
+  \item Mengakses admin \textit{service} tanpa kredensial
+
+        Admin endpoint memiliki \textit{middleware} validateAdminJWTKey. Ketika mencoba untuk mengakses \textit{endpoint} admin tanpa memberikan header X-Admin-Api-Key yang sesuai maka \textit{service} akan mengembalikan \textit{401 Unauthorized} seperti pada lampiran \ref{fig:akses-service-admin}
+
+  \item Mengakses \textit{url kubernetes} tanpa kredensial
+
+        Seluruh cluster kubernetes akan mengexpose endpoint pada port 6443. Pengujian ini akan mengakses url kubernetes yaitu https://34.101.95.240:6443/. Ketika diakses, hasilnya akan menunjukan status \textit{401 Unauthorized} seperti pada lampiran \ref{fig:akses-service-kubernetes}
+
+\end{enumerate}
+
+\subsubsection{Portability}
+Pengujian kebutuhan non-fungsional ini dialkukan dengan dua skenario yaitu mengakses \textit{dashboard} dari mobile serta mengakses dari berbagai \textit{browser}.
+
+Portability tidak
+
+\begin{enumerate}
+  \item Mengakses \textit{dashboard} dari perangkat mobile
+
+        \textit{dashboard} berhasil diakses melalui perangkat mobile dan dapat dilihat hasil dapat dilihat pada lampiran \ref{fig:akses-dashboard-mobile}.
+
+  \item Mengakses \textit{dashboard} dari Chromium based browser
+
+        \textit{dashboard} berhasil diakses melalui browser safari yang dapat dilhat pada lampiran \ref{fig:akses-dashboard-chromium}.
+
+  \item Mengakses \textit{dashboard} dari browser safari
+
+        \textit{dashboard} berhasil diakses melalui browser chromium based yaitu Arc yang dapat dilhat pada lampiran \ref{fig:akses-dashboard-safari}.
+
+\end{enumerate}
