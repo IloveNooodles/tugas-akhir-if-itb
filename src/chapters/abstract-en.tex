@@ -3,26 +3,27 @@
 \addcontentsline{toc}{chapter}{Abstract}
 
 \begin{center}
-    \center
-    \begin{singlespace}
-      \large\bfseries\MakeUppercase{Automatic Scaling with Flexible Control Based on Time Series Predictive Model for Kubernetes Resource Efficiency on Elastic Search Pods}
-  
-      \normalfont\normalsize
-      By:
-  
-      \bfseries \theauthor
-    \end{singlespace}
-\end{center} 
+  \center
+  \begin{singlespace}
+    \large\bfseries\MakeUppercase{Design and Implementation of Remote Deployment System for IoT Devices}
+    
+    \normalfont\normalsize
+    By:
+    
+    \bfseries \theauthor
+  \end{singlespace}
+\end{center}
 
 
 \begin{singlespace}
-    \small
-    With the advancement of the digital world, applications greatly influence human life, from search engines and social media to e-commerce. These applications have transformed the way we interact and access information. Naturally, the development of such applications heavily relies on information retrieval systems. One of the most popular information retrieval systems nowadays is Elastic Search. In its application, Elastic Search is widely used to provide sophisticated search capabilities, enabling quick product discovery in e-commerce and relevant, personalized search results in social media platforms. However, a drawback of Elastic Search is that, by default, it will consume all available memory for processing. If allocated too little memory, the processor will struggle to perform search operations without memory assistance. On the other hand, resource overprovisioning doesn't always lead to poor performance for Elastic Search, as it depends on the context of stored data and user needs.
-
-    Therefore, a flexible autoscaling technique is needed to ensure Elastic Search runs optimally and aligns with the tradeoff tolerance between cost and performance. This autoscaler will be built on Kubernetes for container orchestration and use ARIMA as the prediction model. The system will retrieve metrics from Elastic Search and predict throughput and processor and memory utilization. These predictions will be used to meet user-defined requirements for scaling. Users can define conditions that the system will use as references to make scaling decisions. Testing has been conducted for each component and a full system to ensure that specifications and functionality meet the requirements. Comparisons with Vertical and Horizontal Autoscalers have been made, and in essence, this method can replace the options of Vertical and Horizontal Autoscalers in the context of Elastic Search pods.
-
-    Ultimately, the autoscaler with a prediction model performs better in scaling compared to a simple autoscaler that uses thresholds. A suitable prediction model is a time series-based prediction model like ARIMA.
-    \textbf{\textit{Keywords: Autoscaler, Kubernetes, Flexible Control, ARIMA, Elastic Search, Predictive Autoscaler}}
+  \small
+  As the number of Internet of Things (IoT) device users increases, the device management process becomes more time-consuming and complex. One critical process in IoT device management is the deployment process, which is typically carried out serially from one device to another. This method is highly time-consuming and requires resources that could be better utilized for other management processes. Effective management of the deployment process is essential to ensure the reliability and optimal performance of the growing IoT network. With the advancement of IoT technology, the Over The Air (OTA) method has been introduced, allowing deployments to be done remotely. Despite the many improvements brought by OTA, scalable device management remains a challenge.
+  
+  This study aims to design a remote deployment system to address the issues found in the OTA method. The designed system must be platform agnostic, meaning it can run on any platform, and it must be capable of operating on resource-constrained devices to manage a large number of IoT applications. By addressing these requirements, the system seeks to provide an efficient and scalable solution for IoT device management.
+  
+  The implementation of the remote deployment system was successfully achieved using Kubernetes as the orchestration tool. Kubernetes, which has proven effective in managing containerized applications in cloud environments, can be implemented in IoT environments using the K3s distribution to address resource constraints. With the help of Kubernetes, the deployment process can be executed on any device with containerization features. The implemented system allows remote deployment across various platforms, from Raspberry Pi and virtual machines to local clusters created with containers. Deployment was carried out on two Raspberry Pi devices running as a Kubernetes cluster to control two lights connected to each Raspberry Pi. As a result, the remote deployment process was successfully conducted even on resource-constrained Raspberry Pi devices.
+  
+  \textbf{\textit{Keywords: IoT, Raspberry Pi, Remote Deployment, Kubernetes }}
 \end{singlespace}
 \clearpage
 
