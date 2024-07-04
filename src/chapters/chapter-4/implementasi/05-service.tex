@@ -5,7 +5,7 @@ Implementasi \textit{service} dibuat dengan menggunakan bahasa pemrogramman gola
 
 Pemisahan lapisan ini mengikuti design pattern yaitu \textit{dependency injection}. Selain itu, pemisahan ini juga bertujuan memudahkan testing dan meningkatkan \textit{maintanability} karena mudah untuk dibaca dan dipahami. \textit{endpoint} dibuat dengan menggunakan versioning dengan base \textit{endpoint} /v1. Versioning digunakan untuk memudahkan penggantian endpoint jika suatu saat terdapat perubahan major yang bersifat \textit{breaking}. Selain itu base \textit{endpoint} untuk \textit{user} dan \textit{admin} memiliki perbedaan pada prefix /api dan /admin-api
 
-Pada sistem ini terdapat \textit{middleware} yang digunakan untuk melakukan autorisasi \textit{pengguna}. Berikut merupakan daftar dan penjelasan \textit{middleware} pada sistem
+Pada sistem ini terdapat \textit{middleware} yang digunakan untuk melakukan otorisasi \textit{pengguna}. Berikut merupakan daftar dan penjelasan \textit{middleware} pada sistem
 
 \begin{enumerate}
   \item ValidateAPIKey
@@ -19,7 +19,7 @@ Pada sistem ini terdapat \textit{middleware} yang digunakan untuk melakukan auto
 
   \item ValidateAdminAPIKey
 
-        \textit{middleware} ini memiliki fungsi untuk melakukan autorisasi \textit{admin}. Terdapat Admin API Key yang dilietakan pada header dari setiap \textit{request} dengan key X-Admin-API-Key. Middleware ini berjalan untuk seluruh \textit{endpoint} dengan prefix admin-api.
+        \textit{middleware} ini memiliki fungsi untuk melakukan otorisasi \textit{admin}. Terdapat Admin API Key yang dilietakan pada header dari setiap \textit{request} dengan key X-Admin-API-Key. Middleware ini berjalan untuk seluruh \textit{endpoint} dengan prefix admin-api.
 \end{enumerate}
 
 
@@ -125,7 +125,7 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 
         Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{email} dan \textit{password} dari \textit{requester}. Kedua field tersebut digunakan untuk mencari \textit{user} yang bersesuaian pada \textit{database}. Setelah data ditemukan dilakukan validasi password dengan cara melakukan \textit{compare hash} password dengan hash password yang tersimpan di \textit{database}. Setelah semua validasi berhasil dilakukan maka dikembalikan response serta cookie yang dengan "accessToken" dan "refreshToken". Apabila gagal maka diberikan pesan error
 
-        Kedua cookie ini digunakan untuk mengautorisasi setiap request. "accessToken" memiliki waktu \textit{expire} selama 1 jam dan "refreshToken" memiliki waktu \textit{expire} selama 1 hari. Untuk meningkatkan keamanan dan menghindari CSRF, Cookie di set dengan attribut "httpOnly", "sameSiteLax", serta "secure".
+        Kedua cookie ini digunakan untuk mengotorisasi setiap request. "accessToken" memiliki waktu \textit{expire} selama 1 jam dan "refreshToken" memiliki waktu \textit{expire} selama 1 hari. Untuk meningkatkan keamanan dan menghindari CSRF, Cookie di set dengan attribut "httpOnly", "sameSiteLax", serta "secure".
 
   \item Refresh
 
