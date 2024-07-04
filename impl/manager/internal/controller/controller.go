@@ -111,7 +111,7 @@ func (k *KubernetesController) SwitchContext(ctx string) error {
 	}
 
 	currentContext := rawConfig.CurrentContext
-	k.Logger.Infof("current context %s", currentContext)
+	// k.Logger.Infof("current context %s", currentContext)
 
 	if currentContext == ctx {
 		return nil

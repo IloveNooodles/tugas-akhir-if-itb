@@ -1,0 +1,20 @@
+services:
+  mqtt-broker:
+    image: eclipse-mosquitto
+    ports:
+      - '1883:1883'
+      - '9001:9001'
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+
+  mqtt-client:
+    build: ./client
+    depends_on:
+      - mqtt-broker
+
+  mqtt-server:
+    build: ./server
+    depends_on:
+      - mqtt-broker

@@ -1,1 +1,32 @@
 \subsubsection{Pengujian Gagal deployment}
+Pengujian ini mencakup pengujian dengan ID40 hingga P46. Pada pengujian sistem ini, dilakukan proses \textit{Remote Deployment} yang gagal. Gagal berarti \textit{deployment} berhasil dilakukan dengan baik namun aplikasi gagal untuk dijalankan. Kegagalan dapat disebabkan oleh dua hal yaitu:
+\begin{enumerate}
+  \item Tidak ada \textit{device} yang memiliki label yang sesuai dengan target \textit{deployment}
+  \item \textit{Image} yang tidak tersedia pada \textit{dockerhub}
+\end{enumerate}
+Pengujian ini akan mencakup kedua kegagalan yaitu dibuat \textit{deployment} dengan label yang tidak ada serta \textit{deployment} dengan image yang tidak ada pada \textit{dockerhub}. Ketika terjadi kegagalan proses \textit{deployment} akan secara otomatis dihapus karena terdapat sebuah \textit{asynchronus checking} setiap 10 detik dan sebuah timeout selama 200 detik yang membatasi waktu proses \textit{deployment}.
+
+Pengujian kegagalan label dilakukan dengan mengikuti langkah langkah berikut:
+
+\begin{enumerate}
+  \item Login dengan menggunakan kredensial "test@gmail.com" dan password yaitu "inicontohpasswordges". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gagal-00}
+  \item Mengunjungi halaman /deployments lalu buat \textit{deployment plan} dengan nama repository "deploy-mqtt-client" dengan v1 dan nama "deployment-plan-mqtt-client-failed" serta memiliki label "temperature=false". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gagal-01}
+  \item Mengunjungi halaman /remote-deployment lalu melakukan \textit{deployment} dengan plan sebelumnya serta memiliki tipe "TARGET"
+  \item \textit{Deployment} akan gagal karena tidak terdapat \textit{device} dengan label yang sesuai dengan \textit{deployment plan} Hasil dapat dilhat pada lampiran \ref{fig:pengujian-sistem-gagal-02}
+  \item \textit{Program} akan melakukan \textit{polling} setiap 10 detik. Lalu setelah 200 detik \textit{deployment} akan dihapus, menandakan bahwa terdapat kegagalan pada \textit{deployment}. Hasil dapat dilhat pada lampiran \ref{fig:pengujian-sistem-gagal-03}
+\end{enumerate}
+
+Kegagalan pada kasus ini, disebabkan label pada deployment yang menargetkan "temperature=false" sedangkan kedua \textit{device} yang ada tidak memiliki label tersebut. Sehingga \textit{scheduler} pada kubernetes tidak bisa membuat \textit{deployment} dan sistem menghapus \textit{deployment} setelah melewati waktu \textit{timeout} 200 detik.
+
+Selanjutnya, Pengujian kegagalan image dilakukan dengan mengikuti langkah langkah berikut:
+
+\begin{enumerate}
+  \item Login dengan menggunakan kredensial "test@gmail.com" dan password yaitu "inicontohpasswordges". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gagal-01}
+  \item Mengunjungi halaman /deployments lalu membuat repository dengan image "nonexist-image". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gagal-06}
+  \item Pada halaman yang sama, buat \textit{deployment plan} dengan repository yang telah dibuat dengan v1 dan nama "deployment-image" serta memiliki label "sukses=aamiin". Hasil dapat dilihat pada lampiran \ref{fig:pengujian-sistem-gagal-07}
+  \item Mengunjungi halaman /remote-deployment lalu melakukan \textit{deployment} dengan plan sebelumnya serta memiliki tipe "TARGET"
+  \item \textit{Deployment} akan gagal karena tidak menemukan image "nonexist-image" pada \textit{dockerhub}. Hasil dapat dilhat pada lampiran \ref{fig:pengujian-sistem-gagal-08}
+  \item \textit{Program} akan melakukan \textit{polling} setiap 10s. Lalu setelah 200 detik \textit{deployment} akan dihapus, menandakan bahwa terdapat kegagalan pada \textit{deployment}. Hasil dapat dilhat pada lampiran \ref{fig:pengujian-sistem-gagal-09}
+\end{enumerate}
+
+Kegagalan pada pengujian ini disebabkan oleh tidak tersedianya image "nonexist-image" pada \textit{dockerhub}. Hal ini menyebabkan terjadi error ketika proses \textit{deployment} yaitu ErrImagePull, yang diakibatkan error ketika mengambil image dari \textit{dockerhub} seperti pada lampiran \ref{fig:pengujian-sistem-gagal-08}

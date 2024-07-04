@@ -168,11 +168,39 @@
     \hline
     F18                       & P36                      & \textit{User} melihat daftar  \textit{deployment images} yang tersedia dengan mengunjungi halaman /deployments    & \textit{User} berhasil melihat daftar seluruh \textit{deployment images} & Sesuai  \\
     \hline
-    F20                       & P37                      & \textit{User} membuat \textit{deployment plan} dengan nama "deploy-nginx-to-system"                               & \textit{User} berhasil untuk membuat \textit{deployment} \textit{plan}   & Sesuai  \\
+    F20                       & P37                      & \textit{User} membuat \textit{deployment plan} dengan nama "deploy-mqtt-client"                                   & \textit{User} berhasil untuk membuat \textit{deployment} \textit{plan}   & Sesuai  \\
     \hline
-    F22                       & P38                      & \textit{User} menghapus \textit{deployment plan} dengan nama "deploy-nginx-to-system"                             & \textit{User} berhasil melihat menghapus \textit{deployment plan}        & Sesuai  \\
+    F22                       & P38                      & \textit{User} menghapus \textit{deployment plan} dengan nama "deploy-mqtt-client"                                 & \textit{User} berhasil melihat menghapus \textit{deployment plan}        & Sesuai  \\
     \hline
-    F19                       & P39                      & \textit{User} menghapus satu \textit{deployment images} dengan nama NGINX                                         & \textit{User} berhasil menghapus \textit{deployment images}              & Sesuai  \\
+    F19                       & P39                      & \textit{User} menghapus satu \textit{deployment images} dengan nama mqtt-client                                   & \textit{User} berhasil menghapus \textit{deployment images}              & Sesuai  \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
+
+\bgroup
+\begin{table}[ht]
+  \def\arraystretch{1.3}
+  \caption{Skenario dan Hasil Pengujian Sistem degan Kasus Gagal}
+  \label{tab:pengujian-sistem-gagal}
+  \centering
+  \begin{tabular}{|p{2cm}|p{2cm}|p{3cm}|p{3cm}|p{1.5cm}|}
+    \hline
+    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                                                                & \centering{Ekspektasi}                                                                                                            & Realita \\
+    \hline
+    F06                       & P40                      & \textit{User} ingin melakukan login dengan email  "test@gmail.com"                                                                  & \textit{User} berhasil melakukan login                                                                                            & Sesuai  \\
+    \hline
+    F17                       & P41                      & \textit{User} ingin mendaftarkan \textit{deployment images} dengan nama "nonexist-image"                                            & \textit{User} berhasil melakukan mendaftarkan \textit{deployment images}                                                          & Sesuai  \\
+    \hline
+    F18                       & P42                      & \textit{User} melihat daftar  \textit{deployment images} yang tersedia dengan mengunjungi halaman /deployments                      & \textit{User} berhasil melihat daftar seluruh \textit{deployment images}                                                          & Sesuai  \\
+    \hline
+    F20                       & P43                      & \textit{User} membuat \textit{deployment plan} dengan nama "deployment-plan-mqtt-client-failed"                                     & \textit{User} berhasil untuk membuat \textit{deployment} \textit{plan}                                                            & Sesuai  \\
+    \hline
+    F20                       & P44                      & \textit{User} membuat \textit{deployment plan} dengan nama "deployment-image"                                                       & \textit{User} berhasil untuk membuat \textit{deployment} \textit{plan}                                                            & Sesuai  \\
+    \hline
+    F23                       & P45                      & \textit{User} melakukan targeted \textit{remote deployment} dengan menggunakan deployment plan "deployment-plan-mqtt-client-failed" & \textit{User} gagal dalam proses \textit{remote deployment} karena tidak ditemukan label "temperatur=false" pada \textit{devices} & Sesuai  \\
+    \hline
+    F23                       & P46                      & \textit{User} \textit{User} melakukan targeted \textit{remote deployment} dengan menggunakan deployment plan "deployment-plan"      & \textit{User} gagal dalam proses \textit{remote deployment} karena tidak ditemukan image "nonexist-image" pada docker hub         & Sesuai  \\
     \hline
   \end{tabular}
 \end{table}
