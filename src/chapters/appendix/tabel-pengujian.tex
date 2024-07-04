@@ -1,4 +1,5 @@
 \chapter{Tabel Pengujian}
+\label{chapter:tabel-pengujian}
 
 \bgroup
 \begin{table}[ht]
@@ -201,6 +202,50 @@
     F23                       & P45                      & \textit{User} melakukan targeted \textit{remote deployment} dengan menggunakan deployment plan "deployment-plan-mqtt-client-failed" & \textit{User} gagal dalam proses \textit{remote deployment} karena tidak ditemukan label "temperatur=false" pada \textit{devices} & Sesuai  \\
     \hline
     F23                       & P46                      & \textit{User} \textit{User} melakukan targeted \textit{remote deployment} dengan menggunakan deployment plan "deployment-plan"      & \textit{User} gagal dalam proses \textit{remote deployment} karena tidak ditemukan image "nonexist-image" pada docker hub         & Sesuai  \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
+
+\bgroup
+\begin{table}[ht]
+  \def\arraystretch{1.3}
+  \caption{Skenario dan Hasil Pengujian \textit{Security Testing}}
+  \label{tab:pengujian-nonfungsional-security}
+  \centering
+  \begin{tabular}{|p{2cm}|p{2cm}|p{3cm}|p{3cm}|p{1.5cm}|}
+    \hline
+    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                                              & \centering{Ekspektasi}                                                                                                   & Realita \\
+    \hline
+    NF01                      & P47                      & \textit{User} ingin mengakses \textit{dashboard} tanpa memiliki token yang valid                                  & \textit{User} gagal melakukan login dan sistem melakukan \textit{redirect} ke halaman login                              & Sesuai  \\
+    \hline
+    NF01                      & P48                      & \textit{User} ingin mengakses user \textit{endpoint} pada \textit{service} tanpa memiliki API Key yang valid      & \textit{User} tidak dapat mengakses \textit{endpoint} dan \textit{service} mengeluarkan status \textit{401 Unauthorized} & Sesuai  \\
+    \hline
+    NF01                      & P49                      & \textit{User} ingin mengakses admin \textit{endpoint} pada \textit{service} tanpa memiliki API Key yang valid     & \textit{User} tidak dapat mengakses \textit{endpoint} dan \textit{service} mengeluarkan status \textit{401 Unauthorized} & Sesuai  \\
+    \hline
+    NF01                      & P50                      & \textit{User} ingin mengakses kubernetes url pada \textit{service} tanpa memiliki sertifikat dan kredensial valid & \textit{User} tidak dapat mengakses kubernetes url dan mengeluarkan status \textit{401 Unauthorized}                     & Sesuai  \\
+    \hline
+  \end{tabular}
+\end{table}
+\egroup
+
+\bgroup
+\begin{table}[ht]
+  \def\arraystretch{1.3}
+  \caption{Skenario dan Hasil Pengujian \textit{compatibility Testing}}
+  \label{tab:pengujian-nonfungsional-compatibility}
+  \centering
+  \begin{tabular}{|p{2cm}|p{2cm}|p{3cm}|p{3cm}|p{1.5cm}|}
+    \hline
+    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                                              & \centering{Ekspektasi}                                                                                                   & Realita \\
+    \hline
+    NF01                      & P47                      & \textit{User} ingin mengakses \textit{dashboard} tanpa memiliki token yang valid                                  & \textit{User} gagal melakukan login dan sistem melakukan \textit{redirect} ke halaman login                              & Sesuai  \\
+    \hline
+    NF01                      & P48                      & \textit{User} ingin mengakses user \textit{endpoint} pada \textit{service} tanpa memiliki API Key yang valid      & \textit{User} tidak dapat mengakses \textit{endpoint} dan \textit{service} mengeluarkan status \textit{401 Unauthorized} & Sesuai  \\
+    \hline
+    NF01                      & P49                      & \textit{User} ingin mengakses admin \textit{endpoint} pada \textit{service} tanpa memiliki API Key yang valid     & \textit{User} tidak dapat mengakses \textit{endpoint} dan \textit{service} mengeluarkan status \textit{401 Unauthorized} & Sesuai  \\
+    \hline
+    NF01                      & P50                      & \textit{User} ingin mengakses kubernetes url pada \textit{service} tanpa memiliki sertifikat dan kredensial valid & \textit{User} tidak dapat mengakses kubernetes url dan mengeluarkan status \textit{401 Unauthorized}                     & Sesuai  \\
     \hline
   \end{tabular}
 \end{table}
