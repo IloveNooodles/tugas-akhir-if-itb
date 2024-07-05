@@ -3,8 +3,9 @@ Berikut adalah batasan yang ditetapkan dalam melakukan implementasi \textit{sist
 
 \begin{enumerate}
   \item Semua batasan masalah dan konfigurasi yang telah dibahas pada bagian \ref{sec:batasan-masalah}.
+  \item \textit{Platform agnostic} berarti PERISAI dapat dijalankan pada berbagai perangkat yang dapat menjalankan kubernetes.
   \item Kubernetes cluster berjalan di lokal dengan menggunakan kakas \textit{kind} dan hanya dibatasi menjadi 4 node dengan spesifikasi \textit{1 master} dan \textit{3 worker}
-  \item \textit{Device} sudah terkoneksi sebelumnya sehingga tidak perlu register \textit{device} dan menghubungkannya ke dalam \textit{cluster}.
+  \item \textit{Device} sudah terkoneksi sebelumnya sehingga tidak perlu register perangkat sebagai \textit{node} dan menghubungkannya ke dalam \textit{cluster}.
   \item \textit{Dashboard} hanya memilki fungsionalitas untuk \textit{user}
   \item Kubernetes memiliki batasan cluster sebagai berikut:
         \begin{enumerate}

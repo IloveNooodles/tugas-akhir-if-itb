@@ -1,6 +1,8 @@
 \section{Implementasi}
 
-Bagian ini menjelaskan tentang implementasi sistem \textit{remote deployment} secara terperinci. Seperti yang telah dijelaskan pada bagian \ref{sec:rancangan-dashboard} dan \ref{sec:rancangan-service} terdapat dua komponen utama yaitu \textit{dashboard} dan \textit{service}. Penjelasan bagian ini dimulai dari batasan implementasi, dilanjutkan dengan kakas yang digunakan dalam proses pembuatan sistem dan diakhiri dengan penjelasan mengenai implementasi dari \textit{dashboard} dan \textit{service}
+Bagian ini menjelaskan tentang implementasi PERISAI secara terperinci. Seperti yang telah dijelaskan pada bagian \ref{sec:rancangan-dashboard} dan \ref{sec:rancangan-service} terdapat dua komponen utama yaitu \textit{dashboard} dan \textit{service}. Penjelasan bagian ini dimulai dari batasan implementasi, dilanjutkan dengan kakas yang digunakan dalam proses pembuatan sistem dan diakhiri dengan penjelasan mengenai implementasi dari \textit{dashboard} dan \textit{service}.
+
+Karena PERISAI berada pada dunia IoT dan Kubernetes, perlu dilakukan pencocokan terminologi untuk memudahkan pengembangan sistem. Istilah \textit{node} pada kuberntes akan berpadanan dengan perangkat di IoT pada bagian "thing". \textit{eployment} pada kubernetes berpadanan dengan aplikasi yang dijalankan pada "thing". Kapabilitas serta tipe dari perangkat pada IoT akan dibuat menjadi label pada kubernetes.
 
 \input{chapters/chapter-4/implementasi/01-batasan-implementasi.tex}
 
@@ -9,7 +11,5 @@ Bagian ini menjelaskan tentang implementasi sistem \textit{remote deployment} se
 \input{chapters/chapter-4/implementasi/03-pre-development.tex}
 
 \input{chapters/chapter-4/implementasi/04-dashboard.tex}
-
-\pagebreak
 
 \input{chapters/chapter-4/implementasi/05-service.tex}
