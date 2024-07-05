@@ -6,4 +6,11 @@ Berikut adalah batasan yang ditetapkan dalam melakukan implementasi \textit{sist
   \item Kubernetes cluster berjalan di lokal dengan menggunakan kakas \textit{kind} dan hanya dibatasi menjadi 4 node dengan spesifikasi \textit{1 master} dan \textit{3 worker}
   \item \textit{Device} sudah terkoneksi sebelumnya sehingga tidak perlu register \textit{device} dan menghubungkannya ke dalam \textit{cluster}.
   \item \textit{Dashboard} hanya memilki fungsionalitas untuk \textit{user}
+  \item Kubernetes memiliki batasan cluster sebagai berikut:
+        \begin{enumerate}
+          \item Maksimal 5000 nodes
+          \item Maksimal 110 pods untuk setiap node
+          \item Maksimal 150,000 total pods
+          \item Maksimal 300,000 total containers
+        \end{enumerate}
 \end{enumerate}
