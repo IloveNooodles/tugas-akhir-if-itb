@@ -4,7 +4,7 @@
 Berdasarkan \textit{sequence diagram} yang telah dibuat pada bagian \ref{subsec:arsitektur-behavioural}. Sistem \textit{service} dibagi menjadi beberapa domain. Pembagian domain berfungsi untuk memfokuskan implementasi serta memudahkan tahapan testing. Terdapat 6 domain yaitu \textit{company}, \textit{user}, \textit{devices}, \textit{groups}, \textit{deployment}, dan \textit{external services}. Setiap domain memiliki diagram kelas yang menjelaskan rancangan implementasi. \textit{package} diagram dan \textit{class} diagram secara keseluruhan dapat dilihat pada gambar \ref{fig:package-diagram} dan \ref{fig:package-class-domain-diagram}.
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=1\textwidth]{resources/chapter-3/class/class-diagram-overall.jpg}
+  \includegraphics[width=0.6\textwidth]{resources/chapter-3/class/class-diagram-overall.jpg}
   \caption{\textit{Package Diagram Domain Service}}
   \label{fig:package-class-domain-diagram}
 \end{figure}
@@ -22,8 +22,6 @@ Domain ini mengatur konektivitas antara server dan \textit{database} dalam hal \
   \label{fig:company-class-diagram}
 \end{figure}
 
-\pagebreak
-
 \subsubsection{Domain \textit{user}}
 
 Domain ini mengatur konektivitas antara server dan \textit{database} dalam hal \textit{user}. Domain ini juga memliki tiga lapisan mulai dari lapisan paling luar \textit{handler}, diikuti dengan \textit{usecase} lalu terkahir \textit{repository} yang berhubungan dengan \textit{database}. Domain ini juga yang mengatur bagian autentikasi seperti login dan register. Ilustrasi \textit{class diagram} dapat dilihat pada gambar \ref{fig:user-class-diagram}.
@@ -34,6 +32,8 @@ Domain ini mengatur konektivitas antara server dan \textit{database} dalam hal \
   \caption{\textit{User Class Diagram}}
   \label{fig:user-class-diagram}
 \end{figure}
+
+\pagebreak
 
 \subsubsection{Domain \textit{devices}}
 
@@ -57,8 +57,6 @@ Domain ini mengatur \textit{groups} yang merupakan gabungan dari satu atau lebih
   \label{fig:groups-class-diagram}
 \end{figure}
 
-\pagebreak
-
 \subsubsection{Domain \textit{deployment}}
 
 Domain ini merupakan domain yang paling \textit{complex} pada service ini. Domain ini cukup luas karena berhubungan dengan \textit{deployment images} dan \textit{deployment history}. Selain itu domain ini juga memiliki hubungan dengan external service yaitu Kubernetes untuk proses deploymentnya. Ilustrasi \textit{class diagram} dapat dilihat pada gambar \ref{fig:deployment-class-diagram}
@@ -69,6 +67,8 @@ Domain ini merupakan domain yang paling \textit{complex} pada service ini. Domai
   \caption{Deployment \textit{Class Diagram}}
   \label{fig:deployment-class-diagram}
 \end{figure}
+
+\pagebreak
 
 \subsubsection{Domain \textit{external services}}
 

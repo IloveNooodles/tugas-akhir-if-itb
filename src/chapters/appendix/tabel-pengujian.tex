@@ -237,15 +237,13 @@
   \centering
   \begin{tabular}{|p{2cm}|p{2cm}|p{3cm}|p{3cm}|p{1.5cm}|}
     \hline
-    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                                              & \centering{Ekspektasi}                                                                                                   & Realita \\
+    \centering{ID Fungsional} & \centering{ID Pengujian} & \centering{Skenario}                                                                               & \centering{Ekspektasi}                                                                   & Realita \\
     \hline
-    NF01                      & P47                      & \textit{User} ingin mengakses \textit{dashboard} tanpa memiliki token yang valid                                  & \textit{User} gagal melakukan login dan sistem melakukan \textit{redirect} ke halaman login                              & Sesuai  \\
+    NF02                      & P51                      & \textit{User} mengakses \textit{dashboard} menggunakan perangkat \textit{mobile}                   & \textit{User} dapat mengakses sistem melalui perangkat \textit{mobile}                   & Sesuai  \\
     \hline
-    NF01                      & P48                      & \textit{User} ingin mengakses user \textit{endpoint} pada \textit{service} tanpa memiliki API Key yang valid      & \textit{User} tidak dapat mengakses \textit{endpoint} dan \textit{service} mengeluarkan status \textit{401 Unauthorized} & Sesuai  \\
+    NF02                      & P52                      & \textit{User} mengakses \textit{dashboard} menggunakan \textit{browser} berbasis \textit{chromium} & \textit{User} dapat mengakses sistem melalui \textit{browser} berbasis \textit{chromium} & Sesuai  \\
     \hline
-    NF01                      & P49                      & \textit{User} ingin mengakses admin \textit{endpoint} pada \textit{service} tanpa memiliki API Key yang valid     & \textit{User} tidak dapat mengakses \textit{endpoint} dan \textit{service} mengeluarkan status \textit{401 Unauthorized} & Sesuai  \\
-    \hline
-    NF01                      & P50                      & \textit{User} ingin mengakses kubernetes url pada \textit{service} tanpa memiliki sertifikat dan kredensial valid & \textit{User} tidak dapat mengakses kubernetes url dan mengeluarkan status \textit{401 Unauthorized}                     & Sesuai  \\
+    NF02                      & P53                      & \textit{User} mengakses \textit{dashboard} menggunakan \textit{browser} safari                     & \textit{User} dapat mengakses sistem melalui \textit{browser} safari                     & Sesuai  \\
     \hline
   \end{tabular}
 \end{table}
