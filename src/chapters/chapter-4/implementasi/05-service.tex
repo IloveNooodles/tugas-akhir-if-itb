@@ -56,7 +56,7 @@ Domain ini memiliki 4 \textit{endpoint} dengan deskripsi 1 untuk \textit{user} d
 \begin{enumerate}
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name} dan \textit{cluster\textunderscore name} dari \textit{requester}. Kedua \textit{field} tersebut digunakan untuk mengidentifikasi cluster dari setiap \textit{company}. Terdapat validasi berupa unique (name, cluster\textunderscore name) pada \textit{databse} untuk memastikan bahwa tidak ada duplikat untuk setiap \textit{company}. Setelah semua validasi selesai \textit{server} memberikan \textit{response} berupa objek \textit{company} kepada \textit{requester}. Apabila gagal maka diberikan pesan error
+        Fungsionalitas ini menerima masukan berupa json dengan \textit{field} \textit{name} dan \textit{cluster\textunderscore name} dari \textit{requester}. Kedua \textit{field} tersebut digunakan untuk mengidentifikasi cluster dari setiap \textit{company}. Terdapat validasi berupa unique (name, cluster\textunderscore name) pada \textit{databse} untuk memastikan bahwa tidak ada duplikat untuk setiap \textit{company}. Setelah semua validasi selesai \textit{server} memberikan \textit{response} berupa objek \textit{company} kepada \textit{requester}. Apabila gagal maka diberikan pesan error
 
   \item GetAll
 
@@ -123,7 +123,7 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 
   \item Login
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{email} dan \textit{password} dari \textit{requester}. Kedua field tersebut digunakan untuk mencari \textit{user} yang bersesuaian pada \textit{database}. Setelah data ditemukan dilakukan validasi password dengan cara melakukan \textit{compare hash} password dengan hash password yang tersimpan di \textit{database}. Setelah semua validasi berhasil dilakukan maka dikembalikan response serta cookie yang dengan "accessToken" dan "refreshToken". Apabila gagal maka diberikan pesan error
+        Fungsionalitas ini menerima masukan berupa json dengan \textit{field} \textit{email} dan \textit{password} dari \textit{requester}. Kedua field tersebut digunakan untuk mencari \textit{user} yang bersesuaian pada \textit{database}. Setelah data ditemukan dilakukan validasi password dengan cara melakukan \textit{compare hash} password dengan hash password yang tersimpan di \textit{database}. Setelah semua validasi berhasil dilakukan maka dikembalikan response serta cookie dengan "accessToken" dan "refreshToken". Apabila gagal maka diberikan pesan error
 
         Kedua cookie ini digunakan untuk mengotorisasi setiap request. "accessToken" memiliki waktu \textit{expire} selama 1 jam dan "refreshToken" memiliki waktu \textit{expire} selama 1 hari. Untuk meningkatkan keamanan dan menghindari CSRF, Cookie di set dengan attribut "httpOnly", "sameSiteLax", serta "secure".
 
@@ -133,7 +133,7 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{email}, \textit{password}, serta \textit{company\textunderscore id} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek user pada \textit{database}. Pada fungsi ini dilakukan pengecekan apakah \textit{email} valid dan \textit{unique}. Selain itu ada validasi \textit{company\textunderscore id} agar dipastikan bahwa \textit{user} benar terdaftar ke \textit{company} yang sesuai. Apabila validasi tidak berhasil maka dikeluarkan pesan error, namun jika semua berhasil dilewati maka dikembalikan \textit{response} berupa \textit{user} yang telah dibuat pada \textit{database}.
+        Fungsionalitas ini menerima masukan berupa json dengan \textit{field} \textit{name}, \textit{email}, \textit{password}, serta \textit{company\textunderscore id} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek user pada \textit{database}. Pada fungsi ini dilakukan pengecekan apakah \textit{email} valid dan \textit{unique}. Selain itu ada validasi \textit{company\textunderscore id} agar dipastikan bahwa \textit{user} benar terdaftar ke \textit{company} yang sesuai. Apabila validasi tidak berhasil maka dikeluarkan pesan error, namun jika semua berhasil dilewati maka dikembalikan \textit{response} berupa \textit{user} yang telah dibuat pada \textit{database}.
 
   \item Delete
 
@@ -194,7 +194,7 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{type}, \textit{attributes}, serta \textit{node\textunderscore name} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek \textit{device} pada \textit{database}. Pada fungsi ini dilakukan pengecekan apakah \textit{node\textunderscore name} ada pada \textit{cluster} serta merupakan nama yang valid dan \textit{unique}. Selain itu terdapat validasi \textit{attributes} yaitu merupakan list of string yang masing masing harus memiliki '=' sebagai tanda pemisah. Hal ini dilakukan karena ini merupakan label yang diberikan pada \textit{node} pada \textit{cluster} nantinya. Apabila validasi tidak berhasil maka dikeluarkan pesan error, namun jika semua berhasil dilewati maka dikembalikan \textit{response} berupa \textit{device} yang telah dibuat pada \textit{database} serta proses \textit{node} pada \textit{cluster} yang sudah di labeli dengan \textit{attributes}.
+        Fungsionalitas ini menerima masukan berupa json dengan \textit{field} \textit{name}, \textit{type}, \textit{attributes}, serta \textit{node\textunderscore name} dari \textit{requester}. Seluruh \textit{field} tersebut digunakan untuk membuat objek \textit{device} pada \textit{database}. Pada fungsi ini dilakukan pengecekan apakah \textit{node\textunderscore name} ada pada \textit{cluster} serta merupakan nama yang valid dan \textit{unique}. Selain itu terdapat validasi \textit{attributes} yaitu merupakan list of string yang masing masing harus memiliki '=' sebagai tanda pemisah. Hal ini dilakukan karena ini merupakan label yang diberikan pada \textit{node} pada \textit{cluster} nantinya. Apabila validasi tidak berhasil maka dikeluarkan pesan error, namun jika semua berhasil dilewati maka dikembalikan \textit{response} berupa \textit{device} yang telah dibuat pada \textit{database} serta proses \textit{node} pada \textit{cluster} yang sudah di labeli dengan \textit{attributes}.
 
   \item Delete
 
@@ -255,7 +255,7 @@ Domain ini memiliki relasi \textit{one} to \textit{many} dengan domain \textit{c
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}. \textit{Field name} memiliki \textit{unique constraint} sehingga tidak mungkin ada nama \textit{groups} yang sama pada satu \textit{company}. Terdapat validasi untuk membuat nama \textit{groups} yang memiliki panjang minimal 8 characters untuk menghindari memberikan nama tanpa konteks. Apabila terdapat duplikat dikembalikan pesan error dan setelah semua validasi berhasil, \textit{service} mengirimkan \textit{response} berupa \textit{groups} yang berhasil dibuat kepada \textit{requester}.
+        Fungsionalitas ini menerima masukan berupa json dengan \textit{field} \textit{name}. \textit{Field name} memiliki \textit{unique constraint} sehingga tidak mungkin ada nama \textit{groups} yang sama pada satu \textit{company}. Terdapat validasi untuk membuat nama \textit{groups} yang memiliki panjang minimal 8 characters untuk menghindari memberikan nama tanpa konteks. Apabila terdapat duplikat dikembalikan pesan error dan setelah semua validasi berhasil, \textit{service} mengirimkan \textit{response} berupa \textit{groups} yang berhasil dibuat kepada \textit{requester}.
 
   \item Delete
 
@@ -313,7 +313,7 @@ Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{description}, \textit{image}. Teradapat \textit{unique constraint} pada \textit{field nama dan image} pada satu \textit{company} untuk mencegah duplikat. Apabila terdapat duplikat maka dikembalikan pesan error dan setelah semua validasi berhasil, \textit{service} mengirimkan \textit{response} berupa \textit{deployment images} yang berhasil dibuat kepada \textit{requester}.
+        Fungsionalitas ini menerima masukan berupa json dengan \textit{field} \textit{name}, \textit{description}, \textit{image}. Teradapat \textit{unique constraint} pada \textit{field nama dan image} pada satu \textit{company} untuk mencegah duplikat. Apabila terdapat duplikat maka dikembalikan pesan error dan setelah semua validasi berhasil, \textit{service} mengirimkan \textit{response} berupa \textit{deployment images} yang berhasil dibuat kepada \textit{requester}.
 
   \item Delete
 
@@ -365,7 +365,7 @@ Pada bagian ini yang terdapat 5 \textit{endpoint} dengan detail 4 untuk \textit{
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{device\textunderscore id}, \textit{repository\textunderscore id}, \textit{deployment\textunderscore id}. Tidak ada validasi ketika ingin membuat \textit{deployement histories} dan \textit{Service} mengirimkan \textit{response} berupa \textit{deployment histories} yang berhasil dibuat kepada \textit{requester}.
+        Fungsionalitas ini menerima masukan berupa json dengan \textit{field} \textit{device\textunderscore id}, \textit{repository\textunderscore id}, \textit{deployment\textunderscore id}. Tidak ada validasi ketika ingin membuat \textit{deployement histories} dan \textit{Service} mengirimkan \textit{response} berupa \textit{deployment histories} yang berhasil dibuat kepada \textit{requester}.
 
   \item Delete
 
@@ -422,7 +422,7 @@ Pada bagian ini yang terdapat 7 \textit{endpoint} dengan detail 6 untuk \textit{
 
   \item Create
 
-        Fungsionalitas ini menerima masukan berupa json yang dengan \textit{field} \textit{name}, \textit{version}, \textit{target}, dan \textit{repository\textunderscore id}. Terdapat validasi yaitu \textit{unique constraint} pada \textit{name, version, dan repository\textunderscore id} pada satu company yang sama untuk mencegah data duplikat yang membingungkan. Setelah validasi selsai maka \textit{Service} mengirimkan \textit{response} berupa \textit{deployment plan} yang berhasil dibuat kepada \textit{requester}. Apabila gagal maka dikirimkan pesan error.
+        Fungsionalitas ini menerima masukan berupa json dengan \textit{field} \textit{name}, \textit{version}, \textit{target}, dan \textit{repository\textunderscore id}. Terdapat validasi yaitu \textit{unique constraint} pada \textit{name, version, dan repository\textunderscore id} pada satu company yang sama untuk mencegah data duplikat yang membingungkan. Setelah validasi selsai maka \textit{Service} mengirimkan \textit{response} berupa \textit{deployment plan} yang berhasil dibuat kepada \textit{requester}. Apabila gagal maka dikirimkan pesan error.
 
   \item Delete
 
